@@ -1,20 +1,16 @@
 package edu.cs4730.SaveData;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class SaveDataDemoActivity extends Activity {
-	String d1, d2, d3;
+public class SaveDataDemoActivity extends ActionBarActivity {
+	String d1, d3;
 	EditText t1,t2,t3;
 	TextView log;
 	
-    /** Called when the activity is first created. */
-    /* (non-Javadoc)
-     * @see android.app.Activity#onCreate(android.os.Bundle)
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +79,7 @@ public class SaveDataDemoActivity extends Activity {
 	 * simple method to add the log TextView.
 	 */
 	public void logthis (String newinfo) {
-		if (newinfo != "") {
+		if (newinfo.compareTo("")!=0) {
 			log.setText(log.getText() + "\n" + newinfo);
 		}
 	}
