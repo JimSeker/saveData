@@ -29,7 +29,7 @@ public class sqlitedemo2Frag extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View myView = inflater.inflate(R.layout.sqlitedmeo2frag, container, false);
+		View myView = inflater.inflate(R.layout.sqlitedemo2frag, container, false);
 
 		//get the people URI
 		Uri CONTENT_URI = Uri.parse("content://edu.cs4730.scoreprovider/score");
@@ -89,7 +89,8 @@ public class sqlitedemo2Frag extends Fragment {
 
 				// Should really create a dialogfragment and display all the contact info here.  but I'll get to that 
 				// when I have time.
-				String name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
+				//String name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
+                String name= cursor.getString(cursor.getColumnIndex(MainActivity.KEY_NAME));
 				Toast.makeText(myContext,   name, Toast.LENGTH_SHORT).show();
 
 			}
