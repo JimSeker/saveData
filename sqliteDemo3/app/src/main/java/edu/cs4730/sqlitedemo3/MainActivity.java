@@ -11,6 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
+/*
+  * nothing to see here, just a activity that loads a fragement.  See the RecyclerFragment
+  * for more information.
+  *
+  * Note that sqliteDemo needs to already be installed on the phone/emulator for this example
+  * to work.  It has the content provider used.
+ */
 
 public class MainActivity extends ActionBarActivity {
     //database columns
@@ -30,25 +37,5 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

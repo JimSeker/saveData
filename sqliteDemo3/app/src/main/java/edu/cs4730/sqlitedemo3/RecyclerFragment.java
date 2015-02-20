@@ -21,7 +21,10 @@ import android.widget.Button;
 
 
 /**
- * A simple {@link android.support.v4.app.Fragment} subclass.
+ * This an implementation of a cursor and recyclerview with card view.
+ * There is no such things as a cursor adapter for the recyclerview, so I got code from
+ * another person to handle of the pieces and loaders.
+ * CursorRecyclerAdapter.java was Created by skywin and found at https://gist.github.com/Shywim/127f207e7248fe48400b
  */
 public class RecyclerFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor>{

@@ -11,7 +11,8 @@ import android.widget.TextView;
 
 /**
  * Created by Seker on 2/20/2015.
- *
+ * This extends CursorRecyclerAdatper Created skywin and found at https://gist.github.com/Shywim/127f207e7248fe48400b
+ * which is included in my java code.
  */
 public class myRecyclerCursorAdapter extends CursorRecyclerAdapter<myRecyclerCursorAdapter.ViewHolder> {
 

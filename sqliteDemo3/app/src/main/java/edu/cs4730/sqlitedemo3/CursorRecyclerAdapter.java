@@ -50,6 +50,11 @@ import android.widget.Filterable;
  * @see android.widget.Filterable
  * @see fr.shywim.tools.adapter.CursorFilter.CursorFilterClient
  */
+/*
+ * This is not my code, nor did I change anything other to add this comment.
+ * Create by skywin and found at https://gist.github.com/Shywim/127f207e7248fe48400b
+ *
+ */
 
 
 public abstract class CursorRecyclerAdapter<VH
