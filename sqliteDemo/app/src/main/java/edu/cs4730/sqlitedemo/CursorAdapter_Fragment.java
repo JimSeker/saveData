@@ -113,6 +113,5 @@ public class CursorAdapter_Fragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		myContext = activity.getApplicationContext();
-		Log.d(TAG,"onAttach");
 	}
 }

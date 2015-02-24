@@ -7,12 +7,23 @@
     tools:context="edu.cs4730.sqlitedemo.SqliteDemo_Fragment" >
 
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Run again"
+        android:id="@+id/again" />
 
-	<TextView
-		android:id="@+id/textView1"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text=""
-		android:textAppearance="?android:attr/textAppearanceLarge" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Output:\n"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </ScrollView>
 
 </LinearLayout>
