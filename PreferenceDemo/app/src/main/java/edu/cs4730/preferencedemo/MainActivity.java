@@ -2,9 +2,9 @@ package edu.cs4730.preferencedemo;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,8 +18,14 @@ import android.widget.Toast;
  * http://developer.android.com/reference/android/preference/PreferenceActivity.html
  * http://www.cs.dartmouth.edu/~campbell/cs65/lecture12/lecture12.html
  * http://gmariotti.blogspot.com/2013/01/preferenceactivity-preferencefragment.html
+ *
+ * This a demo of how to setup perferences screen for both 2.3.3 and below and 3.0+ and above
+ * There is not a support preference fragment, so this all has to be done manually.  In
+ * a number of places is a check to see what api version we are using, so it can use a preferenceActivity which deprecated
+ * or preferenceFragment (old way or new way).
+ *
  */
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
