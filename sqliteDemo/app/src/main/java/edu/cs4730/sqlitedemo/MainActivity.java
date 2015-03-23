@@ -42,6 +42,7 @@ public class MainActivity extends ActionBarActivity {
 			switch (position) {
 			case 0: return new SqliteDemo_Fragment();
 			case 1: return new CursorAdapter_Fragment();
+            case 2: return new SpinnerFragment();
 			default: return null;
 			}
 		}
@@ -49,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		public int getCount() {
 			// Show X total pages.
-			return 2;
+			return 3;
 		}
 
 		@Override
@@ -59,6 +60,8 @@ public class MainActivity extends ActionBarActivity {
 				return "sqlite Demo";
 			case 1:
 				return "CursorAdapter Demo";
+            case 2:
+                return "Spinner Cursor";
 			}
 			return null;
 		}
