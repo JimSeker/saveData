@@ -2,11 +2,11 @@ package edu.cs4730.SaveData;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class SaveDataDemoActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 	String d1, d3;
 	EditText t1,t2,t3;
 	TextView log;
