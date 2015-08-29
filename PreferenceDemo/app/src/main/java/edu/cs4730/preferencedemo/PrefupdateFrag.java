@@ -35,7 +35,7 @@ public class PrefupdateFrag extends PreferenceFragment implements OnSharedPrefer
 
         // Setup the initial values
         mEditTextPreference.setSummary( "Text is " + mEditTextPreference.getSharedPreferences().getString("textPref", "Default"));
-        mListPreference.setSummary("Current value is " + mListPreference.getSharedPreferences().getString("list_prefrence", "Default")); 
+        mListPreference.setSummary("Current value is " + mListPreference.getSharedPreferences().getString("list_preference", "Default"));
 
         // Set up a listener whenever a key changes            
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -53,7 +53,7 @@ public class PrefupdateFrag extends PreferenceFragment implements OnSharedPrefer
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("textPref")) {  //where textPref is the key used in the xml.
         	mEditTextPreference.setSummary( "Text is " + sharedPreferences.getString("textPref", "Default"));
-        }  else if (key.equals("list_prefrence")) {
+        }  else if (key.equals("list_preference")) {
         	
           mListPreference.setSummary("Current value is " + sharedPreferences.getString(key, "Default")); 
         }
