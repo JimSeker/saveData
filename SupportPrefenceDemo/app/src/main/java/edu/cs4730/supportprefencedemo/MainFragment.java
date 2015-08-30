@@ -51,7 +51,16 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //startActivity(new Intent(getApplicationContext(), PrefupdateActivity.class));
-                mListener.onFragmentInteraction();
+                mListener.onFragmentInteraction(1);
+
+            }
+        });
+        //second method, just display the new fragment.
+        myView.findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //startActivity(new Intent(getApplicationContext(), PrefupdateActivity.class));
+                mListener.onFragmentInteraction(2);
 
             }
         });
@@ -109,7 +118,7 @@ public class MainFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction();
+        public void onFragmentInteraction(int which);
     }
 
 }

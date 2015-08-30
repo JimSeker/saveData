@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- note in support.v14 it's SwitchPreference -->
+    <SwitchPreferenceCompat
+        android:key="switch_key"
+        android:title="switch Preference"
+        android:defaultValue="true" />
+    <!-- This is not supported in v7 (yet?) in support preference. It is in the v14 though.
+    Left here commented out in hopes it will be supported in v7.-->
+    <!--MultiSelectListPreference
+        android:dialogTitle="Multi Select Dialog"
+        android:key="multiselect_key"
+        android:summary=""
+        android:title="Multi Select Title"
+        android:entries="@array/weekdays"
+        android:entryValues="@array/weekdays_values"
+        android:defaultValue="@array/empty_array"
+        /-->
+
+</PreferenceScreen>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="first_preferencescreen">
     
     <PreferenceCategory
             android:title="In-line Preferences">
@@ -47,6 +48,11 @@
                     android:key="next_screen_checkbox_preference"
                     android:title="Next Screen Check Box"
                     android:summary="Next Screen Check Box Demo, but in the same xml" />
+            <EditTextPreference
+                android:key="next_screen_edittext_preference"
+                android:title="Next Scren edittext"
+                android:summary="Example of EditText Dialog"
+                android:dialogTitle="Enter your Name again." />
                 
         </PreferenceScreen>
 

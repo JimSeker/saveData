@@ -12,6 +12,8 @@ import android.os.Bundle;
  * gets rid of all that extra bs of trying to figure out versions of code.  plus allows
  * for all the new preferences xml.
  *
+ * maybe useful as well http://developer.android.com/guide/topics/ui/settings.html
+ *
  * Note not all of the new xml preferences are implemented yet.
  * I'll all add a new preference xml for them.  while adding support for elements such as SwitchPreference
  *      (previously only available on API 14+ devices) to all API 7+ devices.
@@ -38,12 +40,15 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
      * This the callback interface for MainFragment.
      */
     @Override
-    public void onFragmentInteraction() {
+    public void onFragmentInteraction(int which) {
 
         //now change to the SecondFragment, pressing the back button should go to main fragment.
         FragmentTransaction transaction =fragmentManager.beginTransaction();
-        //remove firstfragment from the stack and replace it with two.
-        transaction.replace(R.id.container,new PrefupdateFrag());
+        //Change to the correct fragment for perferences
+        if (which ==1 )
+            transaction.replace(R.id.container,new PrefupdateFrag());
+        else
+            transaction.replace(R.id.container, new PrefNewFrag());
         // and add the transaction to the back stack so the user can navigate back
         transaction.addToBackStack(null);
 
