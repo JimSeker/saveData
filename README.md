@@ -15,7 +15,9 @@ Also has an example of accessing the contacts provider.
 
 <b>sqliteDemo</b> creates a database and content provider
 
-<b>sqliteDemo2</b> uses the content provider from dqlitedemo, also shows how to use a loader.
+<b>sqliteDemo2</b> uses the content provider from sqlitedemo, also shows how to use a loader.
+
+<b>sqliteDemo3</b> uses the content provider from sqlitedemo and recyclerview.  Uses a custom cursoradapter for it and a loader as well.
 
 <b>lvCursorDemo</b> show varying listview to show how to use cursoradapters with listview and explistview.
 
