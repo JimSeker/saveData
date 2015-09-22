@@ -15,6 +15,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import edu.cs4730.sqlitedemo.db.ScoreDatabase;
+import edu.cs4730.sqlitedemo.db.mySQLiteHelper;
+
 /*
  * http://www.mysamplecode.com/2012/07/android-listview-cursoradapter-sqlite.html
  */

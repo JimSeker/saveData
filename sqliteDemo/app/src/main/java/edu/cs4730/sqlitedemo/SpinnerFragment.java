@@ -15,6 +15,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import edu.cs4730.sqlitedemo.db.ScoreDatabase;
+import edu.cs4730.sqlitedemo.db.mySQLiteHelper;
+
 
 /**
  * A simple {@link Fragment} subclass.

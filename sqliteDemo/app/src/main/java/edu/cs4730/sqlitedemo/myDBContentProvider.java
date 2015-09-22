@@ -10,6 +10,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
+import edu.cs4730.sqlitedemo.db.ScoreDatabase;
+import edu.cs4730.sqlitedemo.db.mySQLiteHelper;
+
 public class myDBContentProvider extends ContentProvider {
 
 	/*
@@ -23,6 +26,10 @@ public class myDBContentProvider extends ContentProvider {
 	 * As a note, this provides a nearly generic content provider for any database.
 	 * specific database names, columns would need to be changed, but otherwise, should
 	 * work for most databases.
+	 *
+	 * Note there is only one table, so the provider only has score and score_id
+	 * If there were more tables publically accessable, then we would need more names/numbers for
+	 * urimatcher.
 	 */
 	
 	public static final String PROVIDER_NAME = "edu.cs4730.scoreprovider";
@@ -43,7 +50,7 @@ public class myDBContentProvider extends ContentProvider {
 	static final String TAG = "myDBCP";
 	
 	//the database to be used in the contenProvider
-	mySQLiteHelper myDB;
+	ScoreDatabase db;
 	
 
 	@Override
@@ -62,23 +69,20 @@ public class myDBContentProvider extends ContentProvider {
 	
 	@Override
 	public boolean onCreate() {
-		myDB = new mySQLiteHelper(getContext());
-		return myDB != null;
+		db = new ScoreDatabase(getContext());
+        db.open();
+		return true;
 	}
 
 	/*
 	 * So delete is a simple function
-	 * 
-	 * example here, we are just provider a wrapper to the delete function.
-	 * db.delete(mySQLiteHelper.DATABASE_TABLE, selection, selectionArgs);
-	 * would looke like:
-	 * "delete from " + tableName + " where " + selection + " ? " + selectionArgs"
-	 *  and a fix where they are deleted by score/#, so providing _id and number. 
+	 *   Remember, contentproviders should be used a a wrapper class, so it calls into the ScoreDatabase
+	 *   to do the work.  But it does need setup the selection arg correctly.
 	 *  
 	 */
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-	      SQLiteDatabase db = myDB.getWritableDatabase();
+
 	        switch (uriMatcher.match(uri)) {
 	            case SCORE:
 	                break;
@@ -89,7 +93,7 @@ public class myDBContentProvider extends ContentProvider {
 	                throw new IllegalArgumentException("Unknown URI " + uri);
 	        }
 	 
-	        int count = db.delete(mySQLiteHelper.DATABASE_TABLE, selection, selectionArgs);
+	        int count = db.cpDelete(mySQLiteHelper.TABLE_NAME, selection, selectionArgs);
 	        getContext().getContentResolver().notifyChange(uri, null);
 	        return count;
 	}
@@ -100,9 +104,7 @@ public class myDBContentProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
-	      SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-	        qb.setTables(mySQLiteHelper.DATABASE_TABLE);
-	 
+
 	        switch (uriMatcher.match(uri)) {   
 	            case SCORE:
 	                break;
@@ -112,11 +114,10 @@ public class myDBContentProvider extends ContentProvider {
 	            default:
 	                throw new IllegalArgumentException("Unknown URI " + uri);
 	        }
-	 
-	        SQLiteDatabase db = myDB.getReadableDatabase();
-	        Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
-	 
-	        c.setNotificationUri(getContext().getContentResolver(), uri);  //for notifications and loader classes if used.
+
+	        Cursor c = db.cpQuery(mySQLiteHelper.TABLE_NAME, projection, selection, selectionArgs, sortOrder);
+            //this line is added for the loaders.  if we  changed the database, this allows a notification to be set.
+	        c.setNotificationUri(getContext().getContentResolver(), uri);
 	        return c;
 	}
 
@@ -130,10 +131,11 @@ public class myDBContentProvider extends ContentProvider {
             values = new ContentValues();  //or we could through an SQLExecption as well.
         }
  
-        SQLiteDatabase db = myDB.getWritableDatabase();
-        long rowId = db.insert(mySQLiteHelper.DATABASE_TABLE, null, values);
-        if (rowId > 0) {
+
+        long rowId = db.cpInsert(mySQLiteHelper.TABLE_NAME, values);
+        if (rowId > 0) {   //add the row id to the uri and return it to the user.
             Uri noteUri = ContentUris.withAppendedId(CONTENT_URI, rowId);
+            //this line is added for the loaders.  We changed the database, so notify everyone.
             getContext().getContentResolver().notifyChange(noteUri, null);
             return noteUri;
         }
@@ -144,7 +146,7 @@ public class myDBContentProvider extends ContentProvider {
 
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        SQLiteDatabase db = myDB.getWritableDatabase();
+
         int count;
         switch (uriMatcher.match(uri)) {
             case SCORE:  break;
@@ -155,7 +157,8 @@ public class myDBContentProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
-        count = db.update(mySQLiteHelper.DATABASE_TABLE, values, selection, selectionArgs);
+        count = db.cpUpdate(mySQLiteHelper.TABLE_NAME, values, selection, selectionArgs);
+        //this line is added for the loaders.  We changed the database, so notify everyone.
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
 	}
