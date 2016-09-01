@@ -1,12 +1,12 @@
 package edu.cs4730.sqlitedemo;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,15 +46,15 @@ public class SpinnerFragment extends Fragment {
         dataAdapter = new SimpleCursorAdapter(myContext,
                 android.R.layout.simple_spinner_item,
                 myCursor,  //data  _id and column name at min.
-                new String[] {mySQLiteHelper.KEY_NAME},  //column name to display
-                new int[] {android.R.id.text1}, 0);
+                new String[]{mySQLiteHelper.KEY_NAME},  //column name to display
+                new int[]{android.R.id.text1}, 0);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinner.setAdapter(dataAdapter);
 
         mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String name = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
-               Toast.makeText(myContext, "Selected ID=" + id + "name is " + name, Toast.LENGTH_LONG).show();
+                Toast.makeText(myContext, "Selected ID=" + id + "name is " + name, Toast.LENGTH_LONG).show();
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -64,9 +64,11 @@ public class SpinnerFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        myContext = activity.getApplicationContext();
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        myContext = context;
+        Log.d(TAG, "onAttach");
     }
+
 
 }

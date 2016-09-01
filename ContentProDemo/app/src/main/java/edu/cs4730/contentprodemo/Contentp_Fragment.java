@@ -43,6 +43,7 @@ public class Contentp_Fragment extends Fragment {
                 Log.i(TAG, "Value is" + c.getString(0));
                 appendthis(c.getString(0) + " value is " + c.getString(1));
             } while (c.moveToNext());
+            c.close();
         }
 
         appendthis("\nQuery all for cube:");
@@ -55,8 +56,8 @@ public class Contentp_Fragment extends Fragment {
                 Log.i(TAG, "Value is " + c.getString(0));
                 appendthis(c.getString(0) + " value is " + c.getString(1));
             } while (c.moveToNext());
+            c.close();
         }
-
 
         return myView;
     }

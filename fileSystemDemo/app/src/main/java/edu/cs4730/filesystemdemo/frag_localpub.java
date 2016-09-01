@@ -62,11 +62,7 @@ public class frag_localpub extends Fragment {
 				dos.writeUTF("Next line\n");
 				dos.close();
 				logger.append("Wrote next line to file\n");
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -76,11 +72,7 @@ public class frag_localpub extends Fragment {
 				dos.writeUTF("first line\n");
 				dos.close();
 				logger.append("Write first line to file\n");
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -93,8 +85,8 @@ public class frag_localpub extends Fragment {
 				} catch (EOFException e) {  //reach end of file
 					in.close();
 				}
-		} catch (FileNotFoundException e) {
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		
@@ -109,11 +101,7 @@ public class frag_localpub extends Fragment {
 				dos.writeUTF("2Next line\n");
 				dos.close();
 				logger.append("Wrote next line to file\n");
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -123,11 +111,7 @@ public class frag_localpub extends Fragment {
 				dos.writeUTF("1first line\n");
 				dos.close();
 				logger.append("Write first line to file\n");
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -141,8 +125,8 @@ public class frag_localpub extends Fragment {
 				} catch (EOFException e) {  //reach end of file
 					in.close();
 				}
-		} catch (FileNotFoundException e) {
 		} catch (IOException e) {
+            e.printStackTrace();
 		}
 	}
 

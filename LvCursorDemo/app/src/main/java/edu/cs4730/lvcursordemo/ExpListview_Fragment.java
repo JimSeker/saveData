@@ -1,7 +1,5 @@
 package edu.cs4730.lvcursordemo;
 
-
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -103,9 +101,9 @@ public class ExpListview_Fragment extends Fragment{
 		return myView;
 	}
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		myContext = activity.getApplicationContext();
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		myContext = context;
 		Log.d(TAG,"onAttach");
 	}		
 }

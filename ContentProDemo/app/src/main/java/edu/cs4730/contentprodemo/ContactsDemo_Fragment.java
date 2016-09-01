@@ -1,6 +1,5 @@
 package edu.cs4730.contentprodemo;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.database.Cursor;
@@ -112,9 +111,9 @@ public class ContactsDemo_Fragment extends Fragment {
 
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        myContext = activity.getApplicationContext();
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        myContext = context;
         Log.d(TAG, "onAttach");
     }
 
