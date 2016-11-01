@@ -15,9 +15,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -52,12 +55,28 @@ public class frag_ext extends Fragment {
             @Override
             public void onClick(View view) {
                 logger.setText("Output:\n");
-                extfolder();
+                CheckPerm();
             }
         });
 
         return view;
     }
+
+    public void CheckPerm() {
+        if ( (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) ||
+             (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) ){
+            //I'm on not explaining why, just asking for permission.
+            Log.v(TAG, "asking for permissions");
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE },
+                    MainActivity.REQUEST_PERM_ACCESS);
+
+        } else {
+            logger.append("\nContact Write Access: Granted\n");
+            extfolder();
+        }
+
+    }
+
 
     public void extfolder() {
         logger.append("\nOn to external storage\n");
