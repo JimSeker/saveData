@@ -1,11 +1,9 @@
 package edu.cs4730.sqlitedemo2;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
@@ -40,7 +38,7 @@ public class sqlitedemo2Frag extends Fragment {
 		String SortOrder = MainActivity.KEY_SCORE;  //"column name, column name"  except only have one column name.
 
 		//finally make the query
-		// cursor = managedQuery(CONTENT_URI, projection, null, null, null);  //depreicated method, use one below.
+		// cursor = managedQuery(CONTENT_URI, projection, null, null, null);  //deprecated method, use one below.
 		cursor = getActivity().getContentResolver().query(CONTENT_URI, projection, null, null, SortOrder);
 
 		//this is commented out, because better using a listview, which is what displayListView() does.
