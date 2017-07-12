@@ -12,6 +12,7 @@
         <item>Beta</item>
         <item>Charlie</item>
     </string-array>
+
     <string-array name="weekdays">
         <item>Monday</item>
         <item>Tuesday</item>

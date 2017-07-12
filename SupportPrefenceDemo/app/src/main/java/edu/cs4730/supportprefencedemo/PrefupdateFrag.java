@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+//import android.support.v14.preference.PreferenceFragment;
 
 
 /**
@@ -17,8 +18,8 @@ public class PrefupdateFrag extends PreferenceFragmentCompat implements SharedPr
 
 
     @Override
-    public void onCreatePreferences(Bundle bundle, String s) {
-        addPreferencesFromResource(R.xml.prefupdate);
+    public void onCreatePreferences(Bundle bundle, String rootKey) {
+        setPreferencesFromResource(R.xml.prefupdate, rootKey);
 
         //NOTE the rest of this code in not necessary, used so you can display current value on the summary line.
 
