@@ -2,7 +2,7 @@ Save data Examples
 ===========
 <b>eclipse/</b> has the example in the eclipse format (no longer updated).  otherwise all examples are using Android Studio.
 
-<b>legacy</b> these are example that are no longer updated.  May still be useful, since they deal with android 2.3.3
+<b>legacy/</b> these are examples that are no longer updated.  May still be useful, since they deal with android 2.3.3
 
 <b>PerferenceDemo</b> uses the preference fragments to save user preference data.  Note, there are no support libraries used for fragment or perferences. Also, this is for API 16+, for older versions, see the legacy directory example.
 
