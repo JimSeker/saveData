@@ -1,10 +1,12 @@
 Save data Examples
 ===========
-eclipse/ has the example in the eclipse format (no longer updated).  otherwise all examples are using Android Studio.
+<b>eclipse/</b> has the example in the eclipse format (no longer updated).  otherwise all examples are using Android Studio.
 
-<b>PerferenceDemo</b> uses the preference activity/fragment to save data.  This works to figure out 3.X+ and above, and below to use the different preference methods.  annonying actually.
+<b>legacy<b> these are example that are no longer updated.  May still be useful, since they deal with android 2.3.3
 
-<b>SupportPerferenceDemo</b> uses the preference-v7 and preferencefragmentCompat.  it is the same exmaple as PreferenceDemo, but using the support library.  much better, yea!
+<b>PerferenceDemo</b> uses the preference fragments to save user preference data.  Note, there are no support libraries used for fragment or perferences. Also, this is for API 16+, for older versions, see the legacy directory example.
+
+<b>SupportPerferenceDemo</b> uses the preference-v7 (preferenceFragmentCompat) and v14 (preferencefragment).  It is the same exmaple as PreferenceDemo, but using the support library.  Note this uses API 16 preferences (MultiSelectListPreference).
 
 <b>saveDataDemo</b> uses the shared preference system to store data.
 
