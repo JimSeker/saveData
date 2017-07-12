@@ -13,4 +13,18 @@
         <item>Charlie</item>
     </string-array>
 
+
+    <!-- for the multilinepreference -->
+    <string-array name="weekdays">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+    </string-array>
+    <string-array name="weekdays_values">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+    </string-array>
+    <string-array name="empty_array">
+    </string-array>
 </resources>

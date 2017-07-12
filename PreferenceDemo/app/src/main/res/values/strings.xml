@@ -2,8 +2,6 @@
 <resources>
 
     <string name="app_name">PreferenceDemo</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
 
     <string name="title_edittext_preference">Edit text preference</string>
     <string name="summary_edittext_preference">An example that uses an edit text dialog</string>
@@ -34,6 +32,6 @@
     <string name="summary_parent_preference">This is visually a parent</string>
     <string name="title_child_preference">Child checkbox preference</string>
     <string name="summary_child_preference">This is visually a child</string>
-    
-    
+
+
 </resources>

@@ -1,33 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-  xmlns:android="http://schemas.android.com/apk/res/android">
-          <PreferenceCategory  android:title="Blocks Options">
-                <CheckBoxPreference
-                        android:title="Sensor"
-                        android:defaultValue="false"
-                        android:summary="Move with the tilt"
-                        android:key="sensorPref" />
-                <CheckBoxPreference
-                        android:title="Swipe"
-                        android:defaultValue="true"
-                        android:summary="Swipe to move"
-                        android:key="swipePref" />
-             <EditTextPreference
-                android:key="textPref"
-                android:title="Text Value"
-                android:defaultValue=""
-                android:summary="text preference demo"
-                android:dialogTitle="Text preference example" />
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Blocks Options">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="sensorPref"
+            android:summary="Move with the tilt"
+            android:title="Sensor" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="swipePref"
+            android:summary="Swipe to move"
+            android:title="Swipe" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:dialogTitle="Text preference example"
+            android:key="textPref"
+            android:summary="text preference demo"
+            android:title="Text Value" />
 
         <ListPreference
-                android:key="list_preference"
-                android:title="list perference"
-                android:summary="List preference demo"
-                android:entries="@array/entries_list_preference"
-                android:entryValues="@array/entryvalues_list_preference"
-                android:dialogTitle="list preference example" />
-     
+            android:dialogTitle="list preference example"
+            android:entries="@array/entries_list_preference"
+            android:entryValues="@array/entryvalues_list_preference"
+            android:key="list_preference"
+            android:summary="List preference demo"
+            android:title="list perference" />
 
-		</PreferenceCategory>
-  
+        <MultiSelectListPreference
+            android:defaultValue="@array/empty_array"
+            android:dialogTitle="Multi Select Dialog"
+            android:entries="@array/weekdays"
+            android:entryValues="@array/weekdays_values"
+            android:key="multiselect_key"
+            android:summary="Does this show?"
+            android:title="Multi Select Title" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

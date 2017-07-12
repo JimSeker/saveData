@@ -47,6 +47,16 @@
                     android:key="next_screen_checkbox_preference"
                     android:title="Next Screen Check Box"
                     android:summary="Next Screen Check Box Demo, but in the same xml" />
+
+            <MultiSelectListPreference
+                android:dialogTitle="Multi Select Dialog"
+                android:key="multiselect_key"
+                android:summary="Does this show?"
+                android:title="Multi Select Title"
+                android:entries="@array/weekdays"
+                android:entryValues="@array/weekdays_values"
+                android:defaultValue="@array/empty_array"
+                />
                 
         </PreferenceScreen>
 
