@@ -2,7 +2,7 @@ Save data Examples
 ===========
 <b>eclipse/</b> has the example in the eclipse format (no longer updated).  otherwise all examples are using Android Studio.
 
-<b>legacy<b> these are example that are no longer updated.  May still be useful, since they deal with android 2.3.3
+<b>legacy</b> these are example that are no longer updated.  May still be useful, since they deal with android 2.3.3
 
 <b>PerferenceDemo</b> uses the preference fragments to save user preference data.  Note, there are no support libraries used for fragment or perferences. Also, this is for API 16+, for older versions, see the legacy directory example.
 
@@ -21,7 +21,7 @@ Also has an example of accessing the contacts provider.
 
 <b>sqliteDemo3</b> uses the content provider from sqlitedemo and recyclerview.  Uses a custom cursoradapter for it and a loader as well.
 
-<b>lvCursorDemo</b> show varying listview to show how to use cursoradapters with listview and explistview.
+<b>lvCursorDemo</b> show how to use cursoradapters with listview and explistview.
 
 These are example code for University of Wyoming, Cosc 4730 Mobile Programming course.
 All examples are for Android.
