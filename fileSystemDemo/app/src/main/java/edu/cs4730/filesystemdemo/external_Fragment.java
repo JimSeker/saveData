@@ -31,7 +31,7 @@ import android.view.View.OnClickListener;
  * of how to use it.
  */
 
-public class frag_ext extends Fragment {
+public class external_Fragment extends Fragment {
     TextView logger;
     String TAG = "ext";
     MainActivity parent;
@@ -39,7 +39,7 @@ public class frag_ext extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "OnCreateView");
-        View view = inflater.inflate(R.layout.frag_ext, container, false);
+        View view = inflater.inflate(R.layout.fragment_external, container, false);
         logger = (TextView) view.findViewById(R.id.loggerext);
         parent = (MainActivity) getActivity();
 

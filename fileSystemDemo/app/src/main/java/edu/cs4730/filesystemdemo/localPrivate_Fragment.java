@@ -23,10 +23,10 @@ import android.view.View.OnClickListener;
  * 
  * uses the DataOutputStream/InputStream to read and write
  * 
- * For bufferedWriter/reader example, see frag_ext.java
+ * For bufferedWriter/reader example, see external_Fragment.java
  */
 
-public class frag_localp extends Fragment {
+public class localPrivate_Fragment extends Fragment {
     TextView logger;
     String TAG = "localp";
     MainActivity parent;
@@ -34,7 +34,7 @@ public class frag_localp extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "OnCreateView");
-        View view = inflater.inflate(R.layout.frag_localp, container, false);
+        View view = inflater.inflate(R.layout.fragment_localprivate, container, false);
         logger = (TextView) view.findViewById(R.id.loggerlp);
 
         view.findViewById(R.id.button1).setOnClickListener(new OnClickListener() {

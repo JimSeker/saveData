@@ -2,25 +2,25 @@ package edu.cs4730.filesystemdemo;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 
 /*
- * Example code to demo how to read/write file to local private directory (frag_localp), 
- * local public (frag_localpub) directory and the "sd card"/external media (frag_ext)
+ * Example code to demo how to read/write file to local private directory (localPrivate_Fragment),
+ * local public (localPublic_Fragment) directory and the "sd card"/external media (external_Fragment)
  *
- * We need to ask the user for read/write permission for the external reads and writes (frag_ext).
+ * We need to ask the user for read/write permission for the external reads and writes (external_Fragment).
  */
 public class MainActivity extends AppCompatActivity {
     String TAG = "MainActivity";
     ViewPager viewPager;
-    frag_localp one;
-    frag_localpub two;
-    frag_ext three;
+    localPrivate_Fragment one;
+    localPublic_Fragment two;
+    external_Fragment three;
 
     public static final int REQUEST_PERM_ACCESS = 1;
 
@@ -29,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         viewPager = (ViewPager) findViewById(R.id.pager);
-        one = new frag_localp();
-        two = new frag_localpub();
-        three = new frag_ext();
+        one = new localPrivate_Fragment();
+        two = new localPublic_Fragment();
+        three = new external_Fragment();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -86,17 +86,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
     //handle the response.
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_PERM_ACCESS: {  //external file write fragment.
                 // If request is cancelled, the result arrays are empty.
