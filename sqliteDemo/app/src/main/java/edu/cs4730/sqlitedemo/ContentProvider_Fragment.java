@@ -17,6 +17,13 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import edu.cs4730.sqlitedemo.db.mySQLiteHelper;
 
+/*
+ * This is a demo of how to use a content provider (which is in this code, myDBContenProvider is the provider)
+ *  with a listview.   This is very similar to CursorAdapter_fragment,
+  *
+  *  See sqliteDemo3 for a recyclerview using a content provider.
+ */
+
 public class ContentProvider_Fragment  extends Fragment {
 
 
@@ -40,18 +47,11 @@ public class ContentProvider_Fragment  extends Fragment {
         String SortOrder = mySQLiteHelper.KEY_SCORE;  //"column name, column name"  except only have one column name.
 
         //finally make the query
-        // cursor = managedQuery(CONTENT_URI, projection, null, null, null);  //depreicated method, use one below.
+        // cursor = managedQuery(CONTENT_URI, projection, null, null, null);  //deprecated method, use one below.
         cursor = getActivity().getContentResolver().query(CONTENT_URI, projection, null, null, SortOrder);
 
-        //this is commented out, because better using a listview, which is what displayListView() does.
-        //		  if (c.moveToFirst()) {
-        //		 	do {
-        //		 		String str = "Id: " + c.getString(0);
-        //		 		str += "Name: " + c.getString(1);
-        //		 	} while (c.moveToNext());
-        //		 }
         if (cursor == null) {
-            Log.i("CAA", "cursor is null...");
+            Log.i(TAG, "cursor is null...");
         }
 
         // The desired columns to be bound

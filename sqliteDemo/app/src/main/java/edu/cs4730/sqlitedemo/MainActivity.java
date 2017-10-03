@@ -7,6 +7,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+
+/*
+ *  Very little to see here.  It sets up the viewpager for the fragments.
+ *  The fragment contents the interesting code for databases, cursors, listviews, spinners,
+ *  and content providers.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     String TAG = "MainActivity";

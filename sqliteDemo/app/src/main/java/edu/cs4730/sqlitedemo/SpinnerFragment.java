@@ -20,7 +20,10 @@ import edu.cs4730.sqlitedemo.db.mySQLiteHelper;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * This is a simple fragment to demo how a spinner works with a cursor.
+ * Note, you don't have use a spinner separately, this is just so to separate the code
+ * for ease of reading.
+ *
  */
 public class SpinnerFragment extends Fragment {
     String TAG = "spinner_frag";
@@ -41,7 +44,7 @@ public class SpinnerFragment extends Fragment {
         View myView = inflater.inflate(R.layout.spinner_fragment, container, false);
         mySpinner = (Spinner) myView.findViewById(R.id.spinner1);
         db = new ScoreDatabase(myContext);
-        db.open();  //if database doesn't exist, it has now created.
+        db.open();  //if database doesn't exist, it has now been created.
         Cursor myCursor = db.getAllNames();
         dataAdapter = new SimpleCursorAdapter(myContext,
                 android.R.layout.simple_spinner_item,
@@ -53,8 +56,12 @@ public class SpinnerFragment extends Fragment {
 
         mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String name = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
-                Toast.makeText(myContext, "Selected ID=" + id + "name is " + name, Toast.LENGTH_LONG).show();
+                if (view != null) {  //the viewpager is causing the fragment to remove the view, but not removing the listener.  which causes a force close, because the view is null
+                    String name = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
+                    Toast.makeText(myContext, "Selected ID=" + id + "name is " + name, Toast.LENGTH_LONG).show();
+                } else {
+                    Log.wtf(TAG, "View is null in listener!");
+                }
             }
 
             public void onNothingSelected(AdapterView<?> parent) {

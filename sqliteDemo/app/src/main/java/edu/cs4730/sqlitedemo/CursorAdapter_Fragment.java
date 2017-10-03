@@ -19,6 +19,8 @@ import edu.cs4730.sqlitedemo.db.ScoreDatabase;
 import edu.cs4730.sqlitedemo.db.mySQLiteHelper;
 
 /*
+ * This is a demo of how to use a cursor with a listview.  It uses a cursor adapter to do the work.
+ *
  * http://www.mysamplecode.com/2012/07/android-listview-cursoradapter-sqlite.html
  */
 public class CursorAdapter_Fragment extends Fragment {
