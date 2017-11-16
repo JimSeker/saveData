@@ -1,65 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:orientation="vertical" >
-
-	<TextView
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/hello" />
-
-	<LinearLayout
-		android:id="@+id/linearLayout1"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content" >
-
-		<TextView
-			android:id="@+id/textView1"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="D1" />
-		<EditText
-			android:id="@+id/editText1"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_weight="1" />
-
-	</LinearLayout>
-  <LinearLayout
-    android:id="@+id/linearLayout1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
 
     <TextView
-      android:id="@+id/textView2"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="D2" />
-	<EditText
-		android:id="@+id/editText2"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content" />
-	 </LinearLayout>
-  <LinearLayout
-    android:id="@+id/linearLayout1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nothing                    "/>
+
+        <TextView
+            android:id="@+id/tv_nothing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Instance bundle      "/>
+
+        <TextView
+            android:id="@+id/tv_bundle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SharedPreference  "/>
+
+        <TextView
+            android:id="@+id/tv_preference"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Click to update"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EditText box"/>
+
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
     <TextView
-      android:id="@+id/textView3"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="D3" />
-	<EditText
-		android:id="@+id/editText3"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content" />
-  </LinearLayout>
-	<TextView
-		android:id="@+id/log"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Log:" />
+        android:id="@+id/log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log:\n"/>
+
 
 </LinearLayout>
