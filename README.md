@@ -8,7 +8,7 @@ Save data Examples
 
 <b>SupportPerferenceDemo</b> uses the preference-v7 (preferenceFragmentCompat) and v14 (preferencefragment).  It is the same exmaple as PreferenceDemo, but using the support library.  Note this uses API 16 preferences (MultiSelectListPreference).
 
-<b>saveDataDemo</b> uses the shared preference system to store data.
+<b>saveDataDemo</b> shows an example of using the instance bundle and the shared preference system to store data.
 
 <b>ContentProDemo</b> shows how to create a simple context provider and how to access it
 Also has an example of accessing the contacts provider.
