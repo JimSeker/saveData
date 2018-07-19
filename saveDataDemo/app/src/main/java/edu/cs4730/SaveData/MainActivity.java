@@ -1,7 +1,10 @@
 package edu.cs4730.SaveData;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -10,8 +13,10 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     int b1 = 0, b2 = 0, b3 = 0;
+    DataViewModel mViewModel;
+
     EditText t1;
-    TextView logger, tv_nothing, tv_bundle, tv_preference;
+    TextView logger, tv_nothing, tv_bundle, tv_preference, tv_modelview;
     Button button;
 
     @Override
@@ -19,12 +24,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+
+
         logger = (TextView) findViewById(R.id.log);
         t1 = (EditText) findViewById(R.id.editText1);
 
         tv_nothing = (TextView) findViewById(R.id.tv_nothing);
         tv_nothing.setText(String.valueOf(b1));
 
+        //bundle method
         tv_bundle = (TextView) findViewById(R.id.tv_bundle);
         if (savedInstanceState != null) { //There is saved data
             logthis("There is data, restoring");
@@ -34,14 +42,24 @@ public class MainActivity extends AppCompatActivity {
             logthis("No data in savedInstanceState");
         }
 
+        //preference method
         tv_preference = (TextView) findViewById(R.id.tv_preference);
         //settext handled in getprefs();
-
-        button = (Button) findViewById(R.id.button);
-
-
         getprefs();
 
+        //lastly the model view
+        tv_modelview =  findViewById(R.id.tv_modelview);
+        //for the model view live variable.
+        mViewModel = ViewModelProviders.of(this).get(DataViewModel.class);
+        mViewModel.getData().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer data) {
+                logthis("Data changed, updating!");
+                tv_modelview.setText(data.toString());
+            }
+        });
+
+        button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 b3++;
                 tv_preference.setText(String.valueOf(b3));
 
+                mViewModel.increment();  //settext is handled by the observer.
             }
         });
     }
