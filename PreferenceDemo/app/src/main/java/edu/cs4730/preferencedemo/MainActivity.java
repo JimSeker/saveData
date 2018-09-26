@@ -3,7 +3,7 @@ package edu.cs4730.preferencedemo;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /*
  *  Note this example does not use any of the support library, except the AppCompateActivity

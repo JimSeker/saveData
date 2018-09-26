@@ -3,9 +3,8 @@ package edu.cs4730.supportprefencedemo;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.preference.PreferenceFragmentCompat;
-//import android.support.v14.preference.PreferenceFragment;
-import android.support.v14.preference.MultiSelectListPreference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.MultiSelectListPreference;
 import android.util.Log;
 import java.util.Set;
 

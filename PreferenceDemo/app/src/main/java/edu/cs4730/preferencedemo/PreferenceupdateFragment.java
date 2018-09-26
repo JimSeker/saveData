@@ -11,7 +11,7 @@ import android.util.Log;
 import java.util.Set;
 
 
-/*
+/**
  * this version, not only shows the preference screen, but update the summary fields with the answer the user picked.
  *   See the xml for preference entries.
  */

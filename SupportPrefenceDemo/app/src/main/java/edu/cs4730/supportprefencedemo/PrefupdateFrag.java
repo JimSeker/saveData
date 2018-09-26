@@ -3,9 +3,9 @@ package edu.cs4730.supportprefencedemo;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.preference.EditTextPreference;
-import android.support.v7.preference.ListPreference;
-import android.support.v7.preference.PreferenceFragmentCompat;
+import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
+import androidx.preference.PreferenceFragmentCompat;
 //import android.support.v14.preference.PreferenceFragment;
 
 

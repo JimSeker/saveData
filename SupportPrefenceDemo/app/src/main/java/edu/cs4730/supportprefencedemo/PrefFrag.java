@@ -1,7 +1,7 @@
 package edu.cs4730.supportprefencedemo;
 
 import android.os.Bundle;
-import android.support.v14.preference.PreferenceFragment;
+import androidx.preference.PreferenceFragment;
 //import android.support.v7.preference.PreferenceFragmentCompat;
 
 /**

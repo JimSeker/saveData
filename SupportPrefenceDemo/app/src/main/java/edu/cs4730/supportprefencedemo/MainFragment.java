@@ -1,18 +1,18 @@
 package edu.cs4730.supportprefencedemo;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
+
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 
 /**
  * Main fragment to do most of the work.
@@ -25,7 +25,6 @@ public class MainFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,10 +32,10 @@ public class MainFragment extends Fragment {
         View myView = inflater.inflate(R.layout.fragment_main, container, false);
 
         /*
-        * Note there are two ways to load the preference fragment.  Either via the fragment or by
-        * launching another activity that displays it.  For the purposes fo the demo, I'm show both
-        * methods.  Likely you would want to pick one.
-        */
+         * Note there are two ways to load the preference fragment.  Either via the fragment or by
+         * launching another activity that displays it.  For the purposes fo the demo, I'm show both
+         * methods.  Likely you would want to pick one.
+         */
 
         //First method, an new activity to show the fragment.
         myView.findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
@@ -91,7 +90,6 @@ public class MainFragment extends Fragment {
         Toast.makeText(getActivity().getApplicationContext(), "List " + list, Toast.LENGTH_SHORT).show();
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -100,7 +98,7 @@ public class MainFragment extends Fragment {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -122,5 +120,4 @@ public class MainFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(int which);
     }
-
 }
