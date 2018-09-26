@@ -3,7 +3,7 @@ package edu.cs4730.lvcursordemo;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -47,9 +47,11 @@ public class custom_Fragment extends Fragment implements Button.OnClickListener 
         dbHelper.insertSomeCountries();
 
         //Generate ListView from SQLite Database
+        Log.d(TAG, "creating the adapter");
         dataAdapter = new CustomCursorAdapter(myContext, dbHelper.fetchAllCountries());
 
-        ListView listView = (ListView) myView.findViewById(R.id.listView1C);
+        Log.d(TAG, "getting the listview");
+        ListView listView = myView.findViewById(R.id.listView1C);
         // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
 
@@ -63,9 +65,9 @@ public class custom_Fragment extends Fragment implements Button.OnClickListener 
 
                 // Get the state's capital from this row in the database.
                 String countryCode =
-                        cursor.getString(cursor.getColumnIndexOrThrow("code"));
+                    cursor.getString(cursor.getColumnIndexOrThrow("code"));
                 Toast.makeText(myContext,
-                        countryCode, Toast.LENGTH_SHORT).show();
+                    countryCode, Toast.LENGTH_SHORT).show();
 
             }
         });
