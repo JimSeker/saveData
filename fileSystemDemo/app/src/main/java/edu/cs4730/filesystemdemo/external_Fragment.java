@@ -12,9 +12,9 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
+import androidx.core.app.ActivityCompat;
 import android.widget.TextView;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +22,10 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 
 
-/*
+/**
  * This fragment will write (append) to a file on media card
  * then read back whatever is the file and display it to the screen.
- * 
+ * <p>
  * uses bufferedWriter/reader
  * older code using the DataOutputStream is commented out, but left as an example
  * of how to use it.
@@ -40,7 +40,7 @@ public class external_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "OnCreateView");
         View view = inflater.inflate(R.layout.fragment_external, container, false);
-        logger = (TextView) view.findViewById(R.id.loggerext);
+        logger = view.findViewById(R.id.loggerext);
         parent = (MainActivity) getActivity();
 
         view.findViewById(R.id.button3).setOnClickListener(new OnClickListener() {
@@ -55,12 +55,12 @@ public class external_Fragment extends Fragment {
     }
 
     public void CheckPerm() {
-        if ( (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) ||
-             (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) ){
+        if ((ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) ||
+            (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
             //I'm on not explaining why, just asking for permission.
             Log.v(TAG, "asking for permissions");
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE },
-                    MainActivity.REQUEST_PERM_ACCESS);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                MainActivity.REQUEST_PERM_ACCESS);
 
         } else {
             logger.append("\nContact Write Access: Granted\n");
@@ -68,7 +68,6 @@ public class external_Fragment extends Fragment {
         }
 
     }
-
 
     public void extfolder() {
         logger.append("\nOn to external storage\n");

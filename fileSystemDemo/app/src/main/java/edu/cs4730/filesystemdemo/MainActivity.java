@@ -2,17 +2,17 @@ package edu.cs4730.filesystemdemo;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 
-/*
+/**
  * Example code to demo how to read/write file to local private directory (localPrivate_Fragment),
  * local public (localPublic_Fragment) directory and the "sd card"/external media (external_Fragment)
- *
+ * <p>
  * We need to ask the user for read/write permission for the external reads and writes (external_Fragment).
  */
 public class MainActivity extends AppCompatActivity {
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             case REQUEST_PERM_ACCESS: {  //external file write fragment.
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.

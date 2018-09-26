@@ -9,14 +9,14 @@ import java.io.IOException;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 
-/*
+/**
  * This fragment will write (append) to a file to the local private area of the app.
  * then read back whatever is the file and display it to the screen.
  * 
@@ -35,7 +35,7 @@ public class localPrivate_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "OnCreateView");
         View view = inflater.inflate(R.layout.fragment_localprivate, container, false);
-        logger = (TextView) view.findViewById(R.id.loggerlp);
+        logger = view.findViewById(R.id.loggerlp);
 
         view.findViewById(R.id.button1).setOnClickListener(new OnClickListener() {
             @Override

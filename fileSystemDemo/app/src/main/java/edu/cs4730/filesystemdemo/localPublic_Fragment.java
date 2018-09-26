@@ -11,20 +11,22 @@ import java.io.IOException;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.TextView;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 
-/*
+import androidx.fragment.app.Fragment;
+
+
+/**
  * This fragment will write (append) to a file to the local public area of the app.
  * then read back whatever is the file and display it to the screen.
- * 
- * 
+ * <p>
+ * <p>
  * uses the DataOutputStream/InputStream to read and write
- * 
+ * <p>
  * For bufferedWriter/reader example, see external_Fragment.java
  */
 
@@ -36,7 +38,7 @@ public class localPublic_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "OnCreateView");
         View view = inflater.inflate(R.layout.fragment_localpublic, container, false);
-        logger = (TextView) view.findViewById(R.id.loggerpub);
+        logger = view.findViewById(R.id.loggerpub);
 
 
         view.findViewById(R.id.button2).setOnClickListener(new OnClickListener() {
