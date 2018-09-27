@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SimpleCursorAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 

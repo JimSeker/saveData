@@ -2,7 +2,7 @@ package edu.cs4730.sqlitedemo3;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +15,8 @@ import android.widget.TextView;
  */
 public class myRecyclerCursorAdapter extends CursorRecyclerAdapter<myRecyclerCursorAdapter.ViewHolder> {
 
-    public myRecyclerCursorAdapter(Context context,Cursor cursor){
-       // super(context,cursor);
+    public myRecyclerCursorAdapter(Context context, Cursor cursor) {
+        // super(context,cursor);
         super(cursor);
     }
 
@@ -33,20 +33,21 @@ public class myRecyclerCursorAdapter extends CursorRecyclerAdapter<myRecyclerCur
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_row, parent, false);
+            .inflate(R.layout.recycler_row, parent, false);
         ViewHolder vh = new ViewHolder(itemView);
         return vh;
     }
+
     @Override
     public void onBindViewHolderCursor(ViewHolder viewHolder, Cursor cursor) {
         //finally set the information in the text fields.
-        String name= cursor.getString(cursor.getColumnIndex(MainActivity.KEY_NAME));
+        String name = cursor.getString(cursor.getColumnIndex(MainActivity.KEY_NAME));
 //        int score = cursor.getInt(cursor.getColumnIndex(MainActivity.KEY_SCORE));
         String scoreStr = cursor.getString(cursor.getColumnIndex(MainActivity.KEY_SCORE));
 
-          viewHolder.mName.setText(name);
+        viewHolder.mName.setText(name);
 
-          viewHolder.mScore.setText(scoreStr);
+        viewHolder.mScore.setText(scoreStr);
         //viewHolder.mTextView.setText(myListItem.getName());
     }
 }

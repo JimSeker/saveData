@@ -1,9 +1,9 @@
 package edu.cs4730.sqlitedemo3;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
-/*
+/**
   * nothing to see here, just a activity that loads a fragment.  See the RecyclerFragment
   * for more information.
   *
@@ -27,7 +27,4 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
     }
-
-
-
 }

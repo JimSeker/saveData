@@ -1,22 +1,20 @@
 package edu.cs4730.sqlitedemo3;
 
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 
 /**
  * This an implementation of a cursor and recyclerview with card view.
@@ -25,7 +23,7 @@ import android.widget.Button;
  * CursorRecyclerAdapter.java was Created by skywin and found at https://gist.github.com/Shywim/127f207e7248fe48400b
  */
 public class RecyclerFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<Cursor>{
+    LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int TUTORIAL_LIST_LOADER = 0x01;  //Loader ID number.
     myRecyclerCursorAdapter mAdapter;
@@ -48,7 +46,7 @@ public class RecyclerFragment extends Fragment implements
         // create the adapter using the cursor pointing to the desired data
         //as well as the layout information
         //setup the RecyclerView
-        mRecyclerView = (RecyclerView) myView.findViewById(R.id.list);
+        mRecyclerView = myView.findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter = new myRecyclerCursorAdapter(getActivity(), null);  //null, since loader handles the cursor.
@@ -56,7 +54,7 @@ public class RecyclerFragment extends Fragment implements
         mRecyclerView.setAdapter(mAdapter);
 
         //This button is used to add more data, so the loader will then reload "on it's own".
-        btn = (Button) myView.findViewById(R.id.btn_add);
+        btn = myView.findViewById(R.id.btn_add);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +75,7 @@ public class RecyclerFragment extends Fragment implements
         String SortOrder = MainActivity.KEY_SCORE;
 
         CursorLoader cursorLoader = new CursorLoader(getActivity(),
-                CONTENT_URI, projection, null, null, SortOrder);
+            CONTENT_URI, projection, null, null, SortOrder);
         return cursorLoader;
     }
 

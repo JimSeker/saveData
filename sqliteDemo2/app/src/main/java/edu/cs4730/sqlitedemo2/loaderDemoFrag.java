@@ -5,12 +5,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.CursorAdapter;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +12,16 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
+import androidx.cursoradapter.widget.CursorAdapter;
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
+
+
 public class loaderDemoFrag extends Fragment implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+    LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int TUTORIAL_LIST_LOADER = 0x01;  //Loader ID number.
     private SimpleCursorAdapter dataAdapter;
@@ -32,7 +34,7 @@ public class loaderDemoFrag extends Fragment implements
 
 
         View view = inflater.inflate(R.layout.scorefrag, container, false);
-        lv = (ListView) view.findViewById(R.id.listView1);
+        lv = view.findViewById(R.id.listView1);
         //setup the adatper with a null cursor.
         String[] columns = new String[]{MainActivity.KEY_NAME, MainActivity.KEY_SCORE};
         // the XML defined views which the data will be bound to
@@ -43,14 +45,14 @@ public class loaderDemoFrag extends Fragment implements
         // create the adapter using the cursor pointing to the desired data
         //as well as the layout information
         dataAdapter = new SimpleCursorAdapter(
-                getActivity().getApplicationContext(), R.layout.scorelist,
-                null,   //null now, set in the Loader "Later"
-                columns, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+            getActivity().getApplicationContext(), R.layout.scorelist,
+            null,   //null now, set in the Loader "Later"
+            columns, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         //set the adapter to the listview
         lv.setAdapter(dataAdapter);
 
         //This button is used to add more data, so the loader will then reload "on it's own".
-        btn = (Button) view.findViewById(R.id.btn_add);
+        btn = view.findViewById(R.id.btn_add);
         btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +74,7 @@ public class loaderDemoFrag extends Fragment implements
         String SortOrder = MainActivity.KEY_SCORE;
 
         CursorLoader cursorLoader = new CursorLoader(getActivity(),
-                CONTENT_URI, projection, null, null, SortOrder);
+            CONTENT_URI, projection, null, null, SortOrder);
         return cursorLoader;
     }
 
