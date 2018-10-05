@@ -6,13 +6,11 @@ import android.os.Bundle;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
-//import android.support.v14.preference.PreferenceFragment;
-
 
 /**
  * The support version of the preference fragment.
  */
-public class PrefupdateFrag extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PreferenceupdateFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
     private EditTextPreference mEditTextPreference;
     private ListPreference mListPreference;
 

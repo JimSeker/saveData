@@ -1,17 +1,14 @@
 package edu.cs4730.supportprefencedemo;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceFragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceScreen;
 
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 
 /**
- * This is the activity for the preference fragment.  Note, this activity is not using any other fragments
- * so the PrefFag is v14 instead of v7.  So it's a "real" fragment, so not using the support fragment manager.
- * <p>
  * This now works with multiple preference screens.  This implements a callback to change between preference
  * screens.  Which basically a new fragment sending the correct screen to show (via a "rootkey")
  * Many thanks to the top answer
@@ -26,8 +23,8 @@ public class myPreferenceActivity extends AppCompatActivity implements Preferenc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //note, the v14 preference fragment is not a support fragment, so it's not using the supportFragmentManager.
-        getFragmentManager().beginTransaction().replace(android.R.id.content,
-            new PrefFrag()).commit();
+        getSupportFragmentManager().beginTransaction().replace(android.R.id.content,
+            new myPreferenceFragment()).commit();
     }
 
     @Override
@@ -38,10 +35,10 @@ public class myPreferenceActivity extends AppCompatActivity implements Preferenc
         Bundle args = new Bundle();
         args.putString(PreferenceFragment.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());  //get the new root key
         //now add that to the fragmenet
-        PrefFrag fragment = new PrefFrag();
+        myPreferenceFragment fragment = new myPreferenceFragment();
         fragment.setArguments(args);
         //now show the new fragment.
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(android.R.id.content, fragment, preferenceScreen.getKey());
         ft.addToBackStack(preferenceScreen.getKey());
         ft.commit();

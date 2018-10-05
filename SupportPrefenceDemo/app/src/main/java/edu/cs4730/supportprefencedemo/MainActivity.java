@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         //Change to the correct fragment for perferences
         if (which == 1)
-            transaction.replace(R.id.container, new PrefupdateFrag());
+            transaction.replace(R.id.container, new PreferenceupdateFragment());
         else
-            transaction.replace(R.id.container, new PrefNewFrag());
+            transaction.replace(R.id.container, new myPreferenceFragment());
         // and add the transaction to the back stack so the user can navigate back
         transaction.addToBackStack(null);
 

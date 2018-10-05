@@ -15,17 +15,17 @@
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Perference Screen" />
+        android:text="Perference Screen Activity" />
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Perference Live Screen" />
+        android:text="Perference Live Screen Fragment" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Newer Perferences" />
+        android:text="Perferences Screen Fragment" />
 
 </LinearLayout>

@@ -50,7 +50,6 @@ public class MainFragment extends Fragment {
         myView.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(getApplicationContext(), PrefupdateActivity.class));
                 mListener.onFragmentInteraction(1);
 
             }
@@ -59,7 +58,6 @@ public class MainFragment extends Fragment {
         myView.findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(getApplicationContext(), PrefupdateActivity.class));
                 mListener.onFragmentInteraction(2);
 
             }

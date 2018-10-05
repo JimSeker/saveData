@@ -83,4 +83,20 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/preference_newer">
+    <SwitchPreference
+        android:key="switch_key"
+        android:title="switch Preference"
+        android:defaultValue="true" />
+
+    <MultiSelectListPreference
+        android:dialogTitle="Multi Select Dialog"
+        android:key="multiselect_key"
+        android:summary="Does this show?"
+        android:title="Multi Select Title"
+        android:entries="@array/weekdays"
+        android:entryValues="@array/weekdays_values"
+        android:defaultValue="@array/empty_array"
+        />
+</PreferenceCategory>
 </PreferenceScreen>
