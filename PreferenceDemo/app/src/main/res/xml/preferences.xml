@@ -48,15 +48,13 @@
                     android:title="Next Screen Check Box"
                     android:summary="Next Screen Check Box Demo, but in the same xml" />
 
-            <MultiSelectListPreference
-                android:dialogTitle="Multi Select Dialog"
-                android:key="multiselect_key"
-                android:summary="Does this show?"
-                android:title="Multi Select Title"
-                android:entries="@array/weekdays"
-                android:entryValues="@array/weekdays_values"
-                android:defaultValue="@array/empty_array"
-                />
+            <EditTextPreference
+                android:dialogTitle="Enter your Name again."
+                android:key="next_screen_edittext_preference"
+                android:summary="Example of EditText Dialog"
+                android:title="Next Scren edittext" />
+
+
                 
         </PreferenceScreen>
 
@@ -88,5 +86,21 @@
                 android:summary="Visual only if the above checkbox is clicked" />
             
     </PreferenceCategory>
-    
+
+    <PreferenceCategory android:title="@string/preference_newer">
+        <SwitchPreference
+            android:key="switch_key"
+            android:title="switch Preference"
+            android:defaultValue="true" />
+        
+    <MultiSelectListPreference
+        android:dialogTitle="Multi Select Dialog"
+        android:key="multiselect_key"
+        android:summary="Does this show?"
+        android:title="Multi Select Title"
+        android:entries="@array/weekdays"
+        android:entryValues="@array/weekdays_values"
+        android:defaultValue="@array/empty_array"
+        />
+    </PreferenceCategory>
 </PreferenceScreen>
