@@ -65,16 +65,16 @@ public class localPrivate_Fragment extends Fragment {
                         } catch (EOFException e) {  //reach end of file
                             in.close();
                         }
-                } catch (FileNotFoundException e) {
-                } catch (IOException e) {
+                } catch (IOException e) {//which includes the FileNotFoundException e
+                    e.printStackTrace();
                 }
                 logger.append("Now appending to it");
                 try {
                     dos = new DataOutputStream(getActivity().openFileOutput(flist[i], Context.MODE_APPEND));
                     dos.writeUTF("Another line");
                     dos.close();
-                } catch (FileNotFoundException e) {
-                } catch (IOException e) {
+                } catch (IOException e) { //which includes the FileNotFoundException e
+                    e.printStackTrace();
                 }
             }
         } else {
@@ -84,11 +84,9 @@ public class localPrivate_Fragment extends Fragment {
                 dos = new DataOutputStream(getActivity().openFileOutput("FileExample", Context.MODE_PRIVATE));
                 dos.writeUTF("First line of the file");
                 dos.close();
-            } catch (FileNotFoundException e) {
             } catch (IOException e) {
+                e.printStackTrace();
             }
-
-
         }
     }
 }
