@@ -6,7 +6,7 @@ Save data Examples
 
 <b>PerferenceDemo</b> uses the preference fragments to save user preference data.  Note, there are no support libraries used for fragment or perferences. Also, this is for API 16+, for older versions, see the legacy directory example.
 
-<b>SupportPerferenceDemo</b> uses the preference-v7 (preferenceFragmentCompat) and v14 (preferencefragment).  It is the same exmaple as PreferenceDemo, but using the support library.  Note this uses API 16 preferences (MultiSelectListPreference).
+<b>SupportPerferenceDemo</b> uses the androidx.prefernces.  It's simliar to perferencedemo, using similar preferences and using live updates as well.
 
 <b>saveDataDemo</b> shows an example of using the instance bundle and the shared preference system to store data.
 
