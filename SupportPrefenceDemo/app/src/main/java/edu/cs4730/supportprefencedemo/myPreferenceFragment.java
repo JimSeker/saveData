@@ -17,9 +17,7 @@ public class myPreferenceFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle bundle, String rootKey) {
-
         setPreferencesFromResource(R.xml.preferences, rootKey);
-        //setPreferencesFromResource(R.xml.testpref, rootKey);   //google's example preference.
     }
 
 

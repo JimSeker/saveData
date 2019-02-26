@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    app:key="first_preferencescreen">
+
+    <PreferenceCategory
+        app:initialExpandedChildrenCount="1"
+        app:key="advanced"
+        app:title="Advanced attributes">
+
+        <Preference
+            app:summary="Launches another Activity from the here"
+            app:title="Intent Preference">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://developer.android.com/"/>
+
+        </Preference>
+
+        <CheckBoxPreference
+            app:key="parent_checkbox_preference"
+            app:summary="This determines if the below check is enabled or not"
+            app:title="Parent Checkbox Preference"/>
+
+        <!-- The visual style of a child is defined by this styled theme attribute. -->
+        <CheckBoxPreference
+            app:dependency="parent_checkbox_preference"
+            app:key="child_checkbox_preference"
+            app:layout="?android:attr/preferenceLayoutChild"
+            app:summary="Visual only if the above checkbox is clicked"
+            app:title="Child Checkbox Preference"/>
+
+
+        <SwitchPreferenceCompat
+            app:key="parent"
+            app:title="Parent switch"
+            app:summaryOn="Turn off, to have the child unclickable."
+            app:summaryOff="Turn on for the child switch below"/>
+
+        <SwitchPreferenceCompat
+            app:key="child"
+            app:dependency="parent"
+            app:title="Child switch, parent must be on."
+            app:summary="child child."/>
+
+
+
+    </PreferenceCategory>
+
+
+</androidx.preference.PreferenceScreen>

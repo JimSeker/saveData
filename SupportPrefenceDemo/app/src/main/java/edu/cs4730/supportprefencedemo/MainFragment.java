@@ -37,15 +37,6 @@ public class MainFragment extends Fragment {
          * methods.  Likely you would want to pick one.
          */
 
-        //First method, an new activity to show the fragment.
-        myView.findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity().getApplicationContext(), myPreferenceActivity.class));
-
-            }
-        });
-
         //second method, just display the new fragment.
         myView.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
             @Override

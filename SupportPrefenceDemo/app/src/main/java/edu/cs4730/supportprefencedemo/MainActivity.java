@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
         //now change to the SecondFragment, pressing the back button should go to main fragment.
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        //Change to the correct fragment for perferences
+        //Change to the correct fragment for preferences
         if (which == 1)
             transaction.replace(R.id.container, new PreferenceupdateFragment());
         else
