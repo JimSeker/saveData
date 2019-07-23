@@ -4,12 +4,19 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
+
+import java.io.IOException;
+
+import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.sqlite.db.SupportSQLiteOpenHelper;
+import androidx.sqlite.db.SupportSQLiteQueryBuilder;
+import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory;
+
+import static android.database.sqlite.SQLiteDatabase.CONFLICT_FAIL;
 
 /*
  * This an accessor class that do all the work
- * in the database.  This is the object that the 
+ * in the database.  This is the object that the
  * system uses to access/insert/update/etc the database.
  *
  * This provides a number of methods as examples for different things.
@@ -21,17 +28,23 @@ import android.database.sqlite.SQLiteQueryBuilder;
 public class ScoreDatabase {
 
 
-    private mySQLiteHelper DBHelper;
-    private SQLiteDatabase db;
+    private SupportSQLiteOpenHelper helper;  //mySQLiteHelper DBHelper;
+    private SupportSQLiteDatabase db;
 
     //constructor
     public ScoreDatabase(Context ctx) {
-        DBHelper = new mySQLiteHelper(ctx);
+        SupportSQLiteOpenHelper.Factory factory = new FrameworkSQLiteOpenHelperFactory();
+        SupportSQLiteOpenHelper.Configuration configuration = SupportSQLiteOpenHelper.Configuration.builder(ctx)
+            .name(mySQLiteHelper.DATABASE_NAME)
+            .callback(new mySQLiteHelper())
+            .build();
+        helper = factory.create(configuration);
+
     }
 
     //---opens the database---
     public void open() throws SQLException {
-        db = DBHelper.getWritableDatabase();
+        db = helper.getWritableDatabase();
     }
 
     //returns true if db is open.  Helper method.
@@ -41,25 +54,29 @@ public class ScoreDatabase {
 
     //---closes the database---
     public void close() {
-        DBHelper.close();
-        db.close();
+        try {
+            db.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /*
-    *  The following are insert methods
+     *  The following are insert methods
      */
     //----insert an entry -----
     public long insertName(String name, Integer value) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(mySQLiteHelper.KEY_NAME, name);
         initialValues.put(mySQLiteHelper.KEY_SCORE, value);
-        return db.insert(mySQLiteHelper.TABLE_NAME, null, initialValues);
+        return db.insert(mySQLiteHelper.TABLE_NAME, CONFLICT_FAIL, initialValues);
     }
+
     public long cpInsert(String TableName, ContentValues values) {
-        return db.insert(TableName, null, values);
+        return db.insert(TableName, CONFLICT_FAIL, values);
     }
     /*
-    *  The following a different query examples.
+     *  The following a different query examples.
      */
 
     //---get all the rows.
@@ -75,11 +92,11 @@ public class ScoreDatabase {
          */
 
         Cursor mCursor = cpQuery(mySQLiteHelper.TABLE_NAME,   //table name
-                new String[]{mySQLiteHelper.KEY_ROWID, mySQLiteHelper.KEY_NAME, mySQLiteHelper.KEY_SCORE},  //projection, ie columns.
-                null,  //selection,  we want everything.
-                null, // String[] selectionArgs,  again, we want everything.
-                mySQLiteHelper.KEY_NAME// String sortOrder  by name as the sort.
-                );
+            new String[]{mySQLiteHelper.KEY_ROWID, mySQLiteHelper.KEY_NAME, mySQLiteHelper.KEY_SCORE},  //projection, ie columns.
+            null,  //selection,  we want everything.
+            null, // String[] selectionArgs,  again, we want everything.
+            mySQLiteHelper.KEY_NAME// String sortOrder  by name as the sort.
+        );
         if (mCursor != null)  //make sure db is not empty!
             mCursor.moveToFirst();
         return mCursor;
@@ -112,10 +129,10 @@ public class ScoreDatabase {
                         */
         //We are going to use the helper function the content provider instead of a query.
         Cursor mCursor = cpQuery(mySQLiteHelper.TABLE_NAME,   //table name
-                new String[]{ mySQLiteHelper.KEY_NAME, mySQLiteHelper.KEY_SCORE},  //projection, ie columns.
-                mySQLiteHelper.KEY_NAME + "=\'" + name + "\'",  //selection,
-                null, // String[] selectionArgs,  not necessary here.
-                mySQLiteHelper.KEY_NAME// String sortOrder  by name as the sort.
+            new String[]{mySQLiteHelper.KEY_NAME, mySQLiteHelper.KEY_SCORE},  //projection, ie columns.
+            mySQLiteHelper.KEY_NAME + "=\'" + name + "\'",  //selection,
+            null, // String[] selectionArgs,  not necessary here.
+            mySQLiteHelper.KEY_NAME// String sortOrder  by name as the sort.
         );
 
         if (mCursor != null) {
@@ -130,7 +147,7 @@ public class ScoreDatabase {
         //sql 	the SQL query. The SQL string must not be ; terminated
         //selectionArgs 	You may include ?s in where clause in the query, which will be replaced by the values from selectionArgs. The values will be bound as Strings.
         Cursor mCursor =
-                db.rawQuery("select Name, Score from HighScore where Name=\'" + name + "\'", null);
+            db.query("select Name, Score from HighScore where Name=\'" + name + "\'", null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
@@ -139,15 +156,17 @@ public class ScoreDatabase {
 
     //this one is used as a wrapper for the ContentProvider.
     public Cursor cpQuery(String TableName, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(TableName);
+        SupportSQLiteQueryBuilder qb = SupportSQLiteQueryBuilder.builder(TableName);
+        qb.columns(projection);
+        qb.selection(selection, selectionArgs);
+        qb.orderBy(sortOrder);
         //using the query builder to manage the actual query at this point.
-        return qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+        return db.query(qb.create());
     }
 
     /*
-    *  The following are update methods examples.
-    */
+     *  The following are update methods examples.
+     */
 
     // ---updates a row---
     public boolean updateRow(String name, int score) {
@@ -156,19 +175,20 @@ public class ScoreDatabase {
         //returns true if one or more updates happened, otherwise false.
         //return db.update(mySQLiteHelper.TABLE_NAME, args, mySQLiteHelper.KEY_NAME + "= \'" + name + "\'", null) > 0;
         //better method is the use the generic method below.
-         return cpUpdate(mySQLiteHelper.TABLE_NAME, args, mySQLiteHelper.KEY_NAME + "= \'" + name + "\'", null) > 0;
+        return cpUpdate(mySQLiteHelper.TABLE_NAME, args, mySQLiteHelper.KEY_NAME + "= \'" + name + "\'", null) > 0;
     }
+
     // this is a generic method to update something from the database.   The contentProvider calls this method.
     public int cpUpdate(String TableName, ContentValues values, String selection, String[] selectionArgs) {
-        return db.update(TableName, values, selection, selectionArgs);
+        return db.update(TableName, CONFLICT_FAIL, values, selection, selectionArgs);
     }
 
     /*
-    *  the following are delete methods
+     *  the following are delete methods
      */
     // this is a generic method to delete something from the database.   The contentProvider calls this method.
     public int cpDelete(String TableName, String selection, String[] selectionArgs) {
-      return  db.delete(TableName, selection, selectionArgs);
+        return db.delete(TableName, selection, selectionArgs);
     }
 
     //remove all entries from the CurrentBoard
