@@ -15,11 +15,16 @@ Also has an example of accessing the contacts provider.
 
 <b>fileSystemDemo</b> shows how to read/write to local private and public directory and the "external" media like an sdcard.
 
-<b>sqliteDemo</b> creates a database and content provider
+<b>sqliteDBDemo</b> an SupportSQLiteDatabase is created and used.  The data is displayed via a recyclerview.  While the code has
+ insert, update, delete, and query.  Only the query and insert methods are called by this example.
+
+<b>sqliteDemo</b> creates a supportSQLitedatabase and content provider
 
 <b>sqliteDemo2</b> uses the content provider from sqlitedemo, also shows how to use a loader.
 
 <b>sqliteDemo3</b> uses the content provider from sqlitedemo and recyclerview.  Uses a custom cursoradapter for it and a loader as well.
+
+<b>sqliteDemo4</b> uses the content provider from sqlitedemo and recyclerview.  Uses a custom LiveData, plus a modelview to replace the deprecated Loaders.
 
 <b>lvCursorDemo</b> show how to use cursoradapters with listview and explistview.
 
