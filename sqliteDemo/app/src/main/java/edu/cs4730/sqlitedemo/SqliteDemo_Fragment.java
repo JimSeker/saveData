@@ -16,7 +16,7 @@ import edu.cs4730.sqlitedemo.db.mySQLiteHelper;
 
 /**
  * A demo of sqlite.  It's very simple and just display some data to a textview.
- *   this is not very effecient and listview/recyclerview are much better suited for it.
+ *   this is not very efficient and listview/recyclerview are much better suited for it.
  */
 public class SqliteDemo_Fragment extends Fragment {
 
