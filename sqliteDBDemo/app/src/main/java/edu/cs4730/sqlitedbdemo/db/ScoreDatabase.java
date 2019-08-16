@@ -69,7 +69,7 @@ public class ScoreDatabase {
         return db.insert(mySQLiteHelper.TABLE_NAME, CONFLICT_FAIL, initialValues);
     }
 
-    //This is the method to actually do an insert, using the convenience method.  Note, it uses fail when there is a conflict.
+    //This is the method to actually do an insert using the convenience method.  Note, it uses fail when there is a conflict.
     public long Insert(String TableName, ContentValues values) {
         return db.insert(TableName, CONFLICT_FAIL, values);
     }
@@ -87,7 +87,7 @@ public class ScoreDatabase {
             null, // String[] selectionArgs,  again, we want everything.
             mySQLiteHelper.KEY_NAME// String sortOrder  by name as the sort.
         );
-        if (mCursor != null)  //make sure db is not empty!
+        if (mCursor != null)  //make sure cursor is not empty!
             mCursor.moveToFirst();
         return mCursor;
     }
