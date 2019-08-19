@@ -1,8 +1,11 @@
 package edu.cs4730.supportprefencedemo;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 import android.os.Bundle;
 
@@ -22,7 +25,8 @@ import android.os.Bundle;
  * Must specify preferenceTheme in theme, it's an item.  see the style.xml file.
  * or get this error:   at android.support.v7.preference.PreferenceFragmentCompat.onCreate(PreferenceFragmentCompat.java:202)
  */
-public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener,
+    PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
     FragmentManager fragmentManager;
 
     @Override
@@ -53,5 +57,27 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
         // Commit the transaction
         transaction.commit();
+    }
+
+    /**
+     * this is "required" as of version 1.1.0 of the androidx.preference.
+     * It used when the user taps on preference that calls a preference fragment.
+     */
+    @Override
+    public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
+        // Instantiate the new Fragment
+        final Bundle args = pref.getExtras();
+        final Fragment fragment = fragmentManager.getFragmentFactory().instantiate(
+            getClassLoader(),
+            pref.getFragment());
+        fragment.setArguments(args);
+        fragment.setTargetFragment(caller, 0);
+        // Replace the existing Fragment with the new Fragment
+        fragmentManager.beginTransaction()
+            .replace(R.id.container, fragment)
+            .addToBackStack(null)
+            .commit();
+        return true;
+
     }
 }

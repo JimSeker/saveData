@@ -31,13 +31,7 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
         View myView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        /*
-         * Note there are two ways to load the preference fragment.  Either via the fragment or by
-         * launching another activity that displays it.  For the purposes fo the demo, I'm show both
-         * methods.  Likely you would want to pick one.
-         */
-
-        //second method, just display the new fragment.
+        //either will have the mainactivity change the fragment to a preferencefragmentcompat.
         myView.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,7 +39,6 @@ public class MainFragment extends Fragment {
 
             }
         });
-        //second method, just display the new fragment.
         myView.findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
