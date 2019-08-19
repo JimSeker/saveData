@@ -35,12 +35,14 @@ public class PreferenceupdateFragment extends PreferenceFragmentCompat implement
         mMultiSelectListPreference = getPreferenceManager().findPreference("multiselect_key");
         mDropDownPreference = getPreferenceManager().findPreference("dropdown");
     }
+
+
     @Override
     public void onResume() {
         super.onResume();
 
         // Setup the initial values
-        mEditTextPreference.setSummary( "Text is " + mEditTextPreference.getSharedPreferences().getString("edittext_preference", "Default"));
+        mEditTextPreference.setSummary("Text is " + mEditTextPreference.getSharedPreferences().getString("edittext_preference", "Default"));
         mListPreference.setSummary("Current value is " + mListPreference.getSharedPreferences().getString("list_preference", "Default"));
         // multiselect returns a array set, not a string, so create one.
         String list = "";
@@ -51,7 +53,7 @@ public class PreferenceupdateFragment extends PreferenceFragmentCompat implement
         }
         mMultiSelectListPreference.setSummary("selection  is " + list);
 
-        mDropDownPreference.setSummary("Current value is " +mDropDownPreference.getSharedPreferences().getString("dropdown", "Default"));
+        mDropDownPreference.setSummary("Current value is " + mDropDownPreference.getSharedPreferences().getString("dropdown", "Default"));
 
         // Set up a listener whenever a key changes
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -68,8 +70,8 @@ public class PreferenceupdateFragment extends PreferenceFragmentCompat implement
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("edittext_preference")) {  //where textPref is the key used in the xml.
-            mEditTextPreference.setSummary( "Text is " + sharedPreferences.getString("edittext_preference", "Default"));
-        }  else if (key.equals("list_preference")) {
+            mEditTextPreference.setSummary("Text is " + sharedPreferences.getString("edittext_preference", "Default"));
+        } else if (key.equals("list_preference")) {
             mListPreference.setSummary("Current value is " + sharedPreferences.getString(key, "Default"));
         } else if (key.equals("multiselect_key")) {
             String list = "";
@@ -79,8 +81,8 @@ public class PreferenceupdateFragment extends PreferenceFragmentCompat implement
                 list += s + " ";
             }
             mMultiSelectListPreference.setSummary("selection  is " + list);
-        } else if (key.equals("dropdown") ) {
-            mDropDownPreference.setSummary("Current value is " +mDropDownPreference.getSharedPreferences().getString("dropdown", "Default"));
+        } else if (key.equals("dropdown")) {
+            mDropDownPreference.setSummary("Current value is " + mDropDownPreference.getSharedPreferences().getString("dropdown", "Default"));
         }
     }
 }

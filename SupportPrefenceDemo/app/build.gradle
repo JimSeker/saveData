@@ -5,7 +5,7 @@ android {
 
     defaultConfig {
         applicationId "edu.cs4730.supportprefencedemo"
-        minSdkVersion 19
+        minSdkVersion 22
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -21,6 +21,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.preference:preference:1.1.0-alpha03'
+    implementation 'androidx.preference:preference:1.1.0-rc01'
 
 }
