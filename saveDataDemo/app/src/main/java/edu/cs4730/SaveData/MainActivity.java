@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 public class MainActivity extends AppCompatActivity {
     int b1 = 0, b2 = 0, b3 = 0;
@@ -27,14 +27,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        logger = (TextView) findViewById(R.id.log);
-        t1 = (EditText) findViewById(R.id.editText1);
+        logger = findViewById(R.id.log);
+        t1 = findViewById(R.id.editText1);
 
-        tv_nothing = (TextView) findViewById(R.id.tv_nothing);
+        tv_nothing = findViewById(R.id.tv_nothing);
         tv_nothing.setText(String.valueOf(b1));
 
         //bundle method
-        tv_bundle = (TextView) findViewById(R.id.tv_bundle);
+        tv_bundle =  findViewById(R.id.tv_bundle);
         if (savedInstanceState != null) { //There is saved data
             logthis("There is data, restoring");
             b2 = savedInstanceState.getInt("b2", 0);  //default in case of issues.
@@ -44,14 +44,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //preference method
-        tv_preference = (TextView) findViewById(R.id.tv_preference);
+        tv_preference = findViewById(R.id.tv_preference);
         //settext handled in getprefs();
         getprefs();
 
         //lastly the model view
         tv_modelview =  findViewById(R.id.tv_modelview);
         //for the model view live variable.
-        mViewModel = ViewModelProviders.of(this).get(DataViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(DataViewModel.class);
         mViewModel.getData().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer data) {
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         //store b3 in preferences
         editor.putInt("b3", b3);
-        editor.commit();
+        editor.apply();
         logthis("Stored preferences");
     }
 
