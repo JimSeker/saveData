@@ -42,7 +42,7 @@ public class RecyclerFragment extends Fragment implements
         // Inflate the layout for this fragment
         View myView = inflater.inflate(R.layout.fragment_recycler, container, false);
         //initialize the loader
-        getLoaderManager().initLoader(TUTORIAL_LIST_LOADER, null, this);
+        LoaderManager.getInstance(this).initLoader(TUTORIAL_LIST_LOADER, null, this);
         // create the adapter using the cursor pointing to the desired data
         //as well as the layout information
         //setup the RecyclerView

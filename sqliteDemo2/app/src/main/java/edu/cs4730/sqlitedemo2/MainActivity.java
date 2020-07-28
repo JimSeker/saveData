@@ -2,18 +2,24 @@ package edu.cs4730.sqlitedemo2;
 
 import android.os.Bundle;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 
 public class MainActivity extends AppCompatActivity {
     String TAG = "MainActivity";
 
     SectionsPagerAdapter mSectionsPagerAdapter;
-    ViewPager mViewPager;
+    ViewPager2 mViewPager;
+    TabLayout tabLayout;
 
     //database columns
     public static final String KEY_NAME = "Name";
@@ -26,26 +32,36 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(this);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         //mViewPager.setCurrentItem(7);// set to a specific page in the pager.
+        tabLayout = findViewById(R.id.tab_layout);
+        new TabLayoutMediator(tabLayout,
+            mViewPager,
+            new TabLayoutMediator.TabConfigurationStrategy() {
+                @Override
+                public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                    tab.setText(mSectionsPagerAdapter.getPageTitle(position));
+                }
+            }
+        ).attach();
     }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentStateAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
+        public SectionsPagerAdapter(FragmentActivity fa) {
+            super(fa);
         }
 
         @Override
-        public Fragment getItem(int position) {
+        public Fragment createFragment(int position) {
             switch (position) {
                 case 0:
                     return new sqlitedemo2Frag();
@@ -57,12 +73,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public int getCount() {
+        public int getItemCount() {
             // Show X total pages.
             return 2;
         }
 
-        @Override
+        //hold over code from viewpager code, but called from the tablayoutmediator.
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:

@@ -35,13 +35,13 @@ public class loaderDemoFrag extends Fragment implements
 
         View view = inflater.inflate(R.layout.scorefrag, container, false);
         lv = view.findViewById(R.id.listView1);
-        //setup the adatper with a null cursor.
+        //setup the adapter with a null cursor.
         String[] columns = new String[]{MainActivity.KEY_NAME, MainActivity.KEY_SCORE};
         // the XML defined views which the data will be bound to
         int[] to = new int[]{R.id.name, R.id.score};
 
         //initialize the loader
-        getLoaderManager().initLoader(TUTORIAL_LIST_LOADER, null, this);
+        LoaderManager.getInstance(this).initLoader(TUTORIAL_LIST_LOADER, null, this);
         // create the adapter using the cursor pointing to the desired data
         //as well as the layout information
         dataAdapter = new SimpleCursorAdapter(

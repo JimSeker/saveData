@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,7 +46,7 @@ public class RecyclerFragment extends Fragment {
         View myView = inflater.inflate(R.layout.fragment_recycler, container, false);
 
         //initialize the View Model
-        mViewModel = ViewModelProviders.of(getActivity()).get(CursorViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(CursorViewModel.class);
 
         // create the adapter using the cursor pointing to the desired data
         //as well as the layout information
