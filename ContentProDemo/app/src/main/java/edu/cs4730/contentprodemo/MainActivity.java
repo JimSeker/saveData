@@ -2,24 +2,28 @@ package edu.cs4730.contentprodemo;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+/**
+ * Example setup bottomnavview for two fragements
+ * This demo's a contact contentprovider
+ * and a custom content provider (called dummyCP).
+ *   see the two fragments for how they work.
+ */
 
 public class MainActivity extends AppCompatActivity {
 
     String TAG = "MainActivity";
     public static final int REQUEST_READ_CONTACTS = 0;
 
-    SectionsPagerAdapter mSectionsPagerAdapter;
-    ViewPager mViewPager;
+
+    BottomNavigationView navView;
     ContactsDemo_Fragment myContactsFrag;
 
     @Override
@@ -27,20 +31,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //for premissions and viewpager
+        //for permissions and BottomNavigationView.
         myContactsFrag = new ContactsDemo_Fragment();
 
+        navView = findViewById(R.id.nav_view);
+        navView.setOnNavigationItemSelectedListener(
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                public boolean onNavigationItemSelected(MenuItem item) {
+                    if (item.getItemId() == R.id.action_CP) {
+                        getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.container, new Contentp_Fragment()).commit();
+                        return true;
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        //mViewPager.setCurrentItem(7);// set to a specific page in the pager.
+                    } else if (item.getItemId() == R.id.action_contact) {
+                        getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.container, myContactsFrag).commit();
+                        return true;
+                    } else
+                        return false;
+                }
+            }
+        );
+        //set the first one as the default.
+        getSupportFragmentManager().beginTransaction()
+            .add(R.id.container, new Contentp_Fragment()).commit();
     }
-
 
     /**
      * Callback received when a permissions request has been completed.
@@ -68,46 +83,5 @@ public class MainActivity extends AppCompatActivity {
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
-
-    /**
-     * Simple viewpager to display the contacts fragment and contentp for the dummy content provider
-     * in this project.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new Contentp_Fragment();
-                case 1:
-                    return myContactsFrag;
-                default:
-                    return null;
-            }
-        }
-
-        @Override
-        public int getCount() {
-            // Show X total pages.
-            return 2;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Content Provider Demo";
-                case 1:
-                    return "Contacts Demo";
-            }
-            return null;
-        }
-    }
-
 
 }
