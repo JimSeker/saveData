@@ -1,5 +1,9 @@
 package edu.cs4730.lvcursordemo;
 
+/*
+ * setup in prep for the room db.
+ */
+
 public class Country {
 	 String code = null;
 	 String name = null;

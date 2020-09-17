@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.cursoradapter.widget.CursorAdapter;
+import edu.cs4730.lvcursordemo.db.DatabaseHelper;
 
 public class CustomCursorAdapter extends CursorAdapter implements OnClickListener {
 
@@ -45,19 +46,19 @@ public class CustomCursorAdapter extends CursorAdapter implements OnClickListene
         // that means, take the data from the cursor and put it in views
         TextView textViewcode = view.findViewById(R.id.codeC);
         //textViewcode.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(1))));
-        textViewcode.setText(cursor.getString(cursor.getColumnIndex(CntDbAdapter.KEY_CODE)));
+        textViewcode.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_CODE)));
 
         TextView textViewname = view.findViewById(R.id.nameC);
-        textViewname.setText(cursor.getString(cursor.getColumnIndex(CntDbAdapter.KEY_NAME)));
+        textViewname.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_NAME)));
 
         TextView textViewcont = view.findViewById(R.id.continentC);
-        textViewcont.setText(cursor.getString(cursor.getColumnIndex(CntDbAdapter.KEY_CONTINENT)));
+        textViewcont.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_CONTINENT)));
 
         TextView textViewregion = view.findViewById(R.id.regionC);
-        textViewregion.setText(cursor.getString(cursor.getColumnIndex(CntDbAdapter.KEY_REGION)));
+        textViewregion.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_REGION)));
 
         Button btn = view.findViewById(R.id.delC);
-        btn.setTag(cursor.getString(cursor.getColumnIndex(CntDbAdapter.KEY_ROWID)));
+        btn.setTag(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_ROWID)));
         btn.setOnClickListener(this);
     }
 

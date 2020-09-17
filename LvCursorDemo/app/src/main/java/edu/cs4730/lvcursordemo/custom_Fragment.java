@@ -3,7 +3,10 @@ package edu.cs4730.lvcursordemo;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
+import edu.cs4730.lvcursordemo.db.countryDatabase;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -23,7 +26,7 @@ public class custom_Fragment extends Fragment implements Button.OnClickListener 
     String TAG = "custom_frag";
     Context myContext;
 
-    private CntDbAdapter dbHelper;
+    private countryDatabase countryDB;
     private CustomCursorAdapter dataAdapter;
     Button add;
 
@@ -38,17 +41,17 @@ public class custom_Fragment extends Fragment implements Button.OnClickListener 
         View myView = inflater.inflate(R.layout.custom_fragment, container, false);
 
 
-        dbHelper = new CntDbAdapter(myContext);
-        dbHelper.open();
+        countryDB = new countryDatabase(myContext);
+        countryDB.open();
 
         //Clean all data
-        dbHelper.deleteAllCountries();
+        countryDB.deleteAllCountries();
         //Add some data
-        dbHelper.insertSomeCountries();
+        countryDB.insertSomeCountries();
 
         //Generate ListView from SQLite Database
         Log.d(TAG, "creating the adapter");
-        dataAdapter = new CustomCursorAdapter(myContext, dbHelper.fetchAllCountries());
+        dataAdapter = new CustomCursorAdapter(myContext, countryDB.fetchAllCountries());
 
         Log.d(TAG, "getting the listview");
         ListView listView = myView.findViewById(R.id.listView1C);
@@ -90,12 +93,12 @@ public class custom_Fragment extends Fragment implements Button.OnClickListener 
 
         dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             public Cursor runQuery(CharSequence constraint) {
-                return dbHelper.fetchCountriesByName(constraint.toString());
+                return countryDB.fetchCountriesByName(constraint.toString());
             }
         });
 
         //add button, which will add Canada on to the list and disable itself.
-        add = (Button) myView.findViewById(R.id.addC);
+        add = myView.findViewById(R.id.addC);
         add.setOnClickListener(this);
 
         return myView;
@@ -105,9 +108,9 @@ public class custom_Fragment extends Fragment implements Button.OnClickListener 
     @Override
     public void onClick(View v) {
 
-        dbHelper.createCountry("CND", "Canda", "North America", "North America");
+        countryDB.insertCountry("CND", "Canda", "North America", "North America");
 
-        dataAdapter.changeCursor(dbHelper.fetchAllCountries());
+        dataAdapter.changeCursor(countryDB.fetchAllCountries());
         add.setEnabled(false);  //since not changing the CODE, any more adds will fail in the database.
     }
 
