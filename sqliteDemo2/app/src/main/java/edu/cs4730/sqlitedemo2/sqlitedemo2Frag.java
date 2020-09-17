@@ -1,5 +1,6 @@
 package edu.cs4730.sqlitedemo2;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -19,7 +20,7 @@ import androidx.cursoradapter.widget.SimpleCursorAdapter;
 public class sqlitedemo2Frag extends Fragment {
 
 
-    String TAG = "sqldemo2_frag";
+    String TAG = "sqlitedemo2Frag";
     Context myContext;
     Cursor cursor;
     private SimpleCursorAdapter dataAdapter;
@@ -40,7 +41,11 @@ public class sqlitedemo2Frag extends Fragment {
 
         //finally make the query
         // cursor = managedQuery(CONTENT_URI, projection, null, null, null);  //deprecated method, use one below.
-        cursor = getActivity().getContentResolver().query(CONTENT_URI, projection, null, null, SortOrder);
+        ContentResolver cr =myContext.getContentResolver();
+        if (cr == null) {
+            Log.wtf(TAG, "contentresolver is null");
+        }
+        cursor = cr.query(CONTENT_URI, projection, null, null, SortOrder);
 
         //this is commented out, because better using a listview, which is what displayListView() does.
         //		  if (c.moveToFirst()) {

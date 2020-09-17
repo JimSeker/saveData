@@ -133,7 +133,7 @@ public class ScoreDatabase {
     }
 
     /**
-     *  The following are update methods examples.
+     * The following are update methods examples.
      */
 
     // This is a wrapper method, so that main code doesn't have ContentValues.
@@ -150,7 +150,7 @@ public class ScoreDatabase {
     }
 
     /**
-     *  the following are delete methods
+     * the following are delete methods
      */
     // this uses the Convenience method to delete something from the database.
     public int Delete(String TableName, String selection, String[] selectionArgs) {

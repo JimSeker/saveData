@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main);
 
 
-
         logger = findViewById(R.id.log);
         t1 = findViewById(R.id.editText1);
 
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         tv_nothing.setText(String.valueOf(b1));
 
         //bundle method
-        tv_bundle =  findViewById(R.id.tv_bundle);
+        tv_bundle = findViewById(R.id.tv_bundle);
         if (savedInstanceState != null) { //There is saved data
             logthis("There is data, restoring");
             b2 = savedInstanceState.getInt("b2", 0);  //default in case of issues.
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         getprefs();
 
         //lastly the model view
-        tv_modelview =  findViewById(R.id.tv_modelview);
+        tv_modelview = findViewById(R.id.tv_modelview);
         //for the model view live variable.
         mViewModel = new ViewModelProvider(this).get(DataViewModel.class);
         mViewModel.getData().observe(this, new Observer<Integer>() {
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        button = (Button) findViewById(R.id.button);
+        button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-     * getpres() allows me to get the sharePreferences code in on place, it is called from 
+     * getpres() allows me to get the sharePreferences code in on place, it is called from
      * onCreate and onPause.
      */
     void getprefs() {

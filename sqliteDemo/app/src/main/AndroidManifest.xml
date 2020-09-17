@@ -6,18 +6,27 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name="edu.cs4730.sqlitedemo.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-	   <provider android:name="myDBContentProvider"
-            android:authorities="edu.cs4730.scoreprovider" android:exported="true"/>
+        <provider
+            android:name="edu.cs4730.sqlitedemo.myDBContentProvider"
+            android:authorities="edu.cs4730.scoreprovider"
+            android:grantUriPermissions="true"
+
+            android:multiprocess="true"
+            android:enabled="true"
+            android:exported="true" >
+       <grant-uri-permission android:pathPattern="/" /> <!-- for granting URI-based permissions to specific sub-branches of the provider -->
+        </provider>
+
     </application>
 
 </manifest>
