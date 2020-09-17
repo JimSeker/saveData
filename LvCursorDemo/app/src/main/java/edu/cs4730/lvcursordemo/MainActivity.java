@@ -1,6 +1,11 @@
 package edu.cs4730.lvcursordemo;
 
 import android.os.Bundle;
+import android.view.MenuItem;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -10,65 +15,42 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-
 	String TAG = "MainActivity";
-
-	SectionsPagerAdapter mSectionsPagerAdapter;
-	ViewPager mViewPager;
+	BottomNavigationView bnv;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the activity.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-		// Set up the ViewPager with the sections adapter.
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
-		//mViewPager.setCurrentItem(7);// set to a specific page in the pager.
+		bnv = findViewById(R.id.bnv);
+		bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+			@Override
+			public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+				//At this point, we are doing the same thing that is done for menu selections.
+				//if we had a onOptionsItemSelect method for a menu, we could just use it.
+				int id = item.getItemId();
+				if (id == R.id.simple) {
+					getSupportFragmentManager().beginTransaction()
+						.replace(R.id.container, new simple_Fragment()).commit();
+					return true;
+				} else if (id == R.id.custom) {
+					getSupportFragmentManager().beginTransaction()
+						.replace(R.id.container, new custom_Fragment()).commit();
+					return true;
+				} else if (id == R.id.explist) {
+					getSupportFragmentManager().beginTransaction()
+						.replace(R.id.container,  new ExpListview_Fragment()).commit();
+					return true;
+				}
+				return false;
+			}
+		});
+
+		//set the first one as the default.
+		getSupportFragmentManager().beginTransaction()
+			.add(R.id.container, new simple_Fragment()).commit();
+
 	}
-	/**
-	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-	 * one of the sections/tabs/pages.
-	 */
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-		public SectionsPagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			switch (position) {
-			case 0: return new simple_Fragment();
-			case 1: return new custom_Fragment();
-			case 2: return new ExpListview_Fragment();
-			default: return null;
-			}
-		}
-
-		@Override
-		public int getCount() {
-			// Show X total pages.
-			return 3;
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			switch (position) {
-			case 0:
-				return "Simple Demo";
-			case 1:
-				return "Custom Demo";
-			case 2:
-				return "ExpListView Demo";
-			}
-			return null;
-		}
-	}	
-
-
 
 }
