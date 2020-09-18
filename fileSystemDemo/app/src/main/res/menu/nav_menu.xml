@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/one"
+        android:icon="@drawable/recent"
+        android:title="Local Private" />
+    <item
+        android:id="@+id/two"
+        android:icon="@drawable/mylocation"
+        android:title="Local Public" />
+
+</menu>

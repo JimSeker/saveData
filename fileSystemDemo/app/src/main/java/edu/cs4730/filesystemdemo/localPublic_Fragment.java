@@ -23,11 +23,9 @@ import androidx.fragment.app.Fragment;
 /**
  * This fragment will write (append) to a file to the local public area of the app.
  * then read back whatever is the file and display it to the screen.
- * <p>
- * <p>
  * uses the DataOutputStream/InputStream to read and write
- * <p>
- * For bufferedWriter/reader example, see external_Fragment.java
+ *
+ * This uses older example code,
  */
 
 public class localPublic_Fragment extends Fragment {

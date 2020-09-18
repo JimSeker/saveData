@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSurface">@color/colorPrimaryDark</item>
-        <!-- needed for dark mode in the materialcomponents of daynight and should be dark, not used in light mode-->
+        <item name="android:navigationBarColor">@color/navigationBarColor</item>
     </style>
 
 </resources>
