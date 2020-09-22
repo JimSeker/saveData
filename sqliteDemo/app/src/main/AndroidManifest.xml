@@ -20,11 +20,10 @@
             android:name="edu.cs4730.sqlitedemo.myDBContentProvider"
             android:authorities="edu.cs4730.scoreprovider"
             android:grantUriPermissions="true"
-
             android:multiprocess="true"
             android:enabled="true"
             android:exported="true" >
-       <grant-uri-permission android:pathPattern="/" /> <!-- for granting URI-based permissions to specific sub-branches of the provider -->
+       <!--grant-uri-permission android:pathPattern="/" /--> <!-- for granting URI-based permissions to specific sub-branches of the provider -->
         </provider>
 
     </application>

@@ -10,16 +10,19 @@ import android.util.Log;
 import edu.cs4730.contentprodemo.data.Cube;
 import edu.cs4730.contentprodemo.data.Square;
 
-/*
+/**
  * This example is to provide the very basics of a content provider.  It only returns
  * information, and ignores any attempts to updates/insert/delete.  The basic structure is here and
  * is intended for demonstration purposes.
- *
+ * <
  * This has two "tables".  it can provide squares or cubes
  *
  * For a more complete and generic content provider connected to a database, please the sqlite repo,
  * myDBcontentProvider for more information.
  *
+ * Note if calling from another applications, it will need to have
+ *    <queries> <package android:name="edu.cs4730.contentprodemo" /> </queries> in the manifest file
+ *    starting in API 30 for package visibility additions.
  */
 
 public class dummyCP extends ContentProvider {
@@ -27,9 +30,9 @@ public class dummyCP extends ContentProvider {
 
     //these two are not used, but normally handly to have avialabe in a normal provider.
     public static final Uri CONTENT_URI1 =
-            Uri.parse("content://" + PROVIDER_NAME + "/square");
+        Uri.parse("content://" + PROVIDER_NAME + "/square");
     public static final Uri CONTENT_URI2 =
-            Uri.parse("content://" + PROVIDER_NAME + "/cube");
+        Uri.parse("content://" + PROVIDER_NAME + "/cube");
 
     private static final int SQUARE = 1;
     private static final int SQUARE_ID = 2;

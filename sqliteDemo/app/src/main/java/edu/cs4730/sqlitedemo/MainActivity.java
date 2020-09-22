@@ -55,19 +55,12 @@ public class MainActivity extends AppCompatActivity {
             }
         ).attach();
 
-       /*  this dies, not sure what I'm doing here or if this even the right idea.
-        Intent shareIntent = new Intent(Intent.ACTION_VIEW);
-        shareIntent.setFlags(FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        shareIntent.setData(Uri.parse("content://edu.cs4730.scoreprovider/")
-        );
+        //thi shows how to give permissions to an app, but this app also has  android:grantUriPermissions="true" in the manifest.
+        //but started in API 30, the calling package also need in manifest.xml, a <queries> <package android:name="edu.cs4730.sqlitedemo" /> </queries> for it to work
 
-        startActivity(shareIntent); // SEND INTENT TO BE RESOLVED
-        */
-
-        //this works to give specific packages access.  but I can't find a give all packages access option.
-        grantUriPermission("edu.cs4730.sqlitedemo2", Uri.parse("content://edu.cs4730.scoreprovider/"), FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        //grantUriPermission("edu.cs4730.sqlitedemo2", Uri.parse("content://edu.cs4730.scoreprovider/"), FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         grantUriPermission("edu.cs4730.sqlitedemo3", Uri.parse("content://edu.cs4730.scoreprovider/"), FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        grantUriPermission("edu.cs4730.sqlitedemo4", Uri.parse("content://edu.cs4730.scoreprovider/"), FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        //grantUriPermission("edu.cs4730.sqlitedemo4", Uri.parse("content://edu.cs4730.scoreprovider/"), FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
 
     }
