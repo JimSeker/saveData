@@ -8,8 +8,13 @@ import android.os.Bundle;
  * nothing to see here, just a activity that loads a fragment.  See the RecyclerFragment
  * for more information.
  *
- * Note that sqliteDemo needs to already be installed on the phone/emulator for this example
- * to work.  It has the content provider used.
+ * Note that sqliteDemo and/or ContentProviderRoomDemo are needs to already be installed on the
+ *  phone/emulator for this example to work.  It has the content provider used.
+ *
+ *  sqliteDemo change the to CONTENT_URI in RecylerFragment (for the add) and CussorViewModel
+ *  ContentProviderroomDemo use CONTENT_URI2 in RecylerFragment (for the add) and CussorViewModel
+ *
+ *  Both are listed in the <queires> package section </queires> already and uri_permission is granted in apps already.
  */
 
 public class MainActivity extends AppCompatActivity {

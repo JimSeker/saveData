@@ -29,6 +29,7 @@ public class RecyclerFragment extends Fragment {
 
     myRecyclerCursorAdapter mAdapter;
     public static Uri CONTENT_URI = Uri.parse("content://edu.cs4730.scoreprovider/score");
+    public static final Uri CONTENT_URI2 = Uri.parse("content://edu.cs4730.scoreroomprovider/score");
     RecyclerView mRecyclerView;
     Button btn;
 
@@ -66,13 +67,16 @@ public class RecyclerFragment extends Fragment {
                 ContentValues initialValues = new ContentValues();
                 initialValues.put(MainActivity.KEY_NAME, "Jesse");
                 initialValues.put(MainActivity.KEY_SCORE, "123");
+                //for sqldemo use this one
                 Uri uri = getActivity().getContentResolver().insert(CONTENT_URI, initialValues);
+                //contenProviderRoomDemo use this one
+                //Uri uri = getActivity().getContentResolver().insert(CONTENT_URI2, initialValues);
             }
         });
 
         //Note the observer is a Cursor (not a ContentProviderLiveData, because it setValue/postValue is a cursor.
         // So observer matches that.
-        mViewModel.getData().observe(this, new Observer<Cursor>() {
+        mViewModel.getData().observe(getActivity(), new Observer<Cursor>() {
             @Override
             public void onChanged(Cursor data) {
                 mAdapter.swapCursor(data);
