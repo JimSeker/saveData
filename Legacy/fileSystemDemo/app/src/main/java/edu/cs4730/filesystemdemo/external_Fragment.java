@@ -33,6 +33,13 @@ import android.view.View.OnClickListener;
  * uses bufferedWriter/reader
  * older code using the DataOutputStream is commented out, but left as an example
  * of how to use it.
+ *
+ * This example will work in API 30 using the  Manifest.permission.MANAGE_EXTERNAL_STORAGE, but the
+ * permission doesn't seem to grant everything and the user must manually turn on some things.
+ * plus the permission requires android/google's permission to use.
+ *   https://support.google.com/googleplay/android-developer/answer/9956427  so this is really need a valid
+ *  way to do this, unless you plan to write a file manager, or something that google would approve.
+ *
  */
 
 public class external_Fragment extends Fragment {
@@ -60,10 +67,11 @@ public class external_Fragment extends Fragment {
 
     public void CheckPerm() {
         if ((ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) ||
+            (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) ||
             (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
             //I'm on not explaining why, just asking for permission.
             Log.v(TAG, "asking for permissions");
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.MANAGE_EXTERNAL_STORAGE},
                 MainActivity.REQUEST_PERM_ACCESS);
 
         } else {
