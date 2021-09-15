@@ -15,6 +15,8 @@ Also has an example of accessing the contacts provider.
 
 <b>fileSystemDemo</b> shows how to read/write to local private and public directory. The external has been removed, since it won't work in API 30 (see legacy).  A new example will be needed for the sdcard, when I can find documentation that actually works (I looking at you google/android, poor documentation).
 
+<b>fileSystemMediaStoreDemo</b> show you how to access the DCIM and pictures directory (easily changes to video).  This allows you to access the media on the SDcard, but any other file types.
+
 <b>sqliteDBDemo</b> an SupportSQLiteDatabase is created and used.  The data is displayed via a recyclerview.  While the code has
  insert, update, delete, and query.  Only the query and insert methods are called by this example.
 
