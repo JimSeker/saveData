@@ -20,6 +20,8 @@ Also has an example of accessing the contacts provider.
 <b>sqliteDBDemo</b> an SupportSQLiteDatabase is created and used.  The data is displayed via a recyclerview.  While the code has
  insert, update, delete, and query.  Only the query and insert methods are called by this example.
 
+<b>sqliteDBViewModelDemo</b> uses a SupportSQLiteDatabase, enters data and displays it via a recyclerview.  It uses a ViewModel to update the display when data is added.  It also could delete and update data in the database, but the example does not actually use them.
+
 <b>sqliteDemo</b> creates a supportSQLitedatabase and content provider
 
 <b>sqliteDemo2</b> uses the content provider from sqlitedemo, also shows how to use a loader.
