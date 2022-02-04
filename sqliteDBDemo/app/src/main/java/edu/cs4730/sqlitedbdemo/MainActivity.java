@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         db.open();  //if database doesn't exist, it has now created.
 
 
+
+
         mRecyclerView = findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());

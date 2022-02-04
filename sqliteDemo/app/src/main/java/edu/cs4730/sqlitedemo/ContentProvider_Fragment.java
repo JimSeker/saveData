@@ -1,6 +1,5 @@
 package edu.cs4730.sqlitedemo;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +16,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import edu.cs4730.sqlitedemo.db.mySQLiteHelper;
 
-/*
+/**
  * This is a demo of how to use a content provider (which is in this code, myDBContenProvider is the provider)
  *  with a listview.   This is very similar to CursorAdapter_fragment,
   *
@@ -28,7 +27,6 @@ public class ContentProvider_Fragment  extends Fragment {
 
 
     String TAG = "ContentProvider_frag";
-    Context myContext;
     Cursor cursor;
     private SimpleCursorAdapter dataAdapter;
 
@@ -48,7 +46,7 @@ public class ContentProvider_Fragment  extends Fragment {
 
         //finally make the query
         // cursor = managedQuery(CONTENT_URI, projection, null, null, null);  //deprecated method, use one below.
-        cursor = getActivity().getContentResolver().query(CONTENT_URI, projection, null, null, SortOrder);
+        cursor = requireActivity().getContentResolver().query(CONTENT_URI, projection, null, null, SortOrder);
 
         if (cursor == null) {
             Log.i(TAG, "cursor is null...");
@@ -69,7 +67,7 @@ public class ContentProvider_Fragment  extends Fragment {
         // create the adapter using the cursor pointing to the desired data
         //as well as the layout information
         dataAdapter = new SimpleCursorAdapter(
-                myContext, R.layout.highscore,
+                requireContext(), R.layout.highscore,
                 cursor,
                 columns,
                 to,
@@ -91,21 +89,12 @@ public class ContentProvider_Fragment  extends Fragment {
                 // when I have time.
                 //String name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
                 String name = cursor.getString(cursor.getColumnIndex(mySQLiteHelper.KEY_NAME));
-                Toast.makeText(myContext, name, Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), name, Toast.LENGTH_SHORT).show();
 
             }
         });
 
         return myView;
     }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        myContext = context;
-        Log.d(TAG, "onAttach");
-    }
-
 
 }

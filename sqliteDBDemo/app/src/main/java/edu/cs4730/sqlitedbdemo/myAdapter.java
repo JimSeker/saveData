@@ -1,5 +1,6 @@
 package edu.cs4730.sqlitedbdemo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -56,6 +57,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
     }
 
     // Replace the contents of a view (invoked by the layout manager)
+    @SuppressLint("Range")
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         //this assumes it's not called with a null mCursor, since i means there is a data.

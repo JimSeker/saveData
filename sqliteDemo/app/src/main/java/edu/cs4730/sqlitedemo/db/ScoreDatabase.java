@@ -14,7 +14,7 @@ import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory;
 
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_FAIL;
 
-/*
+/**
  * This an accessor class that do all the work
  * in the database.  This is the object that the
  * system uses to access/insert/update/etc the database.
@@ -27,8 +27,7 @@ import static android.database.sqlite.SQLiteDatabase.CONFLICT_FAIL;
 
 public class ScoreDatabase {
 
-
-    private SupportSQLiteOpenHelper helper;  //mySQLiteHelper DBHelper;
+    private final SupportSQLiteOpenHelper helper;  //mySQLiteHelper DBHelper;
     private SupportSQLiteDatabase db;
 
     //constructor

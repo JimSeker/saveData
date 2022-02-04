@@ -16,9 +16,9 @@ public class CursorViewModel extends AndroidViewModel {
         super(application);
 
         //for sqldemo use this one
-        myLiveData = new ContentProviderLiveData(application, RecyclerFragment.CONTENT_URI);
+        myLiveData = new ContentProviderLiveData(application, MainActivity.CONTENT_URI);
         //contenProviderRoomDemo use this one
-        //myLiveData = new ContentProviderLiveData(application, RecyclerFragment.CONTENT_URI2);
+        //myLiveData = new ContentProviderLiveData(application, MainActivity.CONTENT_URI2);
     }
 
     public ContentProviderLiveData getData() {

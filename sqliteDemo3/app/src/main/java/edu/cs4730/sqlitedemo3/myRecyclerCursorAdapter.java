@@ -1,5 +1,6 @@
 package edu.cs4730.sqlitedemo3;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +40,7 @@ public class myRecyclerCursorAdapter extends CursorRecyclerAdapter<myRecyclerCur
     }
 
     @Override
+    @SuppressLint("Range")
     public void onBindViewHolderCursor(ViewHolder viewHolder, Cursor cursor) {
         //finally set the information in the text fields.
         String name = cursor.getString(cursor.getColumnIndex(MainActivity.KEY_NAME));

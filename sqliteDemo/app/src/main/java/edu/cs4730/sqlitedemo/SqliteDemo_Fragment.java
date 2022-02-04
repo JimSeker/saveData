@@ -1,10 +1,9 @@
 package edu.cs4730.sqlitedemo;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +20,10 @@ import edu.cs4730.sqlitedemo.db.mySQLiteHelper;
 public class SqliteDemo_Fragment extends Fragment {
 
     String TAG = "sqlitedemo_frag";
-    Context myContext;
     Button runAgain;
 
     TextView output;
     ScoreDatabase db;
-
-    public SqliteDemo_Fragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +31,7 @@ public class SqliteDemo_Fragment extends Fragment {
         // Inflate the layout for this fragment
         View myView = inflater.inflate(R.layout.sqlitedemo_fragment, container, false);
         output = (TextView) myView.findViewById(R.id.textView1);
-        db = new ScoreDatabase(myContext);
+        db = new ScoreDatabase(requireContext());
         db.open();  //if database doesn't exist, it has now created.
         democode();
         runAgain = (Button) myView.findViewById(R.id.again);
@@ -61,7 +55,7 @@ public class SqliteDemo_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (db == null)
-            db = new ScoreDatabase(myContext);
+            db = new ScoreDatabase(requireContext());
         if (!db.isOpen())
             db.open();
     }
@@ -75,17 +69,12 @@ public class SqliteDemo_Fragment extends Fragment {
 
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        myContext = context;
-        Log.d(TAG, "onAttach");
-    }
 
-    /*
+    /**
     *  This code will insert data into a empty DB and return.
     *  if there is data, then it will display information about the data in the table.
      */
+    @SuppressLint("Range")
     public void democode() {
         appendthis("Start of Demo code.");
 
@@ -138,7 +127,6 @@ public class SqliteDemo_Fragment extends Fragment {
             );
         }
         c.close(); //release the resources
-        c = null;
     }
 
 

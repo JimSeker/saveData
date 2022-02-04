@@ -22,23 +22,17 @@ import edu.cs4730.sqlitedemo.db.mySQLiteHelper;
 
 /**
  * This is a demo of how to use a cursor with a listview.  It uses a cursor adapter to do the work.
- *
+ * <p>
  * http://www.mysamplecode.com/2012/07/android-listview-cursoradapter-sqlite.html
  */
 
 public class CursorAdapter_Fragment extends Fragment {
     String TAG = "cursorAdapter_frag";
-    Context myContext;
-
 
     TextView output;
     ScoreDatabase db;
     private SimpleCursorAdapter dataAdapter;
 
-
-    public CursorAdapter_Fragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,7 +41,7 @@ public class CursorAdapter_Fragment extends Fragment {
         View myView = inflater.inflate(R.layout.cursoradapter_fragment, container, false);
         output = myView.findViewById(R.id.textView1);
 
-        db = new ScoreDatabase(myContext);
+        db = new ScoreDatabase(requireContext());
         db.open();  //if database doesn't exist, it has now created.
 
         Cursor cursor = db.getAllNames();
@@ -71,7 +65,7 @@ public class CursorAdapter_Fragment extends Fragment {
         // create the adapter using the cursor pointing to the desired data
         //as well as the layout information
         dataAdapter = new SimpleCursorAdapter(
-            myContext, R.layout.highscore,
+            requireContext(), R.layout.highscore,
             cursor,
             columns,
             to,
@@ -81,18 +75,15 @@ public class CursorAdapter_Fragment extends Fragment {
         // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
 
-
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> listView, View view,
                                     int position, long id) {
                 // Get the cursor, positioned to the corresponding row in the result set
                 Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-
                 // display the name in a toast.
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(mySQLiteHelper.KEY_NAME));
-                Toast.makeText(myContext,
-                    name, Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), name, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -105,7 +96,7 @@ public class CursorAdapter_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (db == null)
-            db = new ScoreDatabase(myContext);
+            db = new ScoreDatabase(requireContext());
         if (!db.isOpen())
             db.open();
     }
@@ -116,13 +107,6 @@ public class CursorAdapter_Fragment extends Fragment {
         if (db.isOpen())
             db.close();
 
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        myContext = context;
-        Log.d(TAG, "onAttach");
     }
 
 }

@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * A {@link FragmentStateAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentStateAdapter {
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     return new loaderDemoFrag();
                 default:
-                    return null;
+                    return new sqlitedemo2Frag();  //can't be null, so return case 0.
             }
         }
 

@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
@@ -45,7 +46,7 @@ public class loaderDemoFrag extends Fragment implements
         // create the adapter using the cursor pointing to the desired data
         //as well as the layout information
         dataAdapter = new SimpleCursorAdapter(
-            getActivity().getApplicationContext(), R.layout.scorelist,
+            requireActivity().getApplicationContext(), R.layout.scorelist,
             null,   //null now, set in the Loader "Later"
             columns, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         //set the adapter to the listview
@@ -59,12 +60,13 @@ public class loaderDemoFrag extends Fragment implements
                 ContentValues initialValues = new ContentValues();
                 initialValues.put(MainActivity.KEY_NAME, "Fred");
                 initialValues.put(MainActivity.KEY_SCORE, "123");
-                Uri uri = getActivity().getContentResolver().insert(CONTENT_URI, initialValues);
+                Uri uri = requireActivity().getContentResolver().insert(CONTENT_URI, initialValues);
             }
         });
         return view;
     }
 
+    @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
@@ -73,20 +75,20 @@ public class loaderDemoFrag extends Fragment implements
         String[] projection = new String[]{MainActivity.KEY_ROWID, MainActivity.KEY_NAME, MainActivity.KEY_SCORE};
         String SortOrder = MainActivity.KEY_SCORE;
 
-        CursorLoader cursorLoader = new CursorLoader(getActivity(),
+        CursorLoader cursorLoader = new CursorLoader(requireActivity(),
             CONTENT_URI, projection, null, null, SortOrder);
         return cursorLoader;
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
 
         // "later",  once the data has been loaded, now we set the cursor in the adapter
         dataAdapter.swapCursor(cursor);
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         // called when the data is no longer valid, so remove the cursor
         dataAdapter.swapCursor(null);
     }

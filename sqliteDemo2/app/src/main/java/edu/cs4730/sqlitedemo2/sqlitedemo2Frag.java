@@ -1,5 +1,6 @@
 package edu.cs4730.sqlitedemo2;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -19,12 +20,9 @@ import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
 public class sqlitedemo2Frag extends Fragment {
 
-
     String TAG = "sqlitedemo2Frag";
-    Context myContext;
     Cursor cursor;
     private SimpleCursorAdapter dataAdapter;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +39,7 @@ public class sqlitedemo2Frag extends Fragment {
 
         //finally make the query
         // cursor = managedQuery(CONTENT_URI, projection, null, null, null);  //deprecated method, use one below.
-        ContentResolver cr =myContext.getContentResolver();
+        ContentResolver cr = requireContext().getContentResolver();
         if (cr == null) {
             Log.wtf(TAG, "contentresolver is null");
         }
@@ -73,7 +71,7 @@ public class sqlitedemo2Frag extends Fragment {
         // create the adapter using the cursor pointing to the desired data
         //as well as the layout information
         dataAdapter = new SimpleCursorAdapter(
-            myContext, R.layout.scorelist,
+            requireContext(), R.layout.scorelist,
             cursor,
             columns,
             to,
@@ -83,7 +81,6 @@ public class sqlitedemo2Frag extends Fragment {
         // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
 
-
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> listView, View view,
@@ -91,25 +88,14 @@ public class sqlitedemo2Frag extends Fragment {
                 // Get the cursor, positioned to the corresponding row in the result set
                 Cursor cursor = (Cursor) listView.getItemAtPosition(position);
 
-                // Should really create a dialogfragment and display all the contact info here.  but I'll get to that
-                // when I have time.
+                @SuppressLint("Range")
                 //String name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
                 String name = cursor.getString(cursor.getColumnIndex(MainActivity.KEY_NAME));
-                Toast.makeText(myContext, name, Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), name, Toast.LENGTH_SHORT).show();
 
             }
         });
-
         return myView;
     }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        myContext = context;
-        Log.d(TAG, "onAttach");
-    }
-
 
 }

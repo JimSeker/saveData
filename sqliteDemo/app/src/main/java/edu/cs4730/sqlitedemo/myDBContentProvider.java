@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
 import edu.cs4730.sqlitedemo.db.ScoreDatabase;
 import edu.cs4730.sqlitedemo.db.mySQLiteHelper;
 
@@ -26,7 +27,7 @@ public class myDBContentProvider extends ContentProvider {
 	 * work for most databases.
 	 *
 	 * Note there is only one table, so the provider only has score and score_id
-	 * If there were more tables publically accessable, then we would need more names/numbers for
+	 * If there were more tables publicly accessible, then we would need more names/numbers for
 	 * urimatcher.
 	 */
 
@@ -53,7 +54,7 @@ public class myDBContentProvider extends ContentProvider {
 
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         switch (uriMatcher.match(uri)) {
             // get all rows
             case SCORE:
@@ -73,11 +74,10 @@ public class myDBContentProvider extends ContentProvider {
         return true;
     }
 
-    /*
+    /**
      * So delete is a simple function
      *   Remember, contentproviders should be used a a wrapper class, so it calls into the ScoreDatabase
      *   to do the work.  But it does need setup the selection arg correctly.
-     *
      */
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
@@ -122,7 +122,7 @@ public class myDBContentProvider extends ContentProvider {
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri, ContentValues values) {
         if (uriMatcher.match(uri) != SCORE) {  //can't insert by id number, so only generic is allowed.
             throw new IllegalArgumentException("Unknown URI " + uri);
         }

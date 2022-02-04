@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
             super(fa);
         }
 
+        @NonNull
         @Override
         public Fragment createFragment(int position) {
             switch (position) {
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 case 3:
                     return new ContentProvider_Fragment();
                 default:
-                    return null;
+                    return new SqliteDemo_Fragment();
             }
         }
 
