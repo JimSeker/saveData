@@ -25,7 +25,7 @@ import static android.database.sqlite.SQLiteDatabase.CONFLICT_FAIL;
 public class ScoreDatabase {
 
 
-    private SupportSQLiteOpenHelper helper;
+    private final SupportSQLiteOpenHelper helper;
     private SupportSQLiteDatabase db;
 
     //constructor
