@@ -8,7 +8,7 @@ Save data Examples
 
 <b>SupportPerferenceDemo</b> uses the androidx.prefernces.  It's similar to perferencedemo, using similar preferences and using live updates as well.
 
-<b>saveDataDemo</b> shows an example of using the instance bundle and the shared preference system to store data.
+<b>saveDataDemo</b> shows an example of using the instance bundle,  the shared preference system to store data, and viewmodel for when the app is rotated, and for long term vs short term data storage.
 
 <b>ContentProDemo</b> shows how to create a simple context provider and how to access it
 Also has an example of accessing the contacts provider.
