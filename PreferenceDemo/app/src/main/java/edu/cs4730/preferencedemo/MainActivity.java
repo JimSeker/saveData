@@ -3,18 +3,22 @@ package edu.cs4730.preferencedemo;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-/*
- *  Note this example does not use any of the support library, except the AppCompateActivity
- *  If you need to support API 15 and below (like 2.3.3) and don't wasnt to use the support preference library see the legacy.
- *  This example assume basically everything is API 16+
+/**
+ * This is showing how to use the standard preference systems.
+ * <p>
+ * Note: because they are not an androidx fragment, everyone is using "standard" fragments.  This likely
+ * a bad idea at this point, and everything should be migrated to support preferences.  See the SupportPreferenceDemo.
  *
- *  So even the fragments are NOT support fragments.
+ * could instead use this in your app as a seperate activity, that deals with preferences, if you want
+ * to continue without supportpreferences in androidx.
  *
  */
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener {
     FragmentManager fragmentManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,9 +30,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
     }
 
-    /*
- * This the callback interface for MainFragment.
- */
+    /**
+     * This the callback interface for MainFragment.
+     */
     @Override
     public void onFragmentInteraction(int which) {
 

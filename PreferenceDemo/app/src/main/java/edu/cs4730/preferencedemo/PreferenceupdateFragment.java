@@ -10,7 +10,6 @@ import android.preference.PreferenceFragment;
 import android.util.Log;
 import java.util.Set;
 
-
 /**
  * this version, not only shows the preference screen, but update the summary fields with the answer the user picked.
  *   See the xml for preference entries.
@@ -23,10 +22,6 @@ public class PreferenceupdateFragment extends PreferenceFragment implements OnSh
     private MultiSelectListPreference mMultiSelectListPreference;
     private String TAG = "PreferenceupdateFragment";
 
-
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +33,6 @@ public class PreferenceupdateFragment extends PreferenceFragment implements OnSh
         mEditTextPreference = (EditTextPreference) getPreferenceScreen().findPreference("textPref");
         mListPreference = (ListPreference) getPreferenceScreen().findPreference("list_preference");
         mMultiSelectListPreference = (MultiSelectListPreference) getPreferenceScreen().findPreference("multiselect_key");
-
     }
 
     @Override
