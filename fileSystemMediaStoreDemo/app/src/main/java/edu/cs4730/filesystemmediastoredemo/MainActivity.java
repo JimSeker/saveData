@@ -13,7 +13,7 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
+import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -167,8 +167,9 @@ public class MainActivity extends AppCompatActivity {
                         InputStream stream = getContentResolver().openInputStream(photoUri);
                         if (stream != null) {
                             ExifInterface exifInterface = new ExifInterface(stream);
-                            float[] returnedLatLong = new float[2];
-                            if (exifInterface.getLatLong(returnedLatLong)) {
+                            double[] returnedLatLong;
+                            returnedLatLong = exifInterface.getLatLong();
+                            if (returnedLatLong != null) {
                                 Log.wtf("LatLong", "Photo coor " + returnedLatLong[0] + "," + returnedLatLong[1]);
                             } else {
                                 Log.wtf("LatLong", "Photo doesn't have lat and long data.");

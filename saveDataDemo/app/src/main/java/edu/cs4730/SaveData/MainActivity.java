@@ -2,6 +2,7 @@ package edu.cs4730.SaveData;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,18 +13,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+
+/**
+ * This example shows the difference with a viewmodel, sharedpeferences and instance bundle.
+ * the shared preference system to store data, and viewmodel for when the app is rotated, and
+ * for long term vs short term data storage.
+ */
+
 public class MainActivity extends AppCompatActivity {
+    final String TAG = "MainActivity";
     int b1 = 0, b2 = 0, b3 = 0;
     DataViewModel mViewModel;
 
     EditText t1;
-    TextView logger, tv_nothing, tv_bundle, tv_preference, tv_modelview;
+    TextView logger, tv_nothing, tv_bundle, tv_preference, tv_viewmodel;
     Button button;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_main);
 
 
         logger = findViewById(R.id.log);
@@ -48,14 +57,14 @@ public class MainActivity extends AppCompatActivity {
         getprefs();
 
         //lastly the model view
-        tv_modelview = findViewById(R.id.tv_modelview);
+        tv_viewmodel = findViewById(R.id.tv_viewmodel);
         //for the model view live variable.
         mViewModel = new ViewModelProvider(this).get(DataViewModel.class);
         mViewModel.getData().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer data) {
                 logthis("Data changed, updating!");
-                tv_modelview.setText(data.toString());
+                tv_viewmodel.setText(data.toString());
             }
         });
 
@@ -97,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         getprefs();
     }
 
-    /*
+    /**
      * getpres() allows me to get the sharePreferences code in on place, it is called from
      * onCreate and onPause.
      */
@@ -110,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
         tv_preference.setText(String.valueOf(b3));
     }
 
-    /* (non-Javadoc)
-     * @see android.app.Activity#onSaveInstanceState(android.os.Bundle)
+    /**
+     * Called, when app is being destroyed, but maybe called after onStop as well.
      */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -120,12 +129,13 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    /*
+    /**
      * simple method to add the log TextView.
      */
     public void logthis(String newinfo) {
         if (newinfo.compareTo("") != 0) {
             logger.append(newinfo + "\n");
+            Log.d(TAG, newinfo);
         }
     }
 }
