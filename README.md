@@ -17,10 +17,15 @@ Also has an example of accessing the contacts provider.
 
 <b>fileSystemMediaStoreDemo</b> show you how to access the DCIM and pictures directory (easily changes to video).  This allows you to access the media on the SDcard, but any other file types.
 
-<b>sqliteDBDemo</b> an SupportSQLiteDatabase is created and used.  The data is displayed via a recyclerview.  While the code has
+<b>sqliteDBDemo</b> (java) an SupportSQLiteDatabase is created and used.  The data is displayed via a recyclerview.  While the code has
  insert, update, delete, and query.  Only the query and insert methods are called by this example.
 
-<b>sqliteDBViewModelDemo</b> uses a SupportSQLiteDatabase, enters data and displays it via a recyclerview.  It uses a ViewModel to update the display when data is added.  It also could delete and update data in the database, but the example does not actually use them.
+<b>sqliteDBDemo_kt</b> (kotlin) an SupportSQLiteDatabase is created and used.  The data is displayed via a recyclerview.  While the code has
+ insert, update, delete, and query.  Only the query and insert methods are called by this example.
+
+<b>sqliteDBViewModelDemo</b> (java) uses a SupportSQLiteDatabase, enters data and displays it via a recyclerview.  It uses a ViewModel to update the display when data is added.  It also could delete and update data in the database, but the example does not actually use them.
+
+<b>sqliteDBViewModelDemo_kt</b> (kotlin) uses a SupportSQLiteDatabase, enters data and displays it via a recyclerview.  It uses a ViewModel to update the display when data is added.  It also could delete and update data in the database, but the example does not actually use them.
 
 <b>sqliteDemo</b> creates a supportSQLitedatabase and content provider
 
