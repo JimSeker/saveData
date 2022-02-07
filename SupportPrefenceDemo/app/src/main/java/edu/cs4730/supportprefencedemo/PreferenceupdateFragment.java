@@ -64,6 +64,7 @@ public class PreferenceupdateFragment extends PreferenceFragmentCompat implement
         super.onPause();
 
         // Unregister the listener whenever a key changes
+
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 

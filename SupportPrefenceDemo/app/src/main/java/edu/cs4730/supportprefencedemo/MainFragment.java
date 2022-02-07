@@ -2,11 +2,11 @@ package edu.cs4730.supportprefencedemo;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -62,18 +62,18 @@ public class MainFragment extends Fragment {
     void getPrefs() {
         boolean useSensor, useSwipe;
         //Toast.makeText(getApplicationContext(), "Get prefs", Toast.LENGTH_SHORT).show();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
         useSensor = prefs.getBoolean("sensorPref", false);
         useSwipe = prefs.getBoolean("swipePref", true);
-        Toast.makeText(getActivity().getApplicationContext(), "Sensor is " + useSensor, Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "Sensor is " + useSensor, Toast.LENGTH_SHORT).show();
         String text = prefs.getString("textPref", "");
-        Toast.makeText(getActivity().getApplicationContext(), "Text is  " + text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "Text is  " + text, Toast.LENGTH_SHORT).show();
         String list = prefs.getString("list_preference", "");
-        Toast.makeText(getActivity().getApplicationContext(), "List " + list, Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "List " + list, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         Activity activity = getActivity();
         try {

@@ -11,19 +11,15 @@ import android.os.Bundle;
 
 
 /**
- * this a redux of the preferenceDemo, but using the support.v7.preferencefragmentCompat (prefupdateFrag and prefNewFrag)
+ * this a redux of the preferenceDemo, but using the androidx.preferencefragmentCompat (prefupdateFrag and prefNewFrag)
  * and v14 prefrencefragment (myPreferenceActivity and prefFrag  since not a support fragment.
  * No there is no need version compatibility, except a couple of v14 specific preferences cant be used before API 14.
  * for all the new preferences xml.
  * <p>
  * maybe useful as well http://developer.android.com/guide/topics/ui/settings.html
  * <p>
- * I'll all add a new preference xml for them.  while adding support for elements such as SwitchPreference
- * (previously only available on API 14+ devices) to all API 7+ devices.
- * <p>
  * Big NOT here :
  * Must specify preferenceTheme in theme, it's an item.  see the style.xml file.
- * or get this error:   at android.support.v7.preference.PreferenceFragmentCompat.onCreate(PreferenceFragmentCompat.java:202)
  */
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener,
     PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
