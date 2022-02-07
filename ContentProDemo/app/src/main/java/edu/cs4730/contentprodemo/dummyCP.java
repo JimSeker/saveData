@@ -1,5 +1,7 @@
 package edu.cs4730.contentprodemo;
 
+import androidx.annotation.NonNull;
+
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -16,13 +18,13 @@ import edu.cs4730.contentprodemo.data.Square;
  * is intended for demonstration purposes.
  * <
  * This has two "tables".  it can provide squares or cubes
- *
+ * <p>
  * For a more complete and generic content provider connected to a database, please the sqlite repo,
  * myDBcontentProvider for more information.
- *
+ * <p>
  * Note if calling from another applications, it will need to have
- *    <queries> <package android:name="edu.cs4730.contentprodemo" /> </queries> in the manifest file
- *    starting in API 30 for package visibility additions.
+ * <queries> <package android:name="edu.cs4730.contentprodemo" /> </queries> in the manifest file
+ * starting in API 30 for package visibility additions.
  */
 
 public class dummyCP extends ContentProvider {
@@ -64,7 +66,7 @@ public class dummyCP extends ContentProvider {
 
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         Log.d(TAG, "getType");
         switch (uriMatcher.match(uri)) {
             // get all rows
@@ -85,7 +87,7 @@ public class dummyCP extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection,
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
         String stuff;
 
@@ -121,7 +123,7 @@ public class dummyCP extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection,
+    public int update(@NonNull Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         Log.d(TAG, "update");
         // ignore, return default
@@ -129,22 +131,16 @@ public class dummyCP extends ContentProvider {
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri, ContentValues values) {
         // ignore, return default
         Log.d(TAG, "insert");
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see android.content.ContentProvider#delete(android.net.Uri, java.lang.String, java.lang.String[])
-     */
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         // ignore, return default
         Log.d(TAG, "delete");
         return 0;
     }
-
-
 }

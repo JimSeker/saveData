@@ -2,18 +2,10 @@ package edu.cs4730.contentprodemo;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-
-import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-
-import androidx.cursoradapter.widget.SimpleCursorAdapter;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,23 +15,20 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
+
 /**
  * A simple fragment to display the contacts lists
  */
 public class ContactsDemo_Fragment extends Fragment {
 
     String TAG = "Contacts_frag";
-    Context myContext;
-
 
     Cursor cursor;
     private SimpleCursorAdapter dataAdapter;
     ListView list;
-
-    public ContactsDemo_Fragment() {
-        // Required empty public constructor
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,17 +41,16 @@ public class ContactsDemo_Fragment extends Fragment {
         return myView;
     }
 
-
     /**
      * this method is used to setup the view and make sure it has permissions as well.
      */
     public void setupContactsList() {
         //first check to see if I have permissions (marshmallow) if I don't then ask, otherwise start up the demo.
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS)
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS)
             != PackageManager.PERMISSION_GRANTED) {
             //I'm on not explaining why, just asking for permission.
             Log.v(TAG, "asking for permissions");
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CONTACTS},
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_CONTACTS},
                 MainActivity.REQUEST_READ_CONTACTS);
 
         } else {
@@ -76,7 +64,7 @@ public class ContactsDemo_Fragment extends Fragment {
 
             //finally make the query
             // cursor = managedQuery(CONTENT_URI, projection, null, null, null);  //depreicated method, use one below.
-            cursor = getActivity().getContentResolver().query(CONTENT_URI, projection, null, null, SortOrder);
+            cursor = requireActivity().getContentResolver().query(CONTENT_URI, projection, null, null, SortOrder);
 
             //this is commented out, because better way is to use a listview, which is what the rest of the code does.
             //	  if (c.moveToFirst()) {
@@ -109,7 +97,7 @@ public class ContactsDemo_Fragment extends Fragment {
 
             // create the adapter using the cursor pointing to the desired data
             //as well as the layout information
-            dataAdapter = new SimpleCursorAdapter(getActivity(),
+            dataAdapter = new SimpleCursorAdapter(requireActivity(),
                 R.layout.contactlist,
                 cursor,
                 columns,
@@ -121,7 +109,6 @@ public class ContactsDemo_Fragment extends Fragment {
             list.setAdapter(dataAdapter);
             //set click listener
             list.setOnItemClickListener(new OnItemClickListener() {
-
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     // Get the cursor, positioned to the corresponding row in the result set
@@ -129,17 +116,9 @@ public class ContactsDemo_Fragment extends Fragment {
 
                     //quickly display the name.
                     String name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
-                    Toast.makeText(myContext, name, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), name, Toast.LENGTH_SHORT).show();
                 }
             });
         }
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        myContext = context;
-        Log.d(TAG, "onAttach");
     }
 }

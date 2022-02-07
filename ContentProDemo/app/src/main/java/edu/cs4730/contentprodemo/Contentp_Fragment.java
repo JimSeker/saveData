@@ -20,11 +20,6 @@ public class Contentp_Fragment extends Fragment {
     String TAG = "Contentp_frag";
     TextView output;
 
-
-    public Contentp_Fragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,7 +32,7 @@ public class Contentp_Fragment extends Fragment {
         appendthis("Query for 2 square");
         //example, select one of them, in this case 2
         Uri onerow = Uri.parse("content://edu.cs4730.provider/square/2");
-        Cursor c = getActivity().getContentResolver().query(onerow, null, null, null, null);
+        Cursor c = requireActivity().getContentResolver().query(onerow, null, null, null, null);
         if (c != null) {
             c.moveToFirst();
             do {
@@ -50,7 +45,7 @@ public class Contentp_Fragment extends Fragment {
         appendthis("\nQuery all for cube:");
         //now select "all", which will return 1 to 10 cubed.
         Uri allrow = Uri.parse("content://edu.cs4730.provider/cube");
-        c = getActivity().getContentResolver().query(allrow, null, null, null, null);
+        c = requireActivity().getContentResolver().query(allrow, null, null, null, null);
         if (c != null) {
             c.moveToFirst();
             do {

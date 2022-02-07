@@ -1,5 +1,6 @@
 package edu.cs4730.contentprodemo;
 
+import androidx.annotation.NonNull;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 /**
  * Example setup bottomnavview for two fragements
@@ -35,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
         myContactsFrag = new ContactsDemo_Fragment();
 
         navView = findViewById(R.id.nav_view);
-        navView.setOnNavigationItemSelectedListener(
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                public boolean onNavigationItemSelected(MenuItem item) {
+        navView.setOnItemSelectedListener(
+            new NavigationBarView.OnItemSelectedListener()  {
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     if (item.getItemId() == R.id.action_CP) {
                         getSupportFragmentManager().beginTransaction()
                             .replace(R.id.container, new Contentp_Fragment()).commit();
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
      * Callback received when a permissions request has been completed.
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull  int[] grantResults) {
         Log.v(TAG, "onRequest result called.");
         switch (requestCode) {
             case REQUEST_READ_CONTACTS:
