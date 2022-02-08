@@ -6,9 +6,12 @@ Save data Examples
 
 <b>Preference Examples: </b>
 
-<b>PerferenceDemo</b> uses the preference fragments to save user preference data.  Note, there are no support libraries used for fragment or preferences. Also, this is for API 16+, for older versions, see the legacy directory example.
+<b>PerferenceDemo</b> uses the preference fragments to save user preference data.  Note, there are no support libraries used for fragment or preferences. Also, this is for API 16+, for older versions, see the legacy directory example.  This example will maintained but not updated. 
 
-<b>SupportPerferenceDemo</b> uses the androidx.prefernces.  It's similar to perferencedemo, using similar preferences and using live updates as well.
+<b>SupportPerferenceDemo</b> (java) uses the androidx preferences fragments to save user preference data.  This is a translation of the PerferenceDemo to the newer androidx versions.  
+
+<b>SupportPerferenceDemo_kt</b> (kotlin) uses the androidx preferences fragments to save user preference data.  This is a translation of the PerferenceDemo to the newer androidx versions.  
+
 
 <b>Shared Preference Examples:</b>
 
