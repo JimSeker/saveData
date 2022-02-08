@@ -22,7 +22,9 @@ Save data Examples
 
 `saveDataDemo_kt` (kotlin) shows an example of using the instance bundle,  the shared preference system to store data, and viewmodel for when the app is rotated, and for long term vs short term data storage.
 
-`File system examples:`
+---
+
+**File system examples:**
 
 `fileSystemDemo` shows how to read/write to local private and public directory. The external has been removed, since it won't work in API 30 (see legacy).  A new example will be needed for the sdcard, when I can find documentation that actually works (I looking at you google/android, poor documentation).
 
