@@ -49,5 +49,5 @@ Also has an example of accessing the contacts provider.
 
 <b>lvCursorDemo</b> show how to use cursoradapters with listview and explistview.
 
-These are example code for University of Wyoming, Cosc 4730 Mobile Programming course.
+These are example code for University of Wyoming, Cosc 4730 Mobile Programming course and cosc 4735 Advance Mobile Programing course. 
 All examples are for Android.
