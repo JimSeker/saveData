@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">saveDataDemo_kt</string>
+    <string name="hello">Demo of different storage methods</string>
+</resources>
