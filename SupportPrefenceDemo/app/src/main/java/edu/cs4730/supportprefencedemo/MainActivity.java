@@ -1,12 +1,13 @@
 package edu.cs4730.supportprefencedemo;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-
 import android.os.Bundle;
 
 
@@ -60,19 +61,22 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
      * It used when the user taps on preference that calls a preference fragment.
      */
     @Override
-    public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
+    public boolean onPreferenceStartFragment(@NonNull PreferenceFragmentCompat caller, Preference pref) {
         // Instantiate the new Fragment
         final Bundle args = pref.getExtras();
         final Fragment fragment = fragmentManager.getFragmentFactory().instantiate(
-            getClassLoader(),
-            pref.getFragment());
+            getClassLoader(), pref.getFragment());
         fragment.setArguments(args);
-        fragment.setTargetFragment(caller, 0);
-        // Replace the existing Fragment with the new Fragment
-        fragmentManager.beginTransaction()
-            .replace(R.id.container, fragment)
-            .addToBackStack(null)
-            .commit();
+
+        //Now replace the existing Fragment with the new Fragment, the listener is doing?? idk.
+        fragmentManager.beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
+        fragmentManager.setFragmentResultListener("reequestKey", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                if (requestKey.equals("requestKey"))
+                    fragmentManager.setFragmentResult(requestKey, result);
+            }
+        });
         return true;
 
     }
