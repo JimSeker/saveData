@@ -4,6 +4,8 @@ Save data Examples
 
 <b>legacy/</b> these are examples that are no longer updated.  May still be useful, since they deal with android 2.3.3
 
+---
+
 <b>Preference Examples: </b>
 
 <b>PerferenceDemo</b> uses the preference fragments to save user preference data.  Note, there are no support libraries used for fragment or preferences. Also, this is for API 16+, for older versions, see the legacy directory example.  This example will maintained but not updated. 
@@ -12,6 +14,7 @@ Save data Examples
 
 <b>SupportPerferenceDemo_kt</b> (kotlin) uses the androidx preferences fragments to save user preference data.  This is a translation of the PerferenceDemo to the newer androidx versions.  
 
+---
 
 <b>Shared Preference Examples:</b>
 
@@ -24,6 +27,9 @@ Save data Examples
 <b>fileSystemDemo</b> shows how to read/write to local private and public directory. The external has been removed, since it won't work in API 30 (see legacy).  A new example will be needed for the sdcard, when I can find documentation that actually works (I looking at you google/android, poor documentation).
 
 <b>fileSystemMediaStoreDemo</b> show you how to access the DCIM and pictures directory (easily changes to video).  This allows you to access the media on the SDcard, but any other file types.
+
+---
+
 
 <b>Sqlite Examples:</b> 
 
@@ -51,6 +57,8 @@ Also has an example of accessing the contacts provider.
 <b>sqliteDemo4</b> uses the content provider from sqlitedemo and recyclerview.  Uses a custom LiveData, plus a modelview to replace the deprecated Loaders.
 
 <b>lvCursorDemo</b> show how to use cursoradapters with listview and explistview.
+
+---
 
 These are example code for University of Wyoming, Cosc 4730 Mobile Programming course and cosc 4735 Advance Mobile Programing course. 
 All examples are for Android.
