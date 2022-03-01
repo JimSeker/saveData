@@ -30,6 +30,8 @@ Save data Examples
 
 `fileSystemMediaStoreDemo` show you how to access the DCIM and pictures directory (easily changes to video).  This allows you to access the media on the SDcard, but any other file types.
 
+`fileSystemMediaStoreRecAudioDemo` This example uses the mediastore to record and play files on the music directory.  actually in a subdirectory, music/recording.  There is a picker for filenames and to choose which files to play.  Note, you will need to record at least one file in order to play something.
+
 ---
 
 **Sqlite Examples:** 
