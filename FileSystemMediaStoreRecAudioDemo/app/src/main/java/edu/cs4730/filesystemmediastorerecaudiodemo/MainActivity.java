@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         values.put(MediaStore.Audio.Media.DISPLAY_NAME, fileName);
         values.put(MediaStore.Audio.Media.DATE_ADDED, (int) (System.currentTimeMillis() / 1000));
         values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/mp3");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {  //so not not android 10 or above, only goes to Music directory, instead of subdirectory.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {  //For API 29+ (q), for 26 to 28, it just goes into the music directory.
             values.put(MediaStore.Audio.Media.RELATIVE_PATH, "Music/Recordings/");
         }
 
@@ -184,26 +184,40 @@ public class MainActivity extends AppCompatActivity {
 
     void listmp3s() {
         Uri collection;
+        String[] projection;
+        String selection;
+        String[] selectionArgs;
         List<Audio> audioList = new ArrayList<>();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             collection = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL); //Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
+            //setup the information for the question, project and sortOrder.  we could sort by date.
+            projection = new String[]{
+                MediaStore.Audio.Media._ID, //   Video.Media._ID,
+                MediaStore.Audio.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
+                MediaStore.Audio.Media.DURATION,
+                MediaStore.Audio.Media.RELATIVE_PATH,  //must be API 29 in order to use.
+                MediaStore.Audio.Media.SIZE  //Video.Media.SIZE
+            };
+            String audiodir = "Music/Recordings/%";
+            selection = MediaStore.Audio.Media.RELATIVE_PATH + " like ?";
+            selectionArgs = new String[]{audiodir};
+
         } else {
             collection = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI; //Video.Media.EXTERNAL_CONTENT_URI;
+            //setup the information for the question, project and sortOrder.  we could sort by date.
+            //we are just using the /music directory for 26 to 28.
+            projection = new String[]{
+                MediaStore.Audio.Media._ID, //   Video.Media._ID,
+                MediaStore.Audio.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
+                MediaStore.Audio.Media.DURATION,
+                //MediaStore.Audio.Media.RELATIVE_PATH,  //must be API 29 in order to use.
+                MediaStore.Audio.Media.SIZE  //Video.Media.SIZE
+            };
+            //since can't use path, just null these.
+            selection = null;  //so all of them.
+            selectionArgs = null;
         }
-
-        //setup the information for the question, project and sortOrder.  we could sort by date.
-        String[] projection = new String[]{
-            MediaStore.Audio.Media._ID, //   Video.Media._ID,
-            MediaStore.Audio.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
-            MediaStore.Audio.Media.DURATION,
-            MediaStore.Audio.Media.RELATIVE_PATH,  //must be API 29 in order to use.
-            MediaStore.Audio.Media.SIZE  //Video.Media.SIZE
-        };
-
-        String audiodir = "Music/Recordings/%";
-        String selection = MediaStore.Audio.Media.RELATIVE_PATH + " like ?";
-        String[] selectionArgs = new String[]{audiodir};
         String sortOrder = MediaStore.Images.Media.DISPLAY_NAME; // MediaStore.Images.Media.DATE_ADDED
 
         //now question the contentprovider for a list of pictures in DCIM and /pictures directory.
@@ -268,10 +282,7 @@ public class MainActivity extends AppCompatActivity {
         });
         builder.show();
 
-
-
-
-//to use the file descriptor swith to this code.
+//to use the file descriptor switch to this code.
 //        // Open a specific media item using ParcelFileDescriptor.
 //        ContentResolver resolver = getApplicationContext().getContentResolver();
 //        String readOnlyMode = "r";
@@ -297,14 +308,27 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void CheckPerm() {
-        if ( (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) ||
-            (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)  ){
-            //I'm on not explaining why, just asking for permission.
-            Log.v(TAG, "asking for permissions");
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE},
-                MainActivity.REQUEST_PERM_ACCESS);
-        } else {
-            Log.wtf(TAG, "Contact Write Access: Granted");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) ||
+                (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                //I'm on not explaining why, just asking for permission.
+                Log.v(TAG, "asking for permissions");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MainActivity.REQUEST_PERM_ACCESS);
+            } else {
+                Log.wtf(TAG, "record audio and read Access: Granted");
+            }
+        } else { //need to add the write permissions.
+            if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) ||
+                (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) ||
+                (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                //I'm on not explaining why, just asking for permission.
+                Log.v(TAG, "asking for permissions");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MainActivity.REQUEST_PERM_ACCESS);
+            } else {
+                Log.wtf(TAG, "read audio, write and read external Access: Granted");
+            }
         }
     }
 
@@ -318,17 +342,16 @@ public class MainActivity extends AppCompatActivity {
 
                 // permission was granted, yay! Do the
                 // contacts-related task you need to do.
-                Log.wtf(TAG, "ACCESS_MEDIA_LOCATION: Granted");
+                Log.wtf(TAG, "Record_audio and read external storage:  granted. ");
             } else {
 
                 // permission denied, boo! Disable the
                 // functionality that depends on this permission.
-                Log.wtf(TAG, "ACCESS_MEDIA_LOCATION: Not Granted");
+                Log.wtf(TAG, "Record_audio and read external storage: Not Granted");
             }
             return;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
 
 }
