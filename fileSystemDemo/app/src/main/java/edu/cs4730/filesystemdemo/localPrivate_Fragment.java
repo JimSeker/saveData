@@ -50,12 +50,12 @@ public class localPrivate_Fragment extends Fragment {
 
     public void readwritelocal() {
         logger.append("check for local files\n");
-        String flist[] = getActivity().fileList();
+        String[] flist = requireActivity().fileList();
 
         if (flist.length == 0) {
             logger.append("No current files storage internally. Creating one\n");
             try {
-                OutputStreamWriter osr = new OutputStreamWriter(getActivity().openFileOutput("FileExample", Context.MODE_PRIVATE));
+                OutputStreamWriter osr = new OutputStreamWriter(requireActivity().openFileOutput("FileExample", Context.MODE_PRIVATE));
                 BufferedWriter bW = new BufferedWriter(osr);
                 bW.write("First line of the file");
                 bW.newLine();
@@ -67,7 +67,7 @@ public class localPrivate_Fragment extends Fragment {
             }
 
             //now the rest of the example will work, since we have created a file.
-            flist = getActivity().fileList();
+            flist = requireActivity().fileList();
         }
 
         String line = "";
@@ -78,7 +78,7 @@ public class localPrivate_Fragment extends Fragment {
                 logger.append("Now appending to it\n");
                 try {
 
-                    OutputStreamWriter osr = new OutputStreamWriter(getActivity().openFileOutput(flist[i], Context.MODE_APPEND));
+                    OutputStreamWriter osr = new OutputStreamWriter(requireActivity().openFileOutput(flist[i], Context.MODE_APPEND));
                     BufferedWriter bW = new BufferedWriter(osr);
                     bW.write("Another Line");
                     bW.newLine();
@@ -99,7 +99,7 @@ public class localPrivate_Fragment extends Fragment {
                 //now read the file
                 try {
 
-                    InputStreamReader isr = new InputStreamReader(getActivity().openFileInput(flist[i]));
+                    InputStreamReader isr = new InputStreamReader(requireActivity().openFileInput(flist[i]));
                     BufferedReader in = new BufferedReader(isr);
                     line = in.readLine();
                     while (line != null) {

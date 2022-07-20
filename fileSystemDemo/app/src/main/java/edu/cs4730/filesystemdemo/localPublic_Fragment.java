@@ -52,7 +52,7 @@ public class localPublic_Fragment extends Fragment {
 
     public void localfile() {
         //make sure the directories exist.
-        File datafiledir = getActivity().getExternalFilesDir(null);
+        File datafiledir = requireActivity().getExternalFilesDir(null);
         datafiledir.mkdirs();
         File datafile = new File(datafiledir, "myfiledata.txt");
         //if the file exist, append, else create the file.
@@ -92,7 +92,7 @@ public class localPublic_Fragment extends Fragment {
 
         //now do the same, except use the download directory.
         logger.append("\nDownload file:\n");
-        File dlfiledir = getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        File dlfiledir = requireActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         dlfiledir.mkdirs();
         File dlfile = new File(dlfiledir, "myfiledl.txt");
         if (dlfile.exists()) {
