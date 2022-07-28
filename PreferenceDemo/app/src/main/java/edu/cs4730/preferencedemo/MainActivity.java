@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
  * Note: because they are not an androidx fragment, everyone is using "standard" fragments.  This likely
  * a bad idea at this point, and everything should be migrated to support preferences.  See the SupportPreferenceDemo.
  *
- * could instead use this in your app as a seperate activity, that deals with preferences, if you want
+ * could instead use this in your app as a separate activity, that deals with preferences, if you want
  * to continue without supportpreferences in androidx.
  *
  */
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
         //now change to the SecondFragment, pressing the back button should go to main fragment.
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        //Change to the correct fragment for perferences
+        //Change to the correct fragment for preferences
         if (which == 1)
             transaction.replace(R.id.container, new myPreferenceFragment());
         else

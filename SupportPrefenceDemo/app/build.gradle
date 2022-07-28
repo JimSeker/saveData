@@ -20,8 +20,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.preference:preference:1.2.0'
-    implementation 'androidx.fragment:fragment:1.4.1'
+    implementation 'androidx.fragment:fragment:1.5.1'
+    //not needed, but won't compile, says dup viewmodel without.  preferences or fragment has an issue.
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
 
 }
