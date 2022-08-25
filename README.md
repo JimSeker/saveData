@@ -56,6 +56,8 @@ Note Room Examples are in the [Architecture repo](https://github.com/JimSeker/Ar
 
 `ContentProDemo` shows how to create a simple context provider and how to access it.  Also has an example of accessing the contacts provider.
 
+`ContentProSQliteDBDemo` shows how to create a content provider using a SQLite database.   displays in a listview, recyclerview and a spinner.
+
 ---
 
 These are example code for University of Wyoming, Cosc 4730 Mobile Programming course and cosc 4735 Advance Mobile Programing course. 
