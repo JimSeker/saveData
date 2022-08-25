@@ -38,9 +38,6 @@ Save data Examples
 
 Note Room Examples are in the [Architecture repo](https://github.com/JimSeker/Architecture)
 
-`ContentProDemo` shows how to create a simple context provider and how to access it
-Also has an example of accessing the contacts provider.
-
 `sqliteDBDemo` (java) an SupportSQLiteDatabase is created and used.  The data is displayed via a recyclerview.  While the code has
  insert, update, delete, and query.  Only the query and insert methods are called by this example.
 
@@ -51,15 +48,13 @@ Also has an example of accessing the contacts provider.
 
 `sqliteDBViewModelDemo_kt` (kotlin) uses a SupportSQLiteDatabase, enters data and displays it via a recyclerview.  It uses a ViewModel to update the display when data is added.  It also could delete and update data in the database, but the example does not actually use them.
 
-`sqliteDemo` creates a supportSQLitedatabase and content provider
-
-`sqliteDemo2` uses the content provider from sqlitedemo, also shows how to use a loader.
-
-`sqliteDemo3` uses the content provider from sqlitedemo and recyclerview.  Uses a custom cursoradapter for it and a loader as well.
-
-`sqliteDemo4` uses the content provider from sqlitedemo and recyclerview.  Uses a custom LiveData, plus a modelview to replace the deprecated Loaders.
-
 `lvCursorDemo` show how to use cursoradapters with listview and explistview.
+
+---
+
+**Content Provider Examples:** 
+
+`ContentProDemo` shows how to create a simple context provider and how to access it.  Also has an example of accessing the contacts provider.
 
 ---
 

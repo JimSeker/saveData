@@ -1,5 +1,6 @@
 package edu.cs4730.sqlitedemo;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -88,6 +89,7 @@ public class ContentProvider_Fragment  extends Fragment {
                 // Should really create a dialogfragment and display all the contact info here.  but I'll get to that
                 // when I have time.
                 //String name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
+                @SuppressLint("Range")
                 String name = cursor.getString(cursor.getColumnIndex(mySQLiteHelper.KEY_NAME));
                 Toast.makeText(requireContext(), name, Toast.LENGTH_SHORT).show();
 
