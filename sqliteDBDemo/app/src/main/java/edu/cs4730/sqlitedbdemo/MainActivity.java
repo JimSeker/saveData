@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mAdapter = new myAdapter(db.getAllNames(), R.layout.recycler_row, getApplicationContext());
+        mAdapter = new myAdapter(db.getAllNames(), R.layout.recycler_row, this);
         //add the adapter to the recyclerview
         mRecyclerView.setAdapter(mAdapter);
 
