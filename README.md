@@ -58,7 +58,7 @@ Note Room Examples are in the [Architecture repo](https://github.com/JimSeker/Ar
 
 `ContentProSQliteDBDemo` shows how to create a content provider using a SQLite database.   displays in a listview, recyclerview and a spinner.
 
-`ContentProviderRemoteDemo` connects to a "remote" content provider.  either the ContentProSQliteDBDemo or ContentProviderRoomDemo in [Architecture repo](https://github.com/JimSeker/Architecture).  It then will display the data in recyclerview and can add data via a FAB.x
+`ContentProviderRemoteDemo` connects to a "remote" content provider.  either the ContentProSQliteDBDemo or ContentProviderRoomDemo in [Architecture repo](https://github.com/JimSeker/Architecture).  It then will display the data in recyclerview and can add data via a FAB.
 
 ---
 
