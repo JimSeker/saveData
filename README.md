@@ -2,7 +2,7 @@ Save data Examples
 ===========
 `eclipse/` has the example in the eclipse format (no longer updated).  otherwise all examples are using Android Studio.
 
-`legacy/` these are examples that are no longer updated.  May still be useful, since they deal with android 2.3.3
+`legacy/` these are examples that are no longer updated.
 
 ---
 
