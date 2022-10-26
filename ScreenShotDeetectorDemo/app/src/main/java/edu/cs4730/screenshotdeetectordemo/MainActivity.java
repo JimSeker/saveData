@@ -28,6 +28,13 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.Map;
 
+
+/*
+ * attempts to detect screenshots.   it has issues still
+ *
+ * based on some code from here. https://proandroiddev.com/detect-screenshots-in-android-7bc4343ddce1
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     ActivityResultLauncher<String[]> rpl;
