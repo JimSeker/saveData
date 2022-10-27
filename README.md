@@ -32,7 +32,7 @@ Save data Examples
 
 `fileSystemMediaStoreRecAudioDemo` This example uses the mediastore to record and play files on the music directory.  actually in a subdirectory, music/recording.  There is a picker for filenames and to choose which files to play.  Note, you will need to record at least one file in order to play something.
 
-`ScreenShotDeetectorDemo`  This is a first attempt out detecting screenshots using a content observer.  It works in api32 pretty well and fails in api 33.  likely need to fix the permissions for api 33.  
+`ScreenShotDeetectorDemo`  This is a first attempt out detecting screenshots using a content observer.  It works pretty well, tested on a pixel 4a for screenshots with the buttons.  fails to detect using the launcher screenshot method.
 
 
 ---
