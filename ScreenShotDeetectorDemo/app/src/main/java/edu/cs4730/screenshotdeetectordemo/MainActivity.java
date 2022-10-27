@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,15 +31,19 @@ import java.util.Map;
 
 
 /*
- * attempts to detect screenshots.   it has issues still
+ * attempts to detect screenshots.   It works, but there are likely still issues.
+ * on a pixel 4a, using the buttons while the app is up, works.
+ * on a pixel 4a, using the buttons while the apps is showing, but not full screen it works
+ * on a pixel 4a. app is showing, but smaller.  using the screenshot button on screen. doesn't work.
  *
  * based on some code from here. https://proandroiddev.com/detect-screenshots-in-android-7bc4343ddce1
+ * heavily updated to for new permissions and simpler version of their example.
  */
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityResultLauncher<String[]> rpl;
-    private final String[] REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE};
+    private  String[] REQUIRED_PERMISSIONS;
     static String TAG = "MainActivity";
     ContentObserver contentObserver;
 
@@ -48,6 +53,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //permissions changes between 28, 32, and 33
+        //https://developer.android.com/about/versions/13/behavior-changes-13
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            //we actually don't need the media_location, unless you open the file.  I've set the no location, but likely won't work.
+            REQUIRED_PERMISSIONS = new String[]{ Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_MEDIA_IMAGES};
+        }else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE};
+        } else {
+            REQUIRED_PERMISSIONS = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        }
+
         //setup for the read permissions needed.
         rpl = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
             new ActivityResultCallback<Map<String, Boolean>>() {
@@ -59,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         if (!x.getValue()) granted = false;
                     }
                     if (granted)
-                        logthis("Permissions granted for api 33+");
+                        logthis("All permissions granted");
                 }
             }
         );
@@ -71,7 +88,9 @@ public class MainActivity extends AppCompatActivity {
 
         logger = findViewById(R.id.logger);
 
-        //get a contentObserver setup, it's registered in onresume, and removed in onpause.
+        //get a contentObserver setup, it's registered in onstart, and removed in onstop.
+        //this allows to watch for new files, since we can't detect the screenshot it's self, we
+        // are looking for the file it produced.
         contentObserver = new ContentObserver(new Handler(Looper.getMainLooper())) {
             @Override
             public void onChange(boolean selfChange, @Nullable Uri uri) {
@@ -84,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This is a smiple method to using the uri to find the name of the file and display it
+     * there is also code to load the image and place in imageview (not in the layout), which is commented out.
+     */
 
     public void getname(Uri uri) {
         //setup the information for the question, project and sortOrder.  we could sort by date.
@@ -137,13 +160,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    //Onstop remove the filecontent observer
     protected void onStop() {
         super.onStop();
         getContentResolver().unregisterContentObserver(contentObserver);
         logthis("Stop");
     }
 
+    //Onstart add the filecontent observer
     @Override
     protected void onStart() {
         super.onStart();
@@ -162,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    //simple helper function to log information to two places.
     public void logthis(String msg) {
         logger.append(msg + "\n");
         Log.d(TAG, msg);
