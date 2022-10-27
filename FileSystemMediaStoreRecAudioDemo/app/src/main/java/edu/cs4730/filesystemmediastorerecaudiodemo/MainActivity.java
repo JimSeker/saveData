@@ -1,13 +1,14 @@
 package edu.cs4730.filesystemmediastorerecaudiodemo;
 
-import androidx.annotation.NonNull;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -28,14 +29,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     final String TAG = "mainactivity";
-    public static final int REQUEST_PERM_ACCESS = 1;
+    private String[] REQUIRED_PERMISSIONS;
+    ActivityResultLauncher<String[]> rpl;
 
     Button record;
     boolean recording = false;
@@ -72,6 +74,33 @@ public class MainActivity extends AppCompatActivity {
 
         fileName = "mediastoreRectest.mp3";
 
+        //permissions changes between 28, 32, and 33
+        //https://developer.android.com/about/versions/13/behavior-changes-13
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            REQUIRED_PERMISSIONS = new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_MEDIA_AUDIO};
+        } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            REQUIRED_PERMISSIONS = new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE};
+        } else { //28 and below.
+            REQUIRED_PERMISSIONS = new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+        }
+
+        //setup for the read permissions needed.
+        rpl = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
+            new ActivityResultCallback<Map<String, Boolean>>() {
+                @Override
+                public void onActivityResult(Map<String, Boolean> isGranted) {
+                    boolean granted = true;
+                    for (Map.Entry<String, Boolean> x : isGranted.entrySet()) {
+                        logthis(x.getKey() + " is " + x.getValue());
+                        if (!x.getValue()) granted = false;
+                    }
+                    if (granted)
+                        logthis("all permissions granted.");
+                }
+            }
+        );
+
+
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,7 +136,10 @@ public class MainActivity extends AppCompatActivity {
                 listmp3s();
             }
         });
-        CheckPerm();
+
+        if (!allPermissionsGranted()) {
+            rpl.launch(REQUIRED_PERMISSIONS);
+        }
     }
 
     /**
@@ -164,13 +196,13 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(textenter).setTitle("Enter a file name");
         builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
 
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                fileName = userinput.getText().toString();
-                logthis("using new filename: " + fileName);
-                //Toast.makeText(getBaseContext(), userinput.getText().toString(), Toast.LENGTH_LONG).show();
-            }
-        })
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    fileName = userinput.getText().toString();
+                    logthis("using new filename: " + fileName);
+                    //Toast.makeText(getBaseContext(), userinput.getText().toString(), Toast.LENGTH_LONG).show();
+                }
+            })
             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     logthis("Dialog canceled, using original filename: " + fileName);
@@ -279,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-        });
+            });
         builder.show();
 
 //to use the file descriptor switch to this code.
@@ -307,51 +339,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void CheckPerm() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) ||
-                (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
-                //I'm on not explaining why, just asking for permission.
-                Log.v(TAG, "asking for permissions");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE},
-                    MainActivity.REQUEST_PERM_ACCESS);
-            } else {
-                Log.wtf(TAG, "record audio and read Access: Granted");
-            }
-        } else { //need to add the write permissions.
-            if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) ||
-                (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) ||
-                (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
-                //I'm on not explaining why, just asking for permission.
-                Log.v(TAG, "asking for permissions");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
-                    MainActivity.REQUEST_PERM_ACCESS);
-            } else {
-                Log.wtf(TAG, "read audio, write and read external Access: Granted");
+    //check we have  permissions.
+    private boolean allPermissionsGranted() {
+        for (String permission : REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
             }
         }
+        return true;
     }
 
-    //handle the response.
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        if (requestCode == REQUEST_PERM_ACCESS) {// If request is cancelled, the result arrays are empty.
-            if (grantResults.length > 0
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
-                Log.wtf(TAG, "Record_audio and read external storage:  granted. ");
-            } else {
-
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
-                Log.wtf(TAG, "Record_audio and read external storage: Not Granted");
-            }
-            return;
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 
 }

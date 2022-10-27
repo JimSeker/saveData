@@ -1,5 +1,8 @@
 package edu.cs4730.filesystemmediastoredemo;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +16,10 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+
+import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
+
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -38,7 +45,8 @@ import java.util.List;
  */
 
 public class MainActivity extends AppCompatActivity {
-    public static final int REQUEST_PERM_ACCESS = 1;
+    private String[] REQUIRED_PERMISSIONS;
+    ActivityResultLauncher<String[]> rpl;
     Button btn;
     ImageView iv;
     final static String TAG = "MainActivity";
@@ -60,9 +68,33 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btn = findViewById(R.id.picker);
-        iv = findViewById(R.id.imageView);
 
+        //permissions changes between 28, 32, and 33
+        //https://developer.android.com/about/versions/13/behavior-changes-13
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_MEDIA_IMAGES};
+        } else {
+            REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE};
+        }
+        //setup for the read permissions needed.
+        rpl = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
+            new ActivityResultCallback<Map<String, Boolean>>() {
+                @Override
+                public void onActivityResult(Map<String, Boolean> isGranted) {
+                    boolean granted = true;
+                    for (Map.Entry<String, Boolean> x : isGranted.entrySet()) {
+                        logthis(x.getKey() + " is " + x.getValue());
+                        if (!x.getValue()) granted = false;
+                    }
+                    if (granted)
+                        logthis("all permissions granted.");
+                }
+            }
+        );
+
+
+        iv = findViewById(R.id.imageView);
+        btn = findViewById(R.id.picker);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,9 +102,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //make sure we have access permissions.
-        CheckPerm();
-
+        if (!allPermissionsGranted()) {
+            rpl.launch(REQUIRED_PERMISSIONS);
+        }
     }
 
 
@@ -195,38 +227,23 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-
-    public void CheckPerm() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_MEDIA_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //I'm on not explaining why, just asking for permission.
-            Log.v(TAG, "asking for permissions");
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE},
-                MainActivity.REQUEST_PERM_ACCESS);
-        } else {
-            Log.wtf(TAG, "Contact Write Access: Granted");
-        }
+    /**
+     * helper method to log to screen and to logcat.
+     */
+    void logthis(String item) {
+        Log.d(TAG, item);
+//        logger.append("\n" + item);
     }
 
-    //handle the response.
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        if (requestCode == REQUEST_PERM_ACCESS) {// If request is cancelled, the result arrays are empty.
-            if (grantResults.length > 0
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
-                Log.wtf(TAG, "ACCESS_MEDIA_LOCATION: Granted");
-            } else {
-
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
-                Log.wtf(TAG, "ACCESS_MEDIA_LOCATION: Not Granted");
+    //check we have  permissions.
+    private boolean allPermissionsGranted() {
+        for (String permission : REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
             }
-            return;
         }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        return true;
     }
+
 }
 
