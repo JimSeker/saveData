@@ -10,6 +10,8 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import android.os.Bundle;
 
+import edu.cs4730.supportprefencedemo.databinding.ActivityMainBinding;
+
 
 /**
  * this a redux of the preferenceDemo, but using the androidx.preferencefragmentCompat (prefupdateFrag and prefNewFrag)
@@ -25,15 +27,16 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener,
     PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
     FragmentManager fragmentManager;
-
+    ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         fragmentManager = getSupportFragmentManager();
         //setup the mainFragment to show.
-        fragmentManager.beginTransaction().add(R.id.container, new MainFragment()).commit();
+        fragmentManager.beginTransaction().add(binding.container.getId(), new MainFragment()).commit();
     }
 
     /**
@@ -46,9 +49,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         //Change to the correct fragment for preferences
         if (which == 1)
-            transaction.replace(R.id.container, new PreferenceupdateFragment());
+            transaction.replace(binding.container.getId(), new PreferenceupdateFragment());
         else
-            transaction.replace(R.id.container, new myPreferenceFragment());
+            transaction.replace(binding.container.getId(), new myPreferenceFragment());
         // and add the transaction to the back stack so the user can navigate back
         transaction.addToBackStack(null);
 
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         fragment.setArguments(args);
 
         //Now replace the existing Fragment with the new Fragment, the listener is doing?? idk.
-        fragmentManager.beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().replace(binding.container.getId(), fragment).addToBackStack(null).commit();
         fragmentManager.setFragmentResultListener("reequestKey", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {

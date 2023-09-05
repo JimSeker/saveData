@@ -10,6 +10,7 @@ import android.content.Context
 import androidx.preference.PreferenceManager
 import android.view.View
 import androidx.fragment.app.Fragment
+import edu.cs4730.supportprefencedemo_kt.databinding.FragmentMainBinding
 import java.lang.ClassCastException
 
 /**
@@ -17,19 +18,17 @@ import java.lang.ClassCastException
  */
 class MainFragment : Fragment() {
     private var mListener: OnFragmentInteractionListener? = null
+    lateinit var binding: FragmentMainBinding
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
         // Inflate the layout for this fragment
-        val myView = inflater.inflate(R.layout.fragment_main, container, false)
+        binding = FragmentMainBinding.inflate(inflater, container, false)
 
         //either will have the mainactivity change the fragment to a preferencefragmentcompat.
-        myView.findViewById<View>(R.id.button2)
-            .setOnClickListener { mListener!!.onFragmentInteraction(1) }
-        myView.findViewById<View>(R.id.button3)
-            .setOnClickListener { mListener!!.onFragmentInteraction(2) }
-        return myView
+        binding.button2.setOnClickListener { mListener!!.onFragmentInteraction(1) }
+        binding.button3.setOnClickListener { mListener!!.onFragmentInteraction(2) }
+        return binding.root
     }
 
     override fun onResume() {
@@ -62,8 +61,7 @@ class MainFragment : Fragment() {
             activity as OnFragmentInteractionListener?
         } catch (e: ClassCastException) {
             throw ClassCastException(
-                activity.toString()
-                        + " must implement OnFragmentInteractionListener"
+                activity.toString() + " must implement OnFragmentInteractionListener"
             )
         }
     }

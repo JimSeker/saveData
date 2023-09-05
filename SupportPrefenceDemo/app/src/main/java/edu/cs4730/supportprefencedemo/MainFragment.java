@@ -14,39 +14,38 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import edu.cs4730.supportprefencedemo.databinding.FragmentMainBinding;
+
 /**
  * Main fragment to do most of the work.
  */
 public class MainFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-
+    FragmentMainBinding binding;
     public MainFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myView = inflater.inflate(R.layout.fragment_main, container, false);
+        binding = FragmentMainBinding.inflate(inflater, container, false);
 
         //either will have the mainactivity change the fragment to a preferencefragmentcompat.
-        myView.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+        binding.button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.onFragmentInteraction(1);
-
             }
         });
-        myView.findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+        binding.button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.onFragmentInteraction(2);
-
             }
         });
-        return myView;
+        return binding.getRoot();
     }
 
 
@@ -79,8 +78,7 @@ public class MainFragment extends Fragment {
         try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                + " must implement OnFragmentInteractionListener");
+            throw new ClassCastException(activity.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 

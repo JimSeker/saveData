@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import edu.cs4730.supportprefencedemo_kt.databinding.ActivityMainBinding
 
 /**
  * this a redux of the preferenceDemo, but using the androidx.preferencefragmentCompat (prefupdateFrag and prefNewFrag)
@@ -21,13 +22,14 @@ import androidx.preference.PreferenceFragmentCompat
 class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionListener,
     PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
     lateinit var fragmentManager: FragmentManager
-
+    lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         fragmentManager = supportFragmentManager
         //setup the mainFragment to show.
-        fragmentManager.beginTransaction().add(R.id.container, MainFragment()).commit()
+        fragmentManager.beginTransaction().add(binding.container.id, MainFragment()).commit()
     }
 
     /**
@@ -39,9 +41,9 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
         val transaction = fragmentManager.beginTransaction()
         //Change to the correct fragment for preferences
         if (which == 1)
-            transaction.replace(R.id.container, PreferenceupdateFragment())
+            transaction.replace(binding.container.id, PreferenceupdateFragment())
         else
-            transaction.replace(R.id.container, myPreferenceFragment())
+            transaction.replace(binding.container.id, myPreferenceFragment())
         // and add the transaction to the back stack so the user can navigate back
         transaction.addToBackStack(null)
         // Commit the transaction
@@ -62,7 +64,7 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
         fragment.arguments = args
 
         //Now replace the existing Fragment with the new Fragment, the listener is doing?? idk.
-        fragmentManager.beginTransaction().replace(R.id.container, fragment).addToBackStack(null)
+        fragmentManager.beginTransaction().replace(binding.container.id, fragment).addToBackStack(null)
             .commit()
         fragmentManager.setFragmentResultListener(
             "reequestKey", this

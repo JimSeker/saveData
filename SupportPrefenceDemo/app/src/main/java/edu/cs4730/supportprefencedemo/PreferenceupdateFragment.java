@@ -1,6 +1,5 @@
 package edu.cs4730.supportprefencedemo;
 
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
