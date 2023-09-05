@@ -49,7 +49,7 @@ class ScoreDatabase(ctx: Context?) {
      * insert methods.
      */
     //InsertName is wrapper method, so the activity doesn't have to build  ContentValues for the insert.
-    fun insertName(name: String?, value: Int?): Long {
+    fun insertName(name: String, value: Int): Long {
         val initialValues = ContentValues()
         initialValues.put(mySQLiteHelper.KEY_NAME, name)
         initialValues.put(mySQLiteHelper.KEY_SCORE, value)
@@ -57,7 +57,7 @@ class ScoreDatabase(ctx: Context?) {
     }
 
     //This is the method to actually do an insert using the convenience method.  Note, it uses fail when there is a conflict.
-    fun Insert(TableName: String?, values: ContentValues?): Long {
+    fun Insert(TableName: String, values: ContentValues): Long {
         return db.insert(TableName, SQLiteDatabase.CONFLICT_FAIL, values)
     }
 
@@ -105,14 +105,16 @@ class ScoreDatabase(ctx: Context?) {
         //public Cursor query (String sql, Object[] bindArgs)
         //sql 	the SQL query. The SQL string must not be ; terminated
         //BindArgs 	You may include ?s in where clause in the query, which will be replaced by the values from selectionArgs. The values will be bound as Strings.
-        val mCursor = db.query("select Name, Score from HighScore where Name=\'$name\'", null)
+        val mCursor = db.query("select Name, Score from HighScore where Name=\'$name\'",
+            emptyArray()
+        )
         mCursor?.moveToFirst()
         return mCursor
     }
 
     //this one uses the supportQueryBuilder that build a SupportSQLiteQuery for the query.
     fun qbQuery(
-        TableName: String, projection: Array<String?>?, selection: String?,
+        TableName: String, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String?>?, sortOrder: String?
     ): Cursor {
         val qb = SupportSQLiteQueryBuilder.builder(TableName)
@@ -139,7 +141,7 @@ class ScoreDatabase(ctx: Context?) {
 
     // this is a generic method to update something from the database, uses the Convenience method.
     fun Update(
-        TableName: String, values: ContentValues?, selection: String?,
+        TableName: String, values: ContentValues, selection: String?,
         selectionArgs: Array<String?>?
     ): Int {
         return db.update(TableName, SQLiteDatabase.CONFLICT_FAIL, values, selection, selectionArgs)
@@ -149,7 +151,7 @@ class ScoreDatabase(ctx: Context?) {
      * the following are delete methods
      */
     // this uses the Convenience method to delete something from the database.
-    fun Delete(TableName: String?, selection: String?, selectionArgs: Array<String?>?): Int {
+    fun Delete(TableName: String, selection: String?, selectionArgs: Array<String?>?): Int {
         return db.delete(TableName, selection, selectionArgs)
     }
 

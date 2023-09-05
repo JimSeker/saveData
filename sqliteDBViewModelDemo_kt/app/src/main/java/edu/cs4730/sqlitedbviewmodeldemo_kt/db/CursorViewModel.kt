@@ -25,7 +25,7 @@ class CursorViewModel(application: Application) : AndroidViewModel(application) 
 
     // this uses the Convenience method to update something from the database and then update the cursor.
     fun Update(
-        TableName: String, values: ContentValues?, selection: String?,
+        TableName: String, values: ContentValues, selection: String?,
         selectionArgs: Array<String?>?
     ): Int {
         db.open()

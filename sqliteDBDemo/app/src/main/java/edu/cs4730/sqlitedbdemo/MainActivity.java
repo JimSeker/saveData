@@ -3,13 +3,12 @@ package edu.cs4730.sqlitedbdemo;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
+import edu.cs4730.sqlitedbdemo.databinding.ActivityMainBinding;
 import edu.cs4730.sqlitedbdemo.db.ScoreDatabase;
 
 import android.os.Bundle;
 import android.view.View;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * This is a "simple" sqlite database example.   It uses a recyclerview and a simple ish adapter
@@ -17,8 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  */
 
 public class MainActivity extends AppCompatActivity {
-    RecyclerView mRecyclerView;
-    FloatingActionButton fab;
+    ActivityMainBinding binding;
     myAdapter mAdapter;
 
     ScoreDatabase db;
@@ -26,21 +24,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         //get the database and open it.
         db = new ScoreDatabase(getApplicationContext());
         db.open();  //if database doesn't exist, it has now created.
 
-        mRecyclerView = findViewById(R.id.list);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mAdapter = new myAdapter(db.getAllNames(), R.layout.recycler_row, this);
+        binding.list.setLayoutManager(new LinearLayoutManager(this));
+        binding.list.setItemAnimator(new DefaultItemAnimator());
+        mAdapter = new myAdapter(db.getAllNames(), this);
         //add the adapter to the recyclerview
-        mRecyclerView.setAdapter(mAdapter);
+        binding.list.setAdapter(mAdapter);
 
-        fab = findViewById(R.id.floatingActionButton);
-        fab.setOnClickListener(new View.OnClickListener() {
+        binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 db.insertName("Jim", 3012);

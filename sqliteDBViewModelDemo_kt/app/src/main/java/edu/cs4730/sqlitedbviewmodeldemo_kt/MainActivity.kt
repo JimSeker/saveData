@@ -10,28 +10,29 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import edu.cs4730.sqlitedbviewmodeldemo_kt.databinding.ActivityMainBinding
 import edu.cs4730.sqlitedbviewmodeldemo_kt.db.CursorViewModel
 
 class MainActivity : AppCompatActivity() {
-    lateinit var mRecyclerView: RecyclerView
-    lateinit var fab: FloatingActionButton
+    lateinit var binding: ActivityMainBinding
     lateinit var mAdapter: myAdapter
     lateinit var mViewModel: CursorViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         mViewModel = ViewModelProvider(this).get(CursorViewModel::class.java)
-        mRecyclerView = findViewById(R.id.list)
-        mRecyclerView.layoutManager = LinearLayoutManager(this)
-        mRecyclerView.itemAnimator = DefaultItemAnimator()
-        mAdapter = myAdapter(null, R.layout.recycler_row, applicationContext)
+
+        binding.list.layoutManager = LinearLayoutManager(this)
+        binding.list.itemAnimator = DefaultItemAnimator()
+        mAdapter = myAdapter(null, applicationContext)
         //add the adapter to the recyclerview
-        mRecyclerView.adapter = mAdapter
+        binding.list.adapter = mAdapter
         mViewModel.data.observe(this,
             Observer<Cursor?> { data -> mAdapter.setCursor(data) })
-        fab = findViewById(R.id.floatingActionButton)
-        fab.setOnClickListener(View.OnClickListener {
+
+        binding.floatingActionButton.setOnClickListener(View.OnClickListener {
             mViewModel.add("Jim", 3012)
             mViewModel.add("Danny", 312)
         })

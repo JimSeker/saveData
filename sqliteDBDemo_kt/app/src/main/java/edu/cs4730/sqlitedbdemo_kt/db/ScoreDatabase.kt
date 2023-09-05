@@ -57,7 +57,7 @@ class ScoreDatabase(ctx: Context?) {
     }
 
     //This is the method to actually do an insert using the convenience method.  Note, it uses fail when there is a conflict.
-    fun Insert(TableName: String?, values: ContentValues?): Long {
+    fun Insert(TableName: String, values: ContentValues): Long {
         return db.insert(TableName, SQLiteDatabase.CONFLICT_FAIL, values)
     }
 
@@ -65,19 +65,18 @@ class ScoreDatabase(ctx: Context?) {
      * The following a different ways to query the database.  They all return a Cursor.
      */
     //get all the rows.
-    val allNames: Cursor?
+    val allNames: Cursor
         get() {
             //SELECT KEY_NAME, KEY_SCORE FROM DATABASE_TABLE SORTBY KEY_NAME;
             val mCursor = qbQuery(
                 mySQLiteHelper.TABLE_NAME,  //table name
                 arrayOf(                   //projection, ie columns.
                     mySQLiteHelper.KEY_ROWID, mySQLiteHelper.KEY_NAME, mySQLiteHelper.KEY_SCORE
-                ),
-                null,  //selection,  we want everything.
+                ), null,  //selection,  we want everything.
                 null,  // String[] selectionArgs,  again, we want everything.
                 mySQLiteHelper.KEY_NAME // String sortOrder  by name as the sort.
             )
-            if (mCursor != null) //make sure cursor is not empty!
+            //if (mCursor != null) //make sure cursor is not empty!
                 mCursor.moveToFirst()
             return mCursor
         }
@@ -105,15 +104,20 @@ class ScoreDatabase(ctx: Context?) {
         //public Cursor query (String sql, Object[] bindArgs)
         //sql 	the SQL query. The SQL string must not be ; terminated
         //BindArgs 	You may include ?s in where clause in the query, which will be replaced by the values from selectionArgs. The values will be bound as Strings.
-        val mCursor = db.query("select Name, Score from HighScore where Name=\'$name\'", null)
+        val mCursor = db.query(
+            "select Name, Score from HighScore where Name=\'$name\'", emptyArray()
+        )
         mCursor?.moveToFirst()
         return mCursor
     }
 
     //this one uses the supportQueryBuilder that build a SupportSQLiteQuery for the query.
     fun qbQuery(
-        TableName: String, projection: Array<String?>?, selection: String?,
-        selectionArgs: Array<String?>?, sortOrder: String?
+        TableName: String,
+        projection: Array<String>?,
+        selection: String?,
+        selectionArgs: Array<String?>?,
+        sortOrder: String?
     ): Cursor {
         val qb = SupportSQLiteQueryBuilder.builder(TableName)
         qb.columns(projection)
@@ -132,15 +136,13 @@ class ScoreDatabase(ctx: Context?) {
         args.put(mySQLiteHelper.KEY_SCORE, score)
         //returns true if one or more updates happened, otherwise false.
         return Update(
-            mySQLiteHelper.TABLE_NAME, args,
-            mySQLiteHelper.KEY_NAME + "= \'" + name + "\'", null
+            mySQLiteHelper.TABLE_NAME, args, mySQLiteHelper.KEY_NAME + "= \'" + name + "\'", null
         ) > 0
     }
 
     // this is a generic method to update something from the database, uses the Convenience method.
     fun Update(
-        TableName: String, values: ContentValues?, selection: String?,
-        selectionArgs: Array<String?>?
+        TableName: String, values: ContentValues, selection: String?, selectionArgs: Array<String?>?
     ): Int {
         return db.update(TableName, SQLiteDatabase.CONFLICT_FAIL, values, selection, selectionArgs)
     }
@@ -149,7 +151,7 @@ class ScoreDatabase(ctx: Context?) {
      * the following are delete methods
      */
     // this uses the Convenience method to delete something from the database.
-    fun Delete(TableName: String?, selection: String?, selectionArgs: Array<String?>?): Int {
+    fun Delete(TableName: String, selection: String?, selectionArgs: Array<String?>?): Int {
         return db.delete(TableName, selection, selectionArgs)
     }
 
@@ -160,13 +162,10 @@ class ScoreDatabase(ctx: Context?) {
 
     //constructor
     init {
-        val factory: SupportSQLiteOpenHelper.Factory = FrameworkSQLiteOpenHelperFactory()
+        //val factory: SupportSQLiteOpenHelper.Factory = FrameworkSQLiteOpenHelperFactory()
         val configuration = SupportSQLiteOpenHelper.Configuration.builder(
             ctx!!
-        )
-            .name(mySQLiteHelper.DATABASE_NAME)
-            .callback(mySQLiteHelper())
-            .build()
-        helper = factory.create(configuration)
+        ).name(mySQLiteHelper.DATABASE_NAME).callback(mySQLiteHelper()).build()
+        helper = FrameworkSQLiteOpenHelperFactory().create(configuration)
     }
 }

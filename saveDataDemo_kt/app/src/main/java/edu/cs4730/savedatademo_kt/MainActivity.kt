@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import edu.cs4730.savedatademo_kt.databinding.ActivityMainBinding
 
 /**
  * This example shows the difference with a viewmodel, sharedpeferences and instance bundle.
@@ -21,54 +22,41 @@ class MainActivity : AppCompatActivity() {
     var b3: Int = 0
     lateinit var mViewModel: DataViewModel
 
-    lateinit var t1: EditText
-    lateinit var logger: TextView
-    lateinit var tv_nothing: TextView
-    lateinit var tv_bundle: TextView
-    lateinit var tv_preference: TextView
-    lateinit var tv_viewmodel: TextView
-    lateinit var button: Button
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        logger = findViewById(R.id.log)
-        t1 = findViewById(R.id.editText1)
-        tv_nothing = findViewById(R.id.tv_nothing)
-        tv_nothing.text = b1.toString()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        binding.tvNothing.text = b1.toString()
         //bundle method
-        tv_bundle = findViewById(R.id.tv_bundle)
         if (savedInstanceState != null) { //There is saved data
             logthis("There is data, restoring")
             b2 = savedInstanceState.getInt("b2", 0) //default in case of issues.
-            tv_bundle.text = b2.toString()
+            binding.tvBundle.text = b2.toString()
         } else {
             logthis("No data in savedInstanceState")
         }
 
-        //preference method
-        tv_preference = findViewById(R.id.tv_preference)
         //settext handled in getprefs();
         getprefs()
 
         //lastly the model view
-        tv_viewmodel = findViewById(R.id.tv_viewmodel)
         //for the model view live variable.
         mViewModel = ViewModelProvider(this)[DataViewModel::class.java]
         mViewModel.data.observe(this) { data ->
             logthis("Data changed, updating!")
-            tv_viewmodel.text = data.toString()
+            binding.tvViewmodel.text = data.toString()
         }
-        button = findViewById(R.id.button)
-        button.setOnClickListener {
+        binding.button.setOnClickListener {
             //increment each number.  over rotations and starts, these numbers will be different.
             b1++
-            tv_nothing.text = b1.toString()
+            binding.tvNothing.text = b1.toString()
             b2++
-            tv_bundle.text = b2.toString()
+            binding.tvBundle.text = b2.toString()
             b3++
-            tv_preference.text = b3.toString()
+            binding.tvPreference.text = b3.toString()
             mViewModel.increment() //settext is handled by the observer.
         }
     }
@@ -102,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         val preferences = getSharedPreferences("example", MODE_PRIVATE)
         //get the key d3 and set a default value of "" if the key doesn't exist.  IE the first time this app is run.
         b3 = preferences.getInt("b3", 0)
-        tv_preference.text = b3.toString()
+        binding.tvPreference.text = b3.toString()
     }
 
     /**
@@ -119,7 +107,7 @@ class MainActivity : AppCompatActivity() {
      */
     fun logthis(newinfo: String) {
         if (newinfo.compareTo("") != 0) {
-            logger.append(newinfo + "\n")
+            binding.log.append(newinfo + "\n")
             Log.d(TAG, newinfo)
         }
     }

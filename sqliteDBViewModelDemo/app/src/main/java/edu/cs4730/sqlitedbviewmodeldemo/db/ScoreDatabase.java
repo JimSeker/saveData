@@ -30,12 +30,12 @@ public class ScoreDatabase {
 
     //constructor
     public ScoreDatabase(Context ctx) {
-        SupportSQLiteOpenHelper.Factory factory = new FrameworkSQLiteOpenHelperFactory();
+       // SupportSQLiteOpenHelper.Factory factory = new FrameworkSQLiteOpenHelperFactory();
         SupportSQLiteOpenHelper.Configuration configuration = SupportSQLiteOpenHelper.Configuration.builder(ctx)
             .name(mySQLiteHelper.DATABASE_NAME)
             .callback(new mySQLiteHelper())
             .build();
-        helper = factory.create(configuration);
+        helper = new FrameworkSQLiteOpenHelperFactory().create(configuration);
 
     }
 
