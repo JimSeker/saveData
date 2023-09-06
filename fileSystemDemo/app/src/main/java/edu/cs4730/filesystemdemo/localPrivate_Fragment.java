@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 
+import edu.cs4730.filesystemdemo.databinding.FragmentLocalprivateBinding;
+
 /**
  * This fragment will write (append) to a file to the local private area of the app.
  * then read back whatever is the file and display it to the screen.
@@ -27,33 +29,32 @@ import android.view.View.OnClickListener;
  */
 
 public class localPrivate_Fragment extends Fragment {
-    TextView logger;
+    FragmentLocalprivateBinding binding;
     String TAG = "localp";
     MainActivity parent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "OnCreateView");
-        View view = inflater.inflate(R.layout.fragment_localprivate, container, false);
-        logger = view.findViewById(R.id.loggerlp);
+        binding = FragmentLocalprivateBinding.inflate(inflater, container, false);
 
-        view.findViewById(R.id.button1).setOnClickListener(new OnClickListener() {
+       binding.button1.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                logger.setText("Output:\n");
+                binding.loggerlp.setText("Output:\n");
                 readwritelocal();
             }
         });
 
-        return view;
+        return binding.getRoot();
     }
 
     public void readwritelocal() {
-        logger.append("check for local files\n");
+        binding.loggerlp.append("check for local files\n");
         String[] flist = requireActivity().fileList();
 
         if (flist.length == 0) {
-            logger.append("No current files storage internally. Creating one\n");
+            binding.loggerlp.append("No current files storage internally. Creating one\n");
             try {
                 OutputStreamWriter osr = new OutputStreamWriter(requireActivity().openFileOutput("FileExample", Context.MODE_PRIVATE));
                 BufferedWriter bW = new BufferedWriter(osr);
@@ -73,9 +74,9 @@ public class localPrivate_Fragment extends Fragment {
         String line = "";
         if (flist.length > 0) {
             for (int i = 0; i < flist.length; ++i) {
-                logger.append(flist[i] + "\n");
+                binding.loggerlp.append(flist[i] + "\n");
 
-                logger.append("Now appending to it\n");
+                binding.loggerlp.append("Now appending to it\n");
                 try {
 
                     OutputStreamWriter osr = new OutputStreamWriter(requireActivity().openFileOutput(flist[i], Context.MODE_APPEND));
@@ -103,7 +104,7 @@ public class localPrivate_Fragment extends Fragment {
                     BufferedReader in = new BufferedReader(isr);
                     line = in.readLine();
                     while (line != null) {
-                        logger.append(line + "\n");
+                        binding.loggerlp.append(line + "\n");
                         line = in.readLine();
                     }
                     in.close();
