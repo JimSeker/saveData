@@ -3,25 +3,26 @@ package edu.cs4730.lvcursordemo;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.cs4730.lvcursordemo.databinding.ActivityMainBinding;
+
 
 public class MainActivity extends AppCompatActivity {
 
     String TAG = "MainActivity";
-    BottomNavigationView bnv;
+    ActivityMainBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        bnv = findViewById(R.id.bnv);
-        bnv.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        binding.bnv.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 //At this point, we are doing the same thing that is done for menu selections.
@@ -29,15 +30,15 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 if (id == R.id.simple) {
                     getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new simple_Fragment()).commit();
+                        .replace(binding.container.getId(), new simple_Fragment()).commit();
                     return true;
                 } else if (id == R.id.custom) {
                     getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new custom_Fragment()).commit();
+                        .replace(binding.container.getId(), new custom_Fragment()).commit();
                     return true;
                 } else if (id == R.id.explist) {
                     getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new ExpListview_Fragment()).commit();
+                        .replace(binding.container.getId(), new ExpListview_Fragment()).commit();
                     return true;
                 }
                 return false;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             //set the first one as the default.
             getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, new simple_Fragment()).commit();
+                .add(binding.container.getId(), new simple_Fragment()).commit();
         }
     }
 

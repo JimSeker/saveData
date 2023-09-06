@@ -4,8 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
+
+import edu.cs4730.lvcursordemo.databinding.ActivityExplistviewBinding;
 import edu.cs4730.lvcursordemo.db.DatabaseHelper;
 import edu.cs4730.lvcursordemo.db.countryDatabase;
 
@@ -14,16 +17,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorTreeAdapter;
-import android.widget.ExpandableListView;
 import android.widget.SimpleCursorTreeAdapter;
 
 
 public class ExpListview_Fragment extends Fragment {
     String TAG = "explistview_frag";
-    Context myContext;
+    ActivityExplistviewBinding binding;
 
     CursorTreeAdapter myCursorAdapter;
-    ExpandableListView expListView;
     countryDatabase countryDB;
     SimpleCursorAdapter dataAdapter;
 
@@ -38,8 +39,7 @@ public class ExpListview_Fragment extends Fragment {
 
         // Note that the constructor does not take a Cursor. This is done to avoid querying the
         // database on the main thread.
-        public MySimpleCursorTreeAdapter(Context context, Cursor groupCursor, int groupLayout, String[] groupFrom,
-                                         int[] groupTo, int childLayout, String[] childrenFrom, int[] childrenTo) {
+        public MySimpleCursorTreeAdapter(Context context, Cursor groupCursor, int groupLayout, String[] groupFrom, int[] groupTo, int childLayout, String[] childrenFrom, int[] childrenTo) {
 
             super(context, groupCursor, groupLayout, groupFrom, groupTo, childLayout, childrenFrom, childrenTo);
         }
@@ -52,49 +52,34 @@ public class ExpListview_Fragment extends Fragment {
             //so get the Continent out of the cursor and then query for these items and go with it.
             String inputText = groupCursor.getString(1);  //should be second column (ie 1) I think...
             Log.v("gCC", "child continent is " + inputText);
-            Cursor mCursor = countryDB.fetchChild(inputText);
-            return mCursor;
+            return countryDB.fetchChild(inputText);
         }
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myView = inflater.inflate(R.layout.activity_explistview, container, false);
+        binding = ActivityExplistviewBinding.inflate(inflater, container, false);
 
 
         //first get the group cursor.
-        countryDB = new countryDatabase(myContext);
+        countryDB = new countryDatabase(requireContext());
         countryDB.open();
         Cursor gcursor = countryDB.fetchGroup();
 
         //get the listview
-        expListView = (ExpandableListView) myView.findViewById(R.id.lvExp);
+        myCursorAdapter = new MySimpleCursorTreeAdapter(requireContext(), gcursor, R.layout.evl_group_row,  //header/group/parent layout
+                new String[]{DatabaseHelper.KEY_CONTINENT}, // Name of the columns in DB.
+                new int[]{R.id.evl_row_name},  //name of views in layout.
 
-        myCursorAdapter = new MySimpleCursorTreeAdapter(
-            myContext,
-            gcursor,
-            R.layout.evl_group_row,  //header/group/parent layout
-            new String[]{DatabaseHelper.KEY_CONTINENT}, // Name of the columns in DB.
-            new int[]{R.id.evl_row_name},  //name of views in layout.
-
-            R.layout.evl_child_row,  //child layout
-            new String[]{DatabaseHelper.KEY_CODE,    //name of the columns in DB in order
-                DatabaseHelper.KEY_NAME, DatabaseHelper.KEY_REGION},
-            new int[]{R.id.evl_code, R.id.evl_name, R.id.evl_region}  //name of the layoud ids.
+                R.layout.evl_child_row,  //child layout
+                new String[]{DatabaseHelper.KEY_CODE,    //name of the columns in DB in order
+                        DatabaseHelper.KEY_NAME, DatabaseHelper.KEY_REGION}, new int[]{R.id.evl_code, R.id.evl_name, R.id.evl_region}  //name of the layoud ids.
         );
 
-        expListView.setAdapter(myCursorAdapter);
+        binding.lvExp.setAdapter(myCursorAdapter);
 
-        return myView;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        myContext = context;
-        Log.d(TAG, "onAttach");
+        return binding.getRoot();
     }
 }

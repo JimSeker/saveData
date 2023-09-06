@@ -23,12 +23,12 @@ public class countryDatabase {
 
     //constructor
     public countryDatabase(Context ctx) {
-        SupportSQLiteOpenHelper.Factory factory = new FrameworkSQLiteOpenHelperFactory();
+        //SupportSQLiteOpenHelper.Factory factory = new FrameworkSQLiteOpenHelperFactory();
         SupportSQLiteOpenHelper.Configuration configuration = SupportSQLiteOpenHelper.Configuration.builder(ctx)
             .name(DatabaseHelper.DATABASE_NAME)
             .callback(new DatabaseHelper())
             .build();
-        helper = factory.create(configuration);
+        helper = new FrameworkSQLiteOpenHelperFactory().create(configuration);
 
     }
 

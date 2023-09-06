@@ -4,7 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import edu.cs4730.lvcursordemo.databinding.CustomFragmentBinding;
 import edu.cs4730.lvcursordemo.db.countryDatabase;
 
 import android.text.Editable;
@@ -24,24 +27,21 @@ import android.widget.AdapterView.OnItemClickListener;
 public class custom_Fragment extends Fragment implements Button.OnClickListener {
 
     String TAG = "custom_frag";
-    Context myContext;
-
+    CustomFragmentBinding binding;
     private countryDatabase countryDB;
     private CustomCursorAdapter dataAdapter;
-    Button add;
 
     public custom_Fragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myView = inflater.inflate(R.layout.custom_fragment, container, false);
+        binding = CustomFragmentBinding.inflate(inflater, container, false);
 
 
-        countryDB = new countryDatabase(myContext);
+        countryDB = new countryDatabase(requireContext());
         countryDB.open();
 
         //Clean all data
@@ -51,42 +51,34 @@ public class custom_Fragment extends Fragment implements Button.OnClickListener 
 
         //Generate ListView from SQLite Database
         Log.d(TAG, "creating the adapter");
-        dataAdapter = new CustomCursorAdapter(myContext, countryDB.fetchAllCountries());
+        dataAdapter = new CustomCursorAdapter(requireContext(), countryDB.fetchAllCountries());
 
         Log.d(TAG, "getting the listview");
-        ListView listView = myView.findViewById(R.id.listView1C);
         // Assign adapter to ListView
-        listView.setAdapter(dataAdapter);
+        binding.listView1C.setAdapter(dataAdapter);
 
 
-        listView.setOnItemClickListener(new OnItemClickListener() {
+        binding.listView1C.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> listView, View view,
-                                    int position, long id) {
+            public void onItemClick(AdapterView<?> listView, View view, int position, long id) {
                 // Get the cursor, positioned to the corresponding row in the result set
                 Cursor cursor = (Cursor) listView.getItemAtPosition(position);
 
                 // Get the state's capital from this row in the database.
-                String countryCode =
-                    cursor.getString(cursor.getColumnIndexOrThrow("code"));
-                Toast.makeText(myContext,
-                    countryCode, Toast.LENGTH_SHORT).show();
-
+                String countryCode = cursor.getString(cursor.getColumnIndexOrThrow("code"));
+                Toast.makeText(requireContext(), countryCode, Toast.LENGTH_SHORT).show();
             }
         });
 
-        EditText myFilter = (EditText) myView.findViewById(R.id.myFilterC);
-        myFilter.addTextChangedListener(new TextWatcher() {
+        binding.myFilterC.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
             }
 
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
-            public void onTextChanged(CharSequence s, int start,
-                                      int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 dataAdapter.getFilter().filter(s.toString());
             }
         });
@@ -98,10 +90,9 @@ public class custom_Fragment extends Fragment implements Button.OnClickListener 
         });
 
         //add button, which will add Canada on to the list and disable itself.
-        add = myView.findViewById(R.id.addC);
-        add.setOnClickListener(this);
+        binding.addC.setOnClickListener(this);
 
-        return myView;
+        return binding.getRoot();
 
     }
 
@@ -111,13 +102,7 @@ public class custom_Fragment extends Fragment implements Button.OnClickListener 
         countryDB.insertCountry("CND", "Canda", "North America", "North America");
 
         dataAdapter.changeCursor(countryDB.fetchAllCountries());
-        add.setEnabled(false);  //since not changing the CODE, any more adds will fail in the database.
+        binding.addC.setEnabled(false);  //since not changing the CODE, any more adds will fail in the database.
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        myContext = context;
-        Log.d(TAG, "onAttach");
-    }
 }

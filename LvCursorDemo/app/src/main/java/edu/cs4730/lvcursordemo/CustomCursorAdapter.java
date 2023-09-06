@@ -1,5 +1,6 @@
 package edu.cs4730.lvcursordemo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -11,22 +12,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.cursoradapter.widget.CursorAdapter;
+
+import edu.cs4730.lvcursordemo.databinding.CountryCustomInfoBinding;
+import edu.cs4730.lvcursordemo.databinding.CustomFragmentBinding;
 import edu.cs4730.lvcursordemo.db.DatabaseHelper;
 
 public class CustomCursorAdapter extends CursorAdapter implements OnClickListener {
-
     String TAG = "CustomAdapter";
     Context myContext;
-    private LayoutInflater inflater;
 
     public CustomCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);  //0 no content observer on the cursor.  use CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER for
-
-        //needed for the toast later in the code.
+        //needed for the toast later in the code and layout inflater.
         myContext = context;
-
-        //set the inflater for the newView
-        inflater = LayoutInflater.from(context);
     }
 
     /**
@@ -34,32 +32,31 @@ public class CustomCursorAdapter extends CursorAdapter implements OnClickListene
      */
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return inflater.inflate(R.layout.country_custom_info, parent, false);
+        //return inflater.inflate(R.layout.country_custom_info, parent, false);
+        return CountryCustomInfoBinding.inflate(LayoutInflater.from(context), parent, false).getRoot();
     }
 
     /**
      * BindView, is where we set the data fro the view.
      */
+    @SuppressLint("Range")
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        // here we are setting our data
+        // here we are setting our data, view can't be null, so we change to viewbinding.
+        CountryCustomInfoBinding binding = CountryCustomInfoBinding.bind(view);
+
         // that means, take the data from the cursor and put it in views
-        TextView textViewcode = view.findViewById(R.id.codeC);
         //textViewcode.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(1))));
-        textViewcode.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_CODE)));
+        binding.codeC.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_CODE)));
 
-        TextView textViewname = view.findViewById(R.id.nameC);
-        textViewname.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_NAME)));
+        binding.nameC.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_NAME)));
 
-        TextView textViewcont = view.findViewById(R.id.continentC);
-        textViewcont.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_CONTINENT)));
+        binding.continentC.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_CONTINENT)));
 
-        TextView textViewregion = view.findViewById(R.id.regionC);
-        textViewregion.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_REGION)));
+        binding.regionC.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_REGION)));
 
-        Button btn = view.findViewById(R.id.delC);
-        btn.setTag(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_ROWID)));
-        btn.setOnClickListener(this);
+        binding.delC.setTag(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_ROWID)));
+        binding.delC.setOnClickListener(this);
     }
 
     @Override

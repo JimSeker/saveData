@@ -19,7 +19,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.TextView;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.ContentObserver;
@@ -29,13 +28,14 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.Map;
 
+import edu.cs4730.screenshotdeetectordemo.databinding.ActivityMainBinding;
 
-/*
+/**
  * attempts to detect screenshots.   It works, but there are likely still issues.
  * on a pixel 4a, using the buttons while the app is up, works.
  * on a pixel 4a, using the buttons while the apps is showing, but not full screen it works
  * on a pixel 4a. app is showing, but smaller.  using the screenshot button on screen. doesn't work.
- *
+ * <p>
  * based on some code from here. https://proandroiddev.com/detect-screenshots-in-android-7bc4343ddce1
  * heavily updated to for new permissions and simpler version of their example.
  */
@@ -43,23 +43,24 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     ActivityResultLauncher<String[]> rpl;
-    private  String[] REQUIRED_PERMISSIONS;
+    private String[] REQUIRED_PERMISSIONS;
     static String TAG = "MainActivity";
     ContentObserver contentObserver;
-
-    TextView logger;
+    ActivityMainBinding binding;
+    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         //permissions changes between 28, 32, and 33
         //https://developer.android.com/about/versions/13/behavior-changes-13
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             //we actually don't need the media_location, unless you open the file.  I've set the no location, but likely won't work.
-            REQUIRED_PERMISSIONS = new String[]{ Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_MEDIA_IMAGES};
-        }else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_MEDIA_IMAGES};
+        } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE};
         } else {
             REQUIRED_PERMISSIONS = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -67,26 +68,24 @@ public class MainActivity extends AppCompatActivity {
 
         //setup for the read permissions needed.
         rpl = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
-            new ActivityResultCallback<Map<String, Boolean>>() {
-                @Override
-                public void onActivityResult(Map<String, Boolean> isGranted) {
-                    boolean granted = true;
-                    for (Map.Entry<String, Boolean> x : isGranted.entrySet()) {
-                        logthis(x.getKey() + " is " + x.getValue());
-                        if (!x.getValue()) granted = false;
+                new ActivityResultCallback<Map<String, Boolean>>() {
+                    @Override
+                    public void onActivityResult(Map<String, Boolean> isGranted) {
+                        boolean granted = true;
+                        for (Map.Entry<String, Boolean> x : isGranted.entrySet()) {
+                            logthis(x.getKey() + " is " + x.getValue());
+                            if (!x.getValue()) granted = false;
+                        }
+                        if (granted)
+                            logthis("All permissions granted");
                     }
-                    if (granted)
-                        logthis("All permissions granted");
                 }
-            }
         );
 
 
         if (!allPermissionsGranted()) {
             rpl.launch(REQUIRED_PERMISSIONS);
         }
-
-        logger = findViewById(R.id.logger);
 
         //get a contentObserver setup, it's registered in onstart, and removed in onstop.
         //this allows to watch for new files, since we can't detect the screenshot it's self, we
@@ -95,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChange(boolean selfChange, @Nullable Uri uri) {
                 super.onChange(selfChange, uri);
-                if (selfChange)  return;
-              //  logthis("new file?" + uri.getPath());
+                if (selfChange) return;
+                //  logthis("new file?" + uri.getPath());
                 getname(uri);
             }
         };
@@ -111,17 +110,17 @@ public class MainActivity extends AppCompatActivity {
     public void getname(Uri uri) {
         //setup the information for the question, project and sortOrder.  we could sort by date.
         String[] projection = new String[]{
-            MediaStore.Images.Media._ID, //   Video.Media._ID,
-            MediaStore.Images.Media.RELATIVE_PATH, // only api 29+
-            MediaStore.Images.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
+                MediaStore.Images.Media._ID, //   Video.Media._ID,
+                MediaStore.Images.Media.RELATIVE_PATH, // only api 29+
+                MediaStore.Images.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
         };
         String sortOrder = MediaStore.Images.Media.DISPLAY_NAME; // MediaStore.Images.Media.DATE_ADDED
         try (Cursor cursor = getContentResolver().query(
-            uri,
-            projection,
-            null,  //selection, all of them.
-            null, //selectionArgs,
-            sortOrder
+                uri,
+                projection,
+                null,  //selection, all of them.
+                null, //selectionArgs,
+                sortOrder
         )) {
             Log.wtf("query", "Starting");
             // Cache column indices.
@@ -136,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
                 String lowername = name.toLowerCase(Locale.ROOT);
                 String lowerpath = path.toLowerCase(Locale.ROOT);
-                  Uri contentUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+                Uri contentUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
                 if (lowername.contains("screenshot") || lowerpath.contains("screenshot"))
                     logthis(name);
                 /*
@@ -188,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
     //simple helper function to log information to two places.
     public void logthis(String msg) {
-        logger.append(msg + "\n");
+        binding.logger.append(msg + "\n");
         Log.d(TAG, msg);
     }
 

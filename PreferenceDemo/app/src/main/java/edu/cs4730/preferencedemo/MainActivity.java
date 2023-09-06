@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 /**
  * This is showing how to use the standard preference systems.
  * <p>
+ *     Most of this is depreciated at api 28, like the fragments, fragmentmanager, and prefecencefragment.
  * Note: because they are not an androidx fragment, everyone is using "standard" fragments.  This likely
  * a bad idea at this point, and everything should be migrated to support preferences.  See the SupportPreferenceDemo.
  *
