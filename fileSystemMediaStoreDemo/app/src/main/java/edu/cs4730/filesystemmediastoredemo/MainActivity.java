@@ -3,11 +3,11 @@ package edu.cs4730.filesystemmediastoredemo;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.exifinterface.media.ExifInterface;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -16,18 +16,12 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
-
-import androidx.core.content.ContextCompat;
-import androidx.exifinterface.media.ExifInterface;
-
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -35,6 +29,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import edu.cs4730.filesystemmediastoredemo.databinding.ActivityMainBinding;
 
 
 /**
@@ -47,8 +43,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private String[] REQUIRED_PERMISSIONS;
     ActivityResultLauncher<String[]> rpl;
-    Button btn;
-    ImageView iv;
+    ActivityMainBinding binding;
     final static String TAG = "MainActivity";
 
     //class used to hold information about the picture.  I actually never display size, but you could.
@@ -67,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         //permissions changes between 28, 32, and 33
         //https://developer.android.com/about/versions/13/behavior-changes-13
@@ -77,25 +73,19 @@ public class MainActivity extends AppCompatActivity {
             REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE};
         }
         //setup for the read permissions needed.
-        rpl = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
-            new ActivityResultCallback<Map<String, Boolean>>() {
-                @Override
-                public void onActivityResult(Map<String, Boolean> isGranted) {
-                    boolean granted = true;
-                    for (Map.Entry<String, Boolean> x : isGranted.entrySet()) {
-                        logthis(x.getKey() + " is " + x.getValue());
-                        if (!x.getValue()) granted = false;
-                    }
-                    if (granted)
-                        logthis("all permissions granted.");
+        rpl = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+            @Override
+            public void onActivityResult(Map<String, Boolean> isGranted) {
+                boolean granted = true;
+                for (Map.Entry<String, Boolean> x : isGranted.entrySet()) {
+                    logthis(x.getKey() + " is " + x.getValue());
+                    if (!x.getValue()) granted = false;
                 }
+                if (granted) logthis("all permissions granted.");
             }
-        );
+        });
 
-
-        iv = findViewById(R.id.imageView);
-        btn = findViewById(R.id.picker);
-        btn.setOnClickListener(new View.OnClickListener() {
+        binding.picker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listpictures();
@@ -119,22 +109,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //setup the information for the question, project and sortOrder.  we could sort by date.
-        String[] projection = new String[]{
-            MediaStore.Images.Media._ID, //   Video.Media._ID,
-            MediaStore.Images.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
-            //MediaStore.Video.Media.DURATION,
-            MediaStore.Images.Media.SIZE  //Video.Media.SIZE
+        String[] projection = new String[]{MediaStore.Images.Media._ID, //   Video.Media._ID,
+                MediaStore.Images.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
+                //MediaStore.Video.Media.DURATION,
+                MediaStore.Images.Media.SIZE  //Video.Media.SIZE
         };
         String sortOrder = MediaStore.Images.Media.DISPLAY_NAME; // MediaStore.Images.Media.DATE_ADDED
 
         //now question the contentprovider for a list of pictures in DCIM and /pictures directory.
-        try (Cursor cursor = getApplicationContext().getContentResolver().query(
-            collection,
-            projection,
-            null,  //selection, all of them.
-            null, //selectionArgs,
-            sortOrder
-        )) {
+        try (Cursor cursor = getApplicationContext().getContentResolver().query(collection, projection, null,  //selection, all of them.
+                null, //selectionArgs,
+                sortOrder)) {
             Log.wtf("query", "Starting");
             // Cache column indices.
             int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID);
@@ -176,54 +161,53 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.ThemeOverlay_AppCompat_Dialog));
         builder.setTitle("Choose Type:");
-        builder.setSingleChoiceItems(items, -1,
-            new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int item) {
-                    dialog.dismiss();  //the dismiss is needed here or the dialog stays showing.
-                    Log.wtf("Picker", "picked " + item + " " + picList.get(item).uri);
-                    ContentResolver resolver = getApplicationContext().getContentResolver();
+        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                dialog.dismiss();  //the dismiss is needed here or the dialog stays showing.
+                Log.wtf("Picker", "picked " + item + " " + picList.get(item).uri);
+                ContentResolver resolver = getApplicationContext().getContentResolver();
 
-                    try (InputStream stream = resolver.openInputStream(picList.get(item).uri)) {
-                        iv.setImageBitmap(BitmapFactory.decodeStream(stream));
-                        // Perform operations on "stream".
-                        stream.close();
-                    } catch (Exception e) {
-                        Log.wtf("loader", "failed");
-                        e.printStackTrace();
-                    }
-                    // now check if it has any meta data like location.
-                    // Exception occurs if ACCESS_MEDIA_LOCATION permission isn't granted.
-                    Uri photoUri;
-                    photoUri = MediaStore.setRequireOriginal(picList.get(item).uri);
-                    try {
-                        InputStream stream = getContentResolver().openInputStream(photoUri);
-                        if (stream != null) {
-                            ExifInterface exifInterface = new ExifInterface(stream);
-                            double[] returnedLatLong;
-                            returnedLatLong = exifInterface.getLatLong();
-                            if (returnedLatLong != null) {
-                                Log.wtf("LatLong", "Photo coor " + returnedLatLong[0] + "," + returnedLatLong[1]);
-                            } else {
-                                Log.wtf("LatLong", "Photo doesn't have lat and long data.");
-                            }
-                            // Don't reuse the stream associated with
-                            // the instance of "ExifInterface".
-                            stream.close();
-                        } else {
-                            // Failed to load the stream, so return the coordinates (0, 0).
-                            Log.wtf("LatLong", "Failed open Photo ");
-                        }
-                    } catch (FileNotFoundException e) {
-                        Log.wtf("latlog", "file not found.");
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        Log.wtf("latlog", "LatLon not found.");
-                        e.printStackTrace();
-                    }
-
-
+                try (InputStream stream = resolver.openInputStream(picList.get(item).uri)) {
+                    binding.imageView.setImageBitmap(BitmapFactory.decodeStream(stream));
+                    // Perform operations on "stream".
+                    stream.close();
+                } catch (Exception e) {
+                    Log.wtf("loader", "failed");
+                    e.printStackTrace();
                 }
-            });
+                // now check if it has any meta data like location.
+                // Exception occurs if ACCESS_MEDIA_LOCATION permission isn't granted.
+                Uri photoUri;
+                photoUri = MediaStore.setRequireOriginal(picList.get(item).uri);
+                try {
+                    InputStream stream = getContentResolver().openInputStream(photoUri);
+                    if (stream != null) {
+                        ExifInterface exifInterface = new ExifInterface(stream);
+                        double[] returnedLatLong;
+                        returnedLatLong = exifInterface.getLatLong();
+                        if (returnedLatLong != null) {
+                            Log.wtf("LatLong", "Photo coor " + returnedLatLong[0] + "," + returnedLatLong[1]);
+                        } else {
+                            Log.wtf("LatLong", "Photo doesn't have lat and long data.");
+                        }
+                        // Don't reuse the stream associated with
+                        // the instance of "ExifInterface".
+                        stream.close();
+                    } else {
+                        // Failed to load the stream, so return the coordinates (0, 0).
+                        Log.wtf("LatLong", "Failed open Photo ");
+                    }
+                } catch (FileNotFoundException e) {
+                    Log.wtf("latlog", "file not found.");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    Log.wtf("latlog", "LatLon not found.");
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
         builder.show();
     }
 

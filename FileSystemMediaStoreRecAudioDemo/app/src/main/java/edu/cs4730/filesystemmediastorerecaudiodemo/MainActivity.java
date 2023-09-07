@@ -24,9 +24,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -34,21 +31,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import edu.cs4730.filesystemmediastorerecaudiodemo.databinding.ActivityMainBinding;
+import edu.cs4730.filesystemmediastorerecaudiodemo.databinding.LayoutDialogBinding;
+
 public class MainActivity extends AppCompatActivity {
     final String TAG = "mainactivity";
     private String[] REQUIRED_PERMISSIONS;
     ActivityResultLauncher<String[]> rpl;
 
-    Button record;
     boolean recording = false;
-
     MediaRecorder audioRecorder;
     MediaPlayer mPlayer = null;
     Uri audiouri;
     ParcelFileDescriptor file;
     String fileName;
 
-    TextView logger;
+    ActivityMainBinding binding;
+
 
     class Audio {
         private final Uri uri;
@@ -68,9 +67,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        logger = findViewById(R.id.logger);
-        record = findViewById(R.id.record);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         fileName = "mediastoreRectest.mp3";
 
@@ -85,23 +83,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //setup for the read permissions needed.
-        rpl = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
-            new ActivityResultCallback<Map<String, Boolean>>() {
-                @Override
-                public void onActivityResult(Map<String, Boolean> isGranted) {
-                    boolean granted = true;
-                    for (Map.Entry<String, Boolean> x : isGranted.entrySet()) {
-                        logthis(x.getKey() + " is " + x.getValue());
-                        if (!x.getValue()) granted = false;
-                    }
-                    if (granted)
-                        logthis("all permissions granted.");
+        rpl = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+            @Override
+            public void onActivityResult(Map<String, Boolean> isGranted) {
+                boolean granted = true;
+                for (Map.Entry<String, Boolean> x : isGranted.entrySet()) {
+                    logthis(x.getKey() + " is " + x.getValue());
+                    if (!x.getValue()) granted = false;
                 }
+                if (granted) logthis("all permissions granted.");
             }
-        );
+        });
 
 
-        record.setOnClickListener(new View.OnClickListener() {
+        binding.record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!recording) {
@@ -109,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
                     try {
                         startRecording();
-                        record.setText("Stop Recording");
+                        binding.record.setText("Stop Recording");
                         recording = true;
                     } catch (IOException e) {
                         Toast.makeText(getApplicationContext(), "Failed to start", Toast.LENGTH_SHORT).show();
@@ -118,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     //stop recording
                     stopRecording();
-                    record.setText("Start Recording");
+                    binding.record.setText("Start Recording");
                     recording = false;
                 }
             }
@@ -189,30 +184,25 @@ public class MainActivity extends AppCompatActivity {
     public void showInputDialog() {
 
         LayoutInflater inflater = LayoutInflater.from(this);
-        final View textenter = inflater.inflate(R.layout.layout_dialog, null);
-        final EditText userinput = (EditText) textenter.findViewById(R.id.item_added);
-        userinput.setText(fileName);
+        LayoutDialogBinding dialogBinding = LayoutDialogBinding.inflate(inflater);
+        dialogBinding.itemAdded.setText(fileName);
         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppTheme_dialog));
-        builder.setView(textenter).setTitle("Enter a file name");
+        builder.setView(dialogBinding.getRoot()).setTitle("Enter a file name");
         builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int id) {
-                    fileName = userinput.getText().toString();
-                    logthis("using new filename: " + fileName);
-                    //Toast.makeText(getBaseContext(), userinput.getText().toString(), Toast.LENGTH_LONG).show();
-                }
-            })
-            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    logthis("Dialog canceled, using original filename: " + fileName);
-                    dialog.cancel();
-
-                }
-            });
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                fileName = dialogBinding.itemAdded.getText().toString();
+                logthis("using new filename: " + fileName);
+                //Toast.makeText(getBaseContext(), userinput.getText().toString(), Toast.LENGTH_LONG).show();
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                logthis("Dialog canceled, using original filename: " + fileName);
+                dialog.cancel();
+            }
+        });
         builder.show();
     }
-
 
     void listmp3s() {
         Uri collection;
@@ -224,12 +214,10 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             collection = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL); //Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
             //setup the information for the question, project and sortOrder.  we could sort by date.
-            projection = new String[]{
-                MediaStore.Audio.Media._ID, //   Video.Media._ID,
-                MediaStore.Audio.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
-                MediaStore.Audio.Media.DURATION,
-                MediaStore.Audio.Media.RELATIVE_PATH,  //must be API 29 in order to use.
-                MediaStore.Audio.Media.SIZE  //Video.Media.SIZE
+            projection = new String[]{MediaStore.Audio.Media._ID, //   Video.Media._ID,
+                    MediaStore.Audio.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
+                    MediaStore.Audio.Media.DURATION, MediaStore.Audio.Media.RELATIVE_PATH,  //must be API 29 in order to use.
+                    MediaStore.Audio.Media.SIZE  //Video.Media.SIZE
             };
             String audiodir = "Music/Recordings/%";
             selection = MediaStore.Audio.Media.RELATIVE_PATH + " like ?";
@@ -239,12 +227,11 @@ public class MainActivity extends AppCompatActivity {
             collection = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI; //Video.Media.EXTERNAL_CONTENT_URI;
             //setup the information for the question, project and sortOrder.  we could sort by date.
             //we are just using the /music directory for 26 to 28.
-            projection = new String[]{
-                MediaStore.Audio.Media._ID, //   Video.Media._ID,
-                MediaStore.Audio.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
-                MediaStore.Audio.Media.DURATION,
-                //MediaStore.Audio.Media.RELATIVE_PATH,  //must be API 29 in order to use.
-                MediaStore.Audio.Media.SIZE  //Video.Media.SIZE
+            projection = new String[]{MediaStore.Audio.Media._ID, //   Video.Media._ID,
+                    MediaStore.Audio.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
+                    MediaStore.Audio.Media.DURATION,
+                    //MediaStore.Audio.Media.RELATIVE_PATH,  //must be API 29 in order to use.
+                    MediaStore.Audio.Media.SIZE  //Video.Media.SIZE
             };
             //since can't use path, just null these.
             selection = null;  //so all of them.
@@ -253,13 +240,9 @@ public class MainActivity extends AppCompatActivity {
         String sortOrder = MediaStore.Images.Media.DISPLAY_NAME; // MediaStore.Images.Media.DATE_ADDED
 
         //now question the contentprovider for a list of pictures in DCIM and /pictures directory.
-        try (Cursor cursor = getApplicationContext().getContentResolver().query(
-            collection,
-            projection,
-            selection,  //selection, all of them.
-            selectionArgs, //selectionArgs,
-            sortOrder
-        )) {
+        try (Cursor cursor = getApplicationContext().getContentResolver().query(collection, projection, selection,  //selection, all of them.
+                selectionArgs, //selectionArgs,
+                sortOrder)) {
             Log.wtf("query", "Starting");
             // Cache column indices.
             int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
@@ -297,21 +280,20 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppTheme_dialog));
         builder.setTitle("Choose Type:");
-        builder.setSingleChoiceItems(items, -1,
-            new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int item) {
-                    dialog.dismiss();  //the dismiss is needed here or the dialog stays showing.
-                    logthis("picked " + item + " " + audioList.get(item).uri);
-                    mPlayer = new MediaPlayer();
-                    try {
-                        mPlayer.setDataSource(getApplicationContext(), audioList.get(item).uri);
-                        mPlayer.prepare();
-                        mPlayer.start();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                dialog.dismiss();  //the dismiss is needed here or the dialog stays showing.
+                logthis("picked " + item + " " + audioList.get(item).uri);
+                mPlayer = new MediaPlayer();
+                try {
+                    mPlayer.setDataSource(getApplicationContext(), audioList.get(item).uri);
+                    mPlayer.prepare();
+                    mPlayer.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            });
+            }
+        });
         builder.show();
 
 //to use the file descriptor switch to this code.
@@ -335,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
      */
     void logthis(String item) {
         Log.d(TAG, item);
-        logger.append("\n" + item);
+        binding.logger.append("\n" + item);
     }
 
 
