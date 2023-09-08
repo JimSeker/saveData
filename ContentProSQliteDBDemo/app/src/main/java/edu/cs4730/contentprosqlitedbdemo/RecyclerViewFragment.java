@@ -4,35 +4,30 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import edu.cs4730.contentprosqlitedbdemo.db.mySQLiteHelper;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import edu.cs4730.contentprosqlitedbdemo.databinding.FragmentRecyclerViewBinding;
+import edu.cs4730.contentprosqlitedbdemo.db.mySQLiteHelper;
 
 /**
  * calling a content provider (local one) and using a recycler view.
  */
 
 public class RecyclerViewFragment extends Fragment {
-
-    RecyclerView mRecyclerView;
-    FloatingActionButton fab;
+    FragmentRecyclerViewBinding binding;
     myAdapter mAdapter;
     Cursor cursor;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
+        binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
 
         //get the people URI
         Uri CONTENT_URI = Uri.parse("content://edu.cs4730.scoreprovider/score");
@@ -46,16 +41,13 @@ public class RecyclerViewFragment extends Fragment {
         // cursor = managedQuery(CONTENT_URI, projection, null, null, null);  //deprecated method, use one below.
         cursor = requireActivity().getContentResolver().query(CONTENT_URI, projection, null, null, SortOrder);
 
-
-        mRecyclerView = myView.findViewById(R.id.list2);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        binding.list2.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.list2.setItemAnimator(new DefaultItemAnimator());
         mAdapter = new myAdapter(cursor, R.layout.highscore, requireContext());
         //add the adapter to the recyclerview
-        mRecyclerView.setAdapter(mAdapter);
+        binding.list2.setAdapter(mAdapter);
 
-        fab = myView.findViewById(R.id.fab2);
-        fab.setOnClickListener(new View.OnClickListener() {
+        binding.fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ContentValues initialValues = new ContentValues();
@@ -72,6 +64,6 @@ public class RecyclerViewFragment extends Fragment {
         //with with the Itemlisteners we could easy add delete, click listener is there already, but
         //a modelview would be useful to implement an update feature.
 
-        return myView;
+        return binding.getRoot();
     }
 }

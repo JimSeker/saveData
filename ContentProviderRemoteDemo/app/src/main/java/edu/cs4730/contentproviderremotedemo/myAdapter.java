@@ -7,9 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
+
+import edu.cs4730.contentproviderremotedemo.databinding.RecyclerRowBinding;
 
 /**
  * this adapter is very similar to the adapters used for listview, except a ViewHolder is required
@@ -21,36 +24,29 @@ import androidx.recyclerview.widget.RecyclerView;
 public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
 
     private Cursor cursor;
-    private int rowLayout;
+
     private final String TAG = "myAdapter";
     private CursorViewModel mViewModel;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-
+    //viewbinding provides the references now.
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mName, mScore;
+        public RecyclerRowBinding viewBinding;
 
-        private final String TAG = "ViewHolder";
-
-        public ViewHolder(View view) {
-            super(view);
-            mName = view.findViewById(R.id.name);
-            mScore = view.findViewById(R.id.score);
+        public ViewHolder(RecyclerRowBinding viewBinding) {
+            super(viewBinding.getRoot());
+            this.viewBinding = viewBinding;
         }
     }
 
     //constructor
-    public myAdapter(LifecycleOwner lifecycleOwner, int rowLayout, CursorViewModel mv) {
-        this.rowLayout = rowLayout;
+    public myAdapter(LifecycleOwner lifecycleOwner, CursorViewModel mv) {
         mViewModel = mv;
         //the observer could just as easily be in the MainActivity and the use a "swapCursor" method
         // to change the cursor and call notifyDataSetChanged()
         mViewModel.getData().observe(lifecycleOwner, new Observer<Cursor>() {
             @Override
             public void onChanged(Cursor data) {
-                cursor =data;
+                cursor = data;
                 notifyDataSetChanged();
             }
         });
@@ -58,8 +54,8 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
 
     // Create new views (invoked by the layout manager)
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(rowLayout, viewGroup, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        RecyclerRowBinding v = RecyclerRowBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false);
         return new ViewHolder(v);
     }
 
@@ -70,10 +66,10 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
         if (setRow(i)) {  //move the cursor to the correct spot in the list other no data.
             String name = cursor.getString(cursor.getColumnIndex(MainActivity.KEY_NAME));
             String scoreStr = cursor.getString(cursor.getColumnIndex(MainActivity.KEY_SCORE));
-              //note the key_score is int value, but we can request it as a string.
+            //note the key_score is int value, but we can request it as a string.
 
-            viewHolder.mName.setText(name);
-            viewHolder.mScore.setText(scoreStr);
+            viewHolder.viewBinding.name.setText(name);
+            viewHolder.viewBinding.score.setText(scoreStr);
 
         }
     }
@@ -94,7 +90,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
     @Override
     @SuppressLint("Range")
     public long getItemId(int position) {
-        if ( cursor != null) {
+        if (cursor != null) {
             if (cursor.moveToPosition(position)) {
                 return cursor.getLong(cursor.getColumnIndex(MainActivity.KEY_ROWID));
             } else {

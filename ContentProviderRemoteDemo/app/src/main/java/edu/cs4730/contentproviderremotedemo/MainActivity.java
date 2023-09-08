@@ -14,6 +14,8 @@ import android.widget.Button;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import edu.cs4730.contentproviderremotedemo.databinding.ActivityMainBinding;
+
 /**
  * this example connects to a remote (another app's) content provider.  of which is can manage 2 of them.
  * either the ContentProSQliteDBDemo or ContentProviderRoomDemo are needs to already be installed on the
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public static Uri CONTENT_URI = Uri.parse("content://edu.cs4730.scoreprovider/score");
     // for the ContentProviderroomDemo  use this one.
     //public static Uri CONTENT_URI = Uri.parse("content://edu.cs4730.scoreroomprovider/score");
-    RecyclerView mRecyclerView;
+    ActivityMainBinding binding;
     FloatingActionButton fab;
     CursorViewModel mViewModel;
     myAdapter mAdapter;
@@ -48,19 +50,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         //initialize the View Model
         mViewModel = new ViewModelProvider(this).get(CursorViewModel.class);
 
         //setup the RecyclerView
-        mRecyclerView = findViewById(R.id.list);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        binding.list.setLayoutManager(new LinearLayoutManager(this));
+        binding.list.setItemAnimator(new DefaultItemAnimator());
 
-        mAdapter = new myAdapter(this, R.layout.recycler_row, mViewModel);  //null, since ModelView and LiveData will handle it.
+        mAdapter = new myAdapter(this, mViewModel);  //null, since ModelView and LiveData will handle it.
         //add the adapter to the recyclerview
-        mRecyclerView.setAdapter(mAdapter);
+        binding.list.setAdapter(mAdapter);
 
         //This button is used to add more data, so the loader will then reload "on it's own".
         fab = findViewById(R.id.floatingActionButton);
@@ -70,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                 ContentValues initialValues = new ContentValues();
                 initialValues.put(MainActivity.KEY_NAME, "Jim");
                 initialValues.put(MainActivity.KEY_SCORE, "3012");
-
                 Uri uri = getContentResolver().insert(CONTENT_URI, initialValues);
 
             }

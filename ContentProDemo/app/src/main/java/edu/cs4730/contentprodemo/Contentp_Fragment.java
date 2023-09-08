@@ -12,22 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import edu.cs4730.contentprodemo.databinding.ContentpFragmentBinding;
+
 /**
  * Simple fragment to display the information from the dummy content provider.
  */
 public class Contentp_Fragment extends Fragment {
-
     String TAG = "Contentp_frag";
-    TextView output;
+    ContentpFragmentBinding binding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myView = inflater.inflate(R.layout.contentp_fragment, container, false);
-
-        //get the one view I need.
-        output = (TextView) myView.findViewById(R.id.TextView01);
+        binding = ContentpFragmentBinding.inflate(inflater, container, false);
 
         appendthis("Query for 2 square");
         //example, select one of them, in this case 2
@@ -55,11 +52,11 @@ public class Contentp_Fragment extends Fragment {
             c.close();
         }
 
-        return myView;
+        return binding.getRoot();
     }
 
 
     public void appendthis(String item) {
-        output.append("\n" + item);
+        binding.TextView01.append("\n" + item);
     }
 }

@@ -17,31 +17,28 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.fragment.app.Fragment;
+
+import edu.cs4730.contentprosqlitedbdemo.databinding.FragmentContentProviderAccessBinding;
 import edu.cs4730.contentprosqlitedbdemo.db.mySQLiteHelper;
 
 /**
- *  Very simple version, that accesses, displays, and add some data to the database via the contentProvider
- *
+ * Very simple version, that accesses, displays, and add some data to the database via the contentProvider
  */
 
 public class ContentProviderAccessFragment extends Fragment {
 
     String TAG = "ContentProvider_frag";
     Cursor cursor;
-
-    ListView list;
+    FragmentContentProviderAccessBinding binding;
     private SimpleCursorAdapter dataAdapter;
-
     public ContentProviderAccessFragment() {
         // Required empty public constructor
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myView =  inflater.inflate(R.layout.fragment_content_provider_access, container, false);
+        binding = FragmentContentProviderAccessBinding.inflate(inflater, container, false);
 
         //get the people URI
         Uri CONTENT_URI = Uri.parse("content://edu.cs4730.scoreprovider/score");
@@ -60,49 +57,32 @@ public class ContentProviderAccessFragment extends Fragment {
         }
 
         // The desired columns to be bound
-        String[] columns = new String[]{
-            mySQLiteHelper.KEY_NAME,
-            mySQLiteHelper.KEY_SCORE
-        };
+        String[] columns = new String[]{mySQLiteHelper.KEY_NAME, mySQLiteHelper.KEY_SCORE};
 
         // the XML defined views which the data will be bound to
-        int[] to = new int[]{
-            R.id.name,
-            R.id.score
-        };
+        int[] to = new int[]{R.id.name, R.id.score};
 
         // create the adapter using the cursor pointing to the desired data
         //as well as the layout information
-        dataAdapter = new SimpleCursorAdapter(
-            requireContext(), R.layout.highscore,
-            cursor,
-            columns,
-            to,
-            0);
+        dataAdapter = new SimpleCursorAdapter(requireContext(), R.layout.highscore, cursor, columns, to, 0);
 
-        list = myView.findViewById(R.id.list);
-        list.setAdapter(dataAdapter);
-
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        binding.list.setAdapter(dataAdapter);
+        binding.list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> listView, View view,
-                                    int position, long id) {
+            public void onItemClick(AdapterView<?> listView, View view, int position, long id) {
                 // Get the cursor, positioned to the corresponding row in the result set
                 Cursor cursor = (Cursor) listView.getItemAtPosition(position);
 
                 // Should really create a dialogbox and display all the contact info here.  but I'll get to that
                 // when I have time.
                 //String name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
-                @SuppressLint("Range")
-                String name = cursor.getString(cursor.getColumnIndex(mySQLiteHelper.KEY_NAME));
+                @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex(mySQLiteHelper.KEY_NAME));
                 Toast.makeText(requireContext(), name, Toast.LENGTH_SHORT).show();
 
             }
         });
 
-        FloatingActionButton fab = myView.findViewById(R.id.floatingActionButton);
-        fab.setOnClickListener(new View.OnClickListener() {
+        binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ContentValues initialValues = new ContentValues();
@@ -115,8 +95,8 @@ public class ContentProviderAccessFragment extends Fragment {
                 dataAdapter.swapCursor(cursor);
             }
         });
-        
-        return myView;
+
+        return binding.getRoot();
     }
 
     //a simple method to append information to the Textview

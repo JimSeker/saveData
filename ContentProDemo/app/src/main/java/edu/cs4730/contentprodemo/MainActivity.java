@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import edu.cs4730.contentprodemo.databinding.ActivityMainBinding;
+
 /**
  * Example setup bottomnavview for two fragements
  * This demo's a contact contentprovider
@@ -24,20 +26,19 @@ public class MainActivity extends AppCompatActivity {
     String TAG = "MainActivity";
     public static final int REQUEST_READ_CONTACTS = 0;
 
-
-    BottomNavigationView navView;
+    ActivityMainBinding binding;;
     ContactsDemo_Fragment myContactsFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         //for permissions and BottomNavigationView.
         myContactsFrag = new ContactsDemo_Fragment();
 
-        navView = findViewById(R.id.nav_view);
-        navView.setOnItemSelectedListener(
+        binding.navView.setOnItemSelectedListener(
             new NavigationBarView.OnItemSelectedListener()  {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     if (item.getItemId() == R.id.action_CP) {

@@ -1,6 +1,7 @@
 package edu.cs4730.contentprodemo;
 
 import android.Manifest;
+
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -11,13 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
+import androidx.annotation.NonNull;
+
+import edu.cs4730.contentprodemo.databinding.ContactsFragBinding;
 
 /**
  * A simple fragment to display the contacts lists
@@ -25,20 +28,16 @@ import androidx.cursoradapter.widget.SimpleCursorAdapter;
 public class ContactsDemo_Fragment extends Fragment {
 
     String TAG = "Contacts_frag";
-
     Cursor cursor;
     private SimpleCursorAdapter dataAdapter;
-    ListView list;
+    ContactsFragBinding binding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View myView = inflater.inflate(R.layout.contacts_frag, container, false);
-        list = myView.findViewById(R.id.listView1);
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = ContactsFragBinding.inflate(inflater, container, false);
         setupContactsList();
 
-        return myView;
+        return binding.getRoot();
     }
 
     /**
@@ -46,12 +45,10 @@ public class ContactsDemo_Fragment extends Fragment {
      */
     public void setupContactsList() {
         //first check to see if I have permissions (marshmallow) if I don't then ask, otherwise start up the demo.
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS)
-            != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             //I'm on not explaining why, just asking for permission.
             Log.v(TAG, "asking for permissions");
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_CONTACTS},
-                MainActivity.REQUEST_READ_CONTACTS);
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_CONTACTS}, MainActivity.REQUEST_READ_CONTACTS);
 
         } else {
             //get the people URI
@@ -81,38 +78,27 @@ public class ContactsDemo_Fragment extends Fragment {
             }
             Log.i(TAG, "setup up listview");
 
-            list.setClickable(true);
+            binding.listView1.setClickable(true);
 
             // The desired columns to be bound
-            String[] columns = new String[]{
-                ContactsContract.Contacts.DISPLAY_NAME,
-                ContactsContract.Contacts.HAS_PHONE_NUMBER
-            };
+            String[] columns = new String[]{ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts.HAS_PHONE_NUMBER};
 
             // the XML defined views which the data will be bound to
-            int[] to = new int[]{
-                R.id.name,
-                R.id.phone
-            };
+            int[] to = new int[]{R.id.name, R.id.phone};
 
             // create the adapter using the cursor pointing to the desired data
             //as well as the layout information
-            dataAdapter = new SimpleCursorAdapter(requireActivity(),
-                R.layout.contactlist,
-                cursor,
-                columns,
-                to,
-                0);
+            dataAdapter = new SimpleCursorAdapter(requireActivity(), R.layout.contactlist, cursor, columns, to, 0);
 
 
             // Assign adapter to ListView
-            list.setAdapter(dataAdapter);
+            binding.listView1.setAdapter(dataAdapter);
             //set click listener
-            list.setOnItemClickListener(new OnItemClickListener() {
+            binding.listView1.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     // Get the cursor, positioned to the corresponding row in the result set
-                    Cursor cursor = (Cursor) list.getItemAtPosition(position);
+                    Cursor cursor = (Cursor) binding.listView1.getItemAtPosition(position);
 
                     //quickly display the name.
                     String name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));

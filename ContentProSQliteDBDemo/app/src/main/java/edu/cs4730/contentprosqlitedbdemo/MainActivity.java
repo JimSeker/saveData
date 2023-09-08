@@ -8,29 +8,32 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import edu.cs4730.contentprosqlitedbdemo.databinding.ActivityMainBinding;
+
 public class MainActivity extends AppCompatActivity {
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        navView.setOnItemSelectedListener(
+        binding.navView.setOnItemSelectedListener(
             new BottomNavigationView.OnItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     //setup the fragments here.
                     int id = item.getItemId();
                     if (id == R.id.action_first) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, new ContentProviderAccessFragment()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(binding.container.getId(), new ContentProviderAccessFragment()).commit();
                         item.setChecked(true);
                         return true;
                     } else if (id == R.id.action_second) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, new RecyclerViewFragment()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(binding.container.getId(), new RecyclerViewFragment()).commit();
                         item.setChecked(true);
                     } else if (id == R.id.action_third) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, new SpinnerFragment()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(binding.container.getId(), new SpinnerFragment()).commit();
                         item.setChecked(true);
                     }
 
@@ -42,6 +45,6 @@ public class MainActivity extends AppCompatActivity {
         );
         //start it with the first fragment, if we just started the app.
         if (savedInstanceState == null)
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new ContentProviderAccessFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(binding.container.getId(), new ContentProviderAccessFragment()).commit();
     }
 }
