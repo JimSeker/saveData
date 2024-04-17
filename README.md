@@ -22,6 +22,10 @@ Save data Examples
 
 `saveDataDemo_kt` (kotlin) shows an example of using the instance bundle,  the shared preference system to store data, and viewmodel for when the app is rotated, and for long term vs short term data storage.
 
+`DataStoreDemo` (java) shows an example of using the newer dataStore method that is supposed to replace shared prefence system.  it's harder and more complex to use, then shared preferences.  Also the java code does not match the kotlin code, but is the same functions.
+
+`DataStoreDemo_kt` (kotlin) shows an example of using the newer dataStore method that is supposed to replace shared prefence system.  it's harder and more complex to use, then shared preferences.  Also the java code does not match the kotlin code, but is the same functions.
+
 ---
 
 **File system examples:**
