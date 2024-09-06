@@ -4,8 +4,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.fragment.app.Fragment;
+
+import edu.cs4730.contentprosqlitedbdemo.databinding.FragmentRecyclerViewBinding;
+import edu.cs4730.contentprosqlitedbdemo.databinding.FragmentSpinnerBinding;
 import edu.cs4730.contentprosqlitedbdemo.db.mySQLiteHelper;
 
 import android.util.Log;
@@ -25,15 +29,17 @@ import android.widget.Toast;
 public class SpinnerFragment extends Fragment {
 
     String TAG = "spinner_frag";
-    Spinner mySpinner;
+    //Spinner mySpinner;
     private SimpleCursorAdapter dataAdapter;
     Cursor cursor;
+    FragmentSpinnerBinding binding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View myView = inflater.inflate(R.layout.fragment_spinner, container, false);
+        // Inflate the layout for this fragment\
+        binding = FragmentSpinnerBinding.inflate(inflater, container, false);
+
 
         //get the people URI
         Uri CONTENT_URI = Uri.parse("content://edu.cs4730.scoreprovider/score");
@@ -47,19 +53,18 @@ public class SpinnerFragment extends Fragment {
         // cursor = managedQuery(CONTENT_URI, projection, null, null, null);  //deprecated method, use one below.
         cursor = requireActivity().getContentResolver().query(CONTENT_URI, projection, null, null, SortOrder);
 
-        mySpinner = myView.findViewById(R.id.spinner1);
-
         dataAdapter = new SimpleCursorAdapter(requireContext(),
             android.R.layout.simple_spinner_item,
             cursor,  //data  _id and column name at min.
             new String[]{mySQLiteHelper.KEY_NAME},  //column name to display
             new int[]{android.R.id.text1}, 0);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mySpinner.setAdapter(dataAdapter);
+        binding.spinner1.setAdapter(dataAdapter);
 
-        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (view != null) {  //the viewpager is causing the fragment to remove the view, but not removing the listener.  which causes a force close, because the view is null
+                    //no viewbinding from the view here, so findViewById is required from the adapter above.
                     String name = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
                     Toast.makeText(requireContext(), "Selected ID=" + id + "name is " + name, Toast.LENGTH_LONG).show();
                 } else {
@@ -70,6 +75,6 @@ public class SpinnerFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        return myView;
+        return binding.getRoot();
     }
 }

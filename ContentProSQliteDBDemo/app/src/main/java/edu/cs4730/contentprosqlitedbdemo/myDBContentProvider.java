@@ -81,7 +81,7 @@ public class myDBContentProvider extends ContentProvider {
      *   to do the work.  But it does need setup the selection arg correctly.
      */
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
 
         switch (uriMatcher.match(uri)) {
             case SCORE:
@@ -103,7 +103,7 @@ public class myDBContentProvider extends ContentProvider {
      * but are null values, plus pass onthe sortOrder on to it.
      */
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection,
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
 
         switch (uriMatcher.match(uri)) {
@@ -146,7 +146,7 @@ public class myDBContentProvider extends ContentProvider {
 
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         int count;
         switch (uriMatcher.match(uri)) {

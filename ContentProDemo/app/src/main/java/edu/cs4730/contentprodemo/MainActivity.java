@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import edu.cs4730.contentprodemo.databinding.ActivityMainBinding;
@@ -43,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     if (item.getItemId() == R.id.action_CP) {
                         getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container, new Contentp_Fragment()).commit();
+                            .replace(binding.container.getId(), new Contentp_Fragment()).commit();
                         return true;
 
                     } else if (item.getItemId() == R.id.action_contact) {
                         getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container, myContactsFrag).commit();
+                            .replace(binding.container.getId(), myContactsFrag).commit();
                         return true;
                     } else
                         return false;
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         );
         //set the first one as the default.
         getSupportFragmentManager().beginTransaction()
-            .add(R.id.container, new Contentp_Fragment()).commit();
+            .add(binding.container.getId(), new Contentp_Fragment()).commit();
     }
 
     /**
