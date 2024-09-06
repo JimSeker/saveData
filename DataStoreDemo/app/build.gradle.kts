@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace = "edu.cs4730.datastoredemo"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "edu.cs4730.datastoredemo"
-        minSdk = 28
-        targetSdk = 34
+        minSdk = 29
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
