@@ -8,7 +8,7 @@ Save data Examples
 
 **Preference Examples:**
 
-`PerferenceDemo` uses the preference fragments to save user preference data.  Note, there are no support libraries used for fragment or preferences. Also, this is for API 16+, for older versions, see the legacy directory example.  This example will maintained but not updated. 
+`PerferenceDemo` uses the preference fragments to save user preference data.  It stops at API 28 and there are no support libraries used for fragment or preferences. Also, this is for API 16+, for older versions, see the legacy directory example.  This example will maintained but not updated.   Use supportPreference demos for anything API 29+.
 
 `SupportPerferenceDemo` (java) uses the androidx preferences fragments to save user preference data.  This is a translation of the PerferenceDemo to the newer androidx versions.  
 
