@@ -46,7 +46,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
     // Create new views (invoked by the layout manager)
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         RecyclerRowBinding v = RecyclerRowBinding.inflate(LayoutInflater.from(mContext), viewGroup, false);
         return new ViewHolder(v);
     }

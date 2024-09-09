@@ -60,13 +60,14 @@ class PreferenceupdateFragment : PreferenceFragmentCompat(), OnSharedPreferenceC
         preferenceScreen.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == "edittext_preference") {  //where textPref is the key used in the xml.
             mEditTextPreference.summary =
-                "Text is " + sharedPreferences.getString("edittext_preference", "Default")
+                "Text is " + sharedPreferences!!.getString("edittext_preference", "Default")
         } else if (key == "list_preference") {
             mListPreference.summary =
-                "Current value is " + sharedPreferences.getString(key, "Default")
+                "Current value is " + sharedPreferences!!.getString(key, "Default")
         } else if (key == "multiselect_key") {
             var list = ""
             val selections = mMultiSelectListPreference.sharedPreferences!!
@@ -82,4 +83,5 @@ class PreferenceupdateFragment : PreferenceFragmentCompat(), OnSharedPreferenceC
                     .getString("dropdown", "Default")
         }
     }
+
 }

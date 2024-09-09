@@ -113,10 +113,10 @@ public class MainActivity extends AppCompatActivity {
      * Called, when app is being destroyed, but maybe called after onStop as well.
      */
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onSaveInstanceState(Bundle outState) {
         //Store the state et_bundle/b2
-        savedInstanceState.putInt("b2", b2);
-        super.onSaveInstanceState(savedInstanceState);
+        outState.putInt("b2", b2);
+        super.onSaveInstanceState(outState);
     }
 
     /**

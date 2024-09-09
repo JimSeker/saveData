@@ -2,9 +2,6 @@ package edu.cs4730.savedatademo_kt
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import edu.cs4730.savedatademo_kt.databinding.ActivityMainBinding
@@ -96,10 +93,10 @@ class MainActivity : AppCompatActivity() {
     /**
      * Called, when app is being destroyed, but maybe called after onStop as well.
      */
-    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+    override fun onSaveInstanceState(outState: Bundle) {
         //Store the state et_bundle/b2
-        savedInstanceState.putInt("b2", b2)
-        super.onSaveInstanceState(savedInstanceState)
+        outState.putInt("b2", b2)
+        super.onSaveInstanceState(outState)
     }
 
     /**
