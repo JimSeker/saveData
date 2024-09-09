@@ -2,6 +2,9 @@ package edu.cs4730.filesystemdemo;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,6 +14,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -34,7 +38,7 @@ public class localPrivate_Fragment extends Fragment {
     MainActivity parent;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "OnCreateView");
         binding = FragmentLocalprivateBinding.inflate(inflater, container, false);
 
@@ -88,7 +92,7 @@ public class localPrivate_Fragment extends Fragment {
                     osr.close();
                     /* older method, commented out, but left as an example.
                     DataOutputStream dos;
-                    dos = new DataOutputStream(getActivity().openFileOutput(flist[i], Context.MODE_APPEND));
+                    dos = new DataOutputStream(requireActivity().openFileOutput(flist[i], Context.MODE_APPEND));
                     dos.writeUTF("Another line");
                     dos.close();
                      */
@@ -112,10 +116,10 @@ public class localPrivate_Fragment extends Fragment {
 
                     /* older method, commented out, but left as an example.
                      DataInputStream in;
-                    in = new DataInputStream(getActivity().openFileInput(flist[i]));
+                    in = new DataInputStream(requireActivity().openFileInput(flist[i]));
                     while (true)
                         try {
-                            logger.append(in.readUTF() + "\n");
+                            binding.loggerlp.append(in.readUTF() + "\n");
                         } catch (EOFException e) {  //reach end of file
                             in.close();
                         }

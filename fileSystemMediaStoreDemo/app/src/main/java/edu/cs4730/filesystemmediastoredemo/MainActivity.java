@@ -65,9 +65,12 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //permissions changes between 28, 32, and 33
+        //permissions changes between 28, 32, 33, and 34 too.
         //https://developer.android.com/about/versions/13/behavior-changes-13
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        //https://developer.android.com/about/versions/14/changes/partial-photo-video-access
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED};
+        }  else  if (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
             REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_MEDIA_IMAGES};
         } else {
             REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -101,12 +104,11 @@ public class MainActivity extends AppCompatActivity {
     void listpictures() {
         Uri collection;
         List<Pic> picList = new ArrayList<>();
+        //api 29+
+        collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL); //Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
-        } else {
-            collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI; //Video.Media.EXTERNAL_CONTENT_URI;
-        }
+        //api 28 and below uses, but this example is set to API 29+
+        //collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI; //Video.Media.EXTERNAL_CONTENT_URI;
 
         //setup the information for the question, project and sortOrder.  we could sort by date.
         String[] projection = new String[]{MediaStore.Images.Media._ID, //   Video.Media._ID,
@@ -159,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         //for thumbnails, use something like this:
         //Bitmap thumbnail = getApplicationContext().getContentResolver().loadThumbnail(content-uri, new Size(640, 480), null);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.ThemeOverlay_AppCompat_Dialog));
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.ThemeOverlay_MaterialComponents_Dialog));
         builder.setTitle("Choose Type:");
         builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {

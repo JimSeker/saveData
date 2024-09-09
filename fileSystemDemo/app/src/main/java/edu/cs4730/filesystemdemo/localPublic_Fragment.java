@@ -78,11 +78,11 @@ public class localPublic_Fragment extends Fragment {
         }
         //now read it back.
         try {
-            DataInputStream in = new DataInputStream(new FileInputStream(datafile));
+            DataInputStream dis = new DataInputStream(new FileInputStream(datafile));
             while (true) try {
-                binding.loggerpub.append(in.readUTF());
+                binding.loggerpub.append(dis.readUTF());
             } catch (EOFException e) {  //reach end of file
-                in.close();
+                dis.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -117,11 +117,11 @@ public class localPublic_Fragment extends Fragment {
         //now read it back.
         binding.loggerpub.append("Now reading it back \n");
         try {
-            DataInputStream in = new DataInputStream(new FileInputStream(dlfile));
+            DataInputStream dis = new DataInputStream(new FileInputStream(dlfile));
             while (true) try {
-                binding.loggerpub.append(in.readUTF());
+                binding.loggerpub.append(dis.readUTF());
             } catch (EOFException e) {  //reach end of file
-                in.close();
+                dis.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
