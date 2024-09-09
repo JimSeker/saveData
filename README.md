@@ -30,9 +30,13 @@ Save data Examples
 
 **File system examples:**
 
-`fileSystemDemo` shows how to read/write to local private and public directory. The external has been removed, since it won't work in API 30 (see legacy).  A new example will be needed for the sdcard, when I can find documentation that actually works (I looking at you google/android, poor documentation).
+`fileSystemDemo` (java) shows how to read/write to local private and public directory. The external has been removed, since it won't work in API 30 (see legacy).  A new example will be needed for the sdcard, when I can find documentation that actually works (I looking at you google/android, poor documentation).  MediaStoreDemo can use some of the SDcard, but not all files or types.
 
-`fileSystemMediaStoreDemo` show you how to access the DCIM and pictures directory (easily changes to video).  This allows you to access the media on the SDcard, but any other file types.
+`fileSystemDemo_kt` (kotlin) shows how to read/write to local private and public directory. The external has been removed, since it won't work in API 30 (see legacy).  A new example will be needed for the sdcard, when I can find documentation that actually works (I looking at you google/android, poor documentation).  MediaStoreDemo can use some of the SDcard, but not all files or types.
+
+`fileSystemMediaStoreDemo` (java) show you how to access the DCIM and pictures directory (easily changes to video).  This allows you to access the media on the SDcard, but not any other file types.
+
+`fileSystemMediaStoreDemo_kt` (kotlin) show you how to access the DCIM and pictures directory (easily changes to video).  This allows you to access the media on the SDcard, but not any other file types.
 
 `fileSystemMediaStoreRecAudioDemo` This example uses the mediastore to record and play files on the music directory.  actually in a subdirectory, music/recording.  There is a picker for filenames and to choose which files to play.  Note, you will need to record at least one file in order to play something.
 
