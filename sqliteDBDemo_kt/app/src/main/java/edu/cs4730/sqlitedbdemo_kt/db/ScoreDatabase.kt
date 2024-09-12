@@ -21,7 +21,7 @@ import java.io.IOException
  * This provides a number of methods as examples for different things.
  * It also provides the accessor methods for the content provider as well.
  */
-class ScoreDatabase(ctx: Context?) {
+class ScoreDatabase(ctx: Context) {
     private val helper: SupportSQLiteOpenHelper
     private lateinit var db: SupportSQLiteDatabase
 
@@ -49,7 +49,7 @@ class ScoreDatabase(ctx: Context?) {
      * insert methods.
      */
     //InsertName is wrapper method, so the activity doesn't have to build  ContentValues for the insert.
-    fun insertName(name: String?, value: Int?): Long {
+    fun insertName(name: String, value: Int): Long {
         val initialValues = ContentValues()
         initialValues.put(mySQLiteHelper.KEY_NAME, name)
         initialValues.put(mySQLiteHelper.KEY_SCORE, value)
@@ -77,13 +77,13 @@ class ScoreDatabase(ctx: Context?) {
                 mySQLiteHelper.KEY_NAME // String sortOrder  by name as the sort.
             )
             //if (mCursor != null) //make sure cursor is not empty!
-                mCursor.moveToFirst()
+            mCursor.moveToFirst()
             return mCursor
         }
 
     //Retrieve one entry  METHOD we are supposed to use.
     @Throws(SQLException::class)
-    fun get1name(name: String): Cursor? {
+    fun get1name(name: String): Cursor {
         //the query parameter method is not included in supportSQLiteDatabase.
         //So, use the helper function
         val mCursor = qbQuery(
@@ -107,7 +107,9 @@ class ScoreDatabase(ctx: Context?) {
         val mCursor = db.query(
             "select Name, Score from HighScore where Name=\'$name\'", emptyArray()
         )
-        mCursor?.moveToFirst()
+        if (mCursor != null) {
+            mCursor.moveToFirst()
+        }
         return mCursor
     }
 
@@ -163,9 +165,8 @@ class ScoreDatabase(ctx: Context?) {
     //constructor
     init {
         //val factory: SupportSQLiteOpenHelper.Factory = FrameworkSQLiteOpenHelperFactory()
-        val configuration = SupportSQLiteOpenHelper.Configuration.builder(
-            ctx!!
-        ).name(mySQLiteHelper.DATABASE_NAME).callback(mySQLiteHelper()).build()
+        val configuration = SupportSQLiteOpenHelper.Configuration.builder(ctx)
+            .name(mySQLiteHelper.DATABASE_NAME).callback(mySQLiteHelper()).build()
         helper = FrameworkSQLiteOpenHelperFactory().create(configuration)
     }
 }

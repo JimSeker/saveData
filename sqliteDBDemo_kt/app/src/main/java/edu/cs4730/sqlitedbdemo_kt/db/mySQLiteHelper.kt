@@ -19,9 +19,8 @@ class mySQLiteHelper  //required constructor with the super.
     override fun onUpgrade(db: SupportSQLiteDatabase, oldVersion: Int, newVersion: Int) {
         //Called when the database version changes, Remember the constant from above.
         Log.w(
-            TAG, "Upgrading database from version " + oldVersion
-                    + " to "
-                    + newVersion + ", which will destroy all old data"
+            TAG, "Upgrading database from version  $oldVersion to "+
+                    "$newVersion, which will destroy all old data"
         )
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
         onCreate(db)
@@ -39,9 +38,9 @@ class mySQLiteHelper  //required constructor with the super.
         private const val DATABASE_VERSION = 2
 
         // Database creation sql statement
-        private const val DATABASE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" +
-                KEY_ROWID + " integer PRIMARY KEY autoincrement," +  //this line is required for the cursorAdapter.
-                KEY_NAME + " TEXT, " +
-                KEY_SCORE + " INTEGER );"
+        private const val DATABASE_CREATE = "CREATE TABLE  $TABLE_NAME  (" +
+                "$KEY_ROWID integer PRIMARY KEY autoincrement," +  //this line is required for the cursorAdapter.
+                "$KEY_NAME TEXT, " +
+                "$KEY_SCORE INTEGER );"
     }
 }
