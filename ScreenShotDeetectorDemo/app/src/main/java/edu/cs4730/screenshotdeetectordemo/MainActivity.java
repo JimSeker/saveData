@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
     static String TAG = "MainActivity";
     ContentObserver contentObserver;
     ActivityMainBinding binding;
-    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
         //permissions changes between 28, 32, and 33
         //https://developer.android.com/about/versions/13/behavior-changes-13
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED};
+        } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             //we actually don't need the media_location, unless you open the file.  I've set the no location, but likely won't work.
             REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_MEDIA_IMAGES};
         } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -68,18 +69,18 @@ public class MainActivity extends AppCompatActivity {
 
         //setup for the read permissions needed.
         rpl = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
-                new ActivityResultCallback<Map<String, Boolean>>() {
-                    @Override
-                    public void onActivityResult(Map<String, Boolean> isGranted) {
-                        boolean granted = true;
-                        for (Map.Entry<String, Boolean> x : isGranted.entrySet()) {
-                            logthis(x.getKey() + " is " + x.getValue());
-                            if (!x.getValue()) granted = false;
-                        }
-                        if (granted)
-                            logthis("All permissions granted");
+            new ActivityResultCallback<Map<String, Boolean>>() {
+                @Override
+                public void onActivityResult(Map<String, Boolean> isGranted) {
+                    boolean granted = true;
+                    for (Map.Entry<String, Boolean> x : isGranted.entrySet()) {
+                        logthis(x.getKey() + " is " + x.getValue());
+                        if (!x.getValue()) granted = false;
                     }
+                    if (granted)
+                        logthis("All permissions granted");
                 }
+            }
         );
 
 
@@ -110,17 +111,17 @@ public class MainActivity extends AppCompatActivity {
     public void getname(Uri uri) {
         //setup the information for the question, project and sortOrder.  we could sort by date.
         String[] projection = new String[]{
-                MediaStore.Images.Media._ID, //   Video.Media._ID,
-                MediaStore.Images.Media.RELATIVE_PATH, // only api 29+
-                MediaStore.Images.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
+            MediaStore.Images.Media._ID, //   Video.Media._ID,
+            MediaStore.Images.Media.RELATIVE_PATH, // only api 29+
+            MediaStore.Images.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
         };
         String sortOrder = MediaStore.Images.Media.DISPLAY_NAME; // MediaStore.Images.Media.DATE_ADDED
         try (Cursor cursor = getContentResolver().query(
-                uri,
-                projection,
-                null,  //selection, all of them.
-                null, //selectionArgs,
-                sortOrder
+            uri,
+            projection,
+            null,  //selection, all of them.
+            null, //selectionArgs,
+            sortOrder
         )) {
             Log.wtf("query", "Starting");
             // Cache column indices.

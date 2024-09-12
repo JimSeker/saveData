@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import edu.cs4730.contentprosqlitedbdemo.databinding.HighscoreBinding;
 import edu.cs4730.contentprosqlitedbdemo.db.mySQLiteHelper;
 
 /**
@@ -23,36 +25,29 @@ import edu.cs4730.contentprosqlitedbdemo.db.mySQLiteHelper;
 public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
 
     private Cursor mCursor;
-    private int rowLayout;
     private Context mContext;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-
+    //viewbinding provides the references now.
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView myName, myScore;
+        public HighscoreBinding viewBinding;
 
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            myName = itemView.findViewById(R.id.name);
-            myScore = itemView.findViewById(R.id.score);
+        public ViewHolder(HighscoreBinding viewBinding) {
+            super(viewBinding.getRoot());
+            this.viewBinding = viewBinding;
         }
     }
 
     //constructor
-    public myAdapter(Cursor c, int rowLayout, Context context) {
+    public myAdapter(Cursor c,  Context context) {
         this.mCursor = c;
-        this.rowLayout = rowLayout;
         this.mContext = context;
     }
 
     // Create new views (invoked by the layout manager)
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(rowLayout, viewGroup, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        HighscoreBinding v = HighscoreBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false);
         return new ViewHolder(v);
     }
 
@@ -62,18 +57,17 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         //this assumes it's not called with a null mCursor, since i means there is a data.
         mCursor.moveToPosition(i);
-        viewHolder.myName.setText(
+        viewHolder.viewBinding.name.setText(
             mCursor.getString(mCursor.getColumnIndex(mySQLiteHelper.KEY_NAME))
         );
-        viewHolder.myScore.setText(
+        viewHolder.viewBinding.score.setText(
             String.valueOf(mCursor.getInt(mCursor.getColumnIndex(mySQLiteHelper.KEY_SCORE)))
         );
         //itemView is the whole cardview, so it easy to a click listener.
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView tv = v.findViewById(R.id.name);  //view in this case is the itemView, which had other pieces in it.
-                Toast.makeText(mContext, tv.getText(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,  viewHolder.viewBinding.name.getText(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -85,6 +79,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
     }
 
     //change the cursor as needed and have the system redraw the data.
+    @SuppressLint("NotifyDataSetChanged")
     public void setCursor(Cursor c) {
         mCursor = c;
         notifyDataSetChanged();

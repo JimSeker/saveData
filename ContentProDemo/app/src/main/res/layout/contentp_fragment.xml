@@ -20,7 +20,6 @@
         android:id="@+id/TextView01"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:text="Output:" >
-    </TextView>
+        android:text="Output:"></TextView>
 
 </LinearLayout>

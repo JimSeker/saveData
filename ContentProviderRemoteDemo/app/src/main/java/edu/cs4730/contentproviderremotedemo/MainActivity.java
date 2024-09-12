@@ -4,15 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentValues;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import edu.cs4730.contentproviderremotedemo.databinding.ActivityMainBinding;
 
@@ -43,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     // for the ContentProviderroomDemo  use this one.
     //public static Uri CONTENT_URI = Uri.parse("content://edu.cs4730.scoreroomprovider/score");
     ActivityMainBinding binding;
-    FloatingActionButton fab;
     CursorViewModel mViewModel;
     myAdapter mAdapter;
 
@@ -65,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         binding.list.setAdapter(mAdapter);
 
         //This button is used to add more data, so the loader will then reload "on it's own".
-        fab = findViewById(R.id.floatingActionButton);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ContentValues initialValues = new ContentValues();

@@ -39,8 +39,8 @@ public class ContentProviderAccessFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentContentProviderAccessBinding.inflate(inflater, container, false);
 
-        //get the people URI
-        Uri CONTENT_URI = Uri.parse("content://edu.cs4730.scoreprovider/score");
+        //get the people URI, defined in myDBContentProvider, so don't do it here again.
+       // Uri CONTENT_URI = Uri.parse("content://edu.cs4730.scoreprovider/score");
         //setup the information we want for the contentprovider.
         String[] projection = new String[]{mySQLiteHelper.KEY_ROWID, mySQLiteHelper.KEY_NAME, mySQLiteHelper.KEY_SCORE};
 
@@ -49,7 +49,7 @@ public class ContentProviderAccessFragment extends Fragment {
 
         //finally make the query
         // cursor = managedQuery(CONTENT_URI, projection, null, null, null);  //deprecated method, use one below.
-        cursor = requireActivity().getContentResolver().query(CONTENT_URI, projection, null, null, SortOrder);
+        cursor = requireActivity().getContentResolver().query(myDBContentProvider.CONTENT_URI, projection, null, null, SortOrder);
 
         if (cursor == null) {
             Log.i(TAG, "cursor is null...");
@@ -87,10 +87,10 @@ public class ContentProviderAccessFragment extends Fragment {
                 ContentValues initialValues = new ContentValues();
                 initialValues.put(mySQLiteHelper.KEY_NAME, "Fred");
                 initialValues.put(mySQLiteHelper.KEY_SCORE, "123");
-                Uri uri = requireActivity().getContentResolver().insert(CONTENT_URI, initialValues);
+                Uri uri = requireActivity().getContentResolver().insert(myDBContentProvider.CONTENT_URI, initialValues);
 
                 //a view model fixes this and won't be needed.
-                cursor = requireActivity().getContentResolver().query(CONTENT_URI, projection, null, null, SortOrder);
+                cursor = requireActivity().getContentResolver().query(myDBContentProvider.CONTENT_URI, projection, null, null, SortOrder);
                 dataAdapter.swapCursor(cursor);
             }
         });

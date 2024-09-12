@@ -3,9 +3,8 @@ package edu.cs4730.contentproviderremotedemo;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
@@ -44,6 +43,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
         //the observer could just as easily be in the MainActivity and the use a "swapCursor" method
         // to change the cursor and call notifyDataSetChanged()
         mViewModel.getData().observe(lifecycleOwner, new Observer<Cursor>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChanged(Cursor data) {
                 cursor = data;
@@ -53,6 +53,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
     }
 
     // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         RecyclerRowBinding v = RecyclerRowBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false);
@@ -62,7 +63,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     @SuppressLint("Range")
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         if (setRow(i)) {  //move the cursor to the correct spot in the list other no data.
             String name = cursor.getString(cursor.getColumnIndex(MainActivity.KEY_NAME));
             String scoreStr = cursor.getString(cursor.getColumnIndex(MainActivity.KEY_SCORE));

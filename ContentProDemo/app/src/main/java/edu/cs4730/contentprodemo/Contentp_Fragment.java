@@ -20,6 +20,7 @@ import edu.cs4730.contentprodemo.databinding.ContentpFragmentBinding;
 public class Contentp_Fragment extends Fragment {
     String TAG = "Contentp_frag";
     ContentpFragmentBinding binding;
+    String provider = "content://edu.cs4730.provider/";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class Contentp_Fragment extends Fragment {
 
         appendthis("Query for 2 square");
         //example, select one of them, in this case 2
-        Uri onerow = Uri.parse("content://edu.cs4730.provider/square/2");
+        Uri onerow = Uri.parse(provider+"square/2");
         Cursor c = requireActivity().getContentResolver().query(onerow, null, null, null, null);
         if (c != null) {
             c.moveToFirst();
@@ -41,7 +42,7 @@ public class Contentp_Fragment extends Fragment {
 
         appendthis("\nQuery all for cube:");
         //now select "all", which will return 1 to 10 cubed.
-        Uri allrow = Uri.parse("content://edu.cs4730.provider/cube");
+        Uri allrow = Uri.parse(provider+"cube");
         c = requireActivity().getContentResolver().query(allrow, null, null, null, null);
         if (c != null) {
             c.moveToFirst();

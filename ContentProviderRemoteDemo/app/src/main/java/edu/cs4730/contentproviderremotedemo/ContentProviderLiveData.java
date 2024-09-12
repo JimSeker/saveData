@@ -6,6 +6,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -27,7 +28,7 @@ public class ContentProviderLiveData extends MutableLiveData<Cursor> {
         super();
         mContext = application.getApplicationContext();
         mUri = uri;
-        mObserver = new ContentObserver(new Handler()) {
+        mObserver = new ContentObserver(new Handler(Looper.getMainLooper())) {
             @Override
             public void onChange(boolean selfChange) {
                 super.onChange(selfChange);

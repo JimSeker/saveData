@@ -15,10 +15,15 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-import androidx.core.app.ActivityCompat;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.annotation.NonNull;
+
+import java.util.Map;
 
 import edu.cs4730.contentprodemo.databinding.ContactsFragBinding;
 
@@ -31,6 +36,34 @@ public class ContactsDemo_Fragment extends Fragment {
     Cursor cursor;
     private SimpleCursorAdapter dataAdapter;
     ContactsFragBinding binding;
+
+    ActivityResultLauncher<String[]> rpl;
+    private final String[] REQUIRED_PERMISSIONS = new String[]{Manifest.permission.READ_CONTACTS};
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //setup for the read permissions needed.
+        rpl = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
+            new ActivityResultCallback<Map<String, Boolean>>() {
+                @Override
+                public void onActivityResult(Map<String, Boolean> isGranted) {
+                    boolean granted = true;
+                    for (Map.Entry<String, Boolean> x : isGranted.entrySet()) {
+                        logthis(x.getKey() + " is " + x.getValue());
+                        if (!x.getValue()) granted = false;
+                    }
+                    if (granted) {
+                        logthis("All permissions granted");
+                        setupContactsList();
+                    } else {
+                        Toast.makeText(requireContext(), "Contacts access NOT granted", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        );
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,11 +78,8 @@ public class ContactsDemo_Fragment extends Fragment {
      */
     public void setupContactsList() {
         //first check to see if I have permissions (marshmallow) if I don't then ask, otherwise start up the demo.
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            //I'm on not explaining why, just asking for permission.
-            Log.v(TAG, "asking for permissions");
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_CONTACTS}, MainActivity.REQUEST_READ_CONTACTS);
-
+        if (!allPermissionsGranted()) {
+            rpl.launch(REQUIRED_PERMISSIONS);
         } else {
             //get the people URI
             Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
@@ -74,9 +104,9 @@ public class ContactsDemo_Fragment extends Fragment {
             //setup the listview for the fragment
 
             if (cursor == null) {
-                Log.e(TAG, "cursor is null...");
+                logthis( "cursor is null...");
             }
-            Log.i(TAG, "setup up listview");
+           logthis( "setup up listview");
 
             binding.listView1.setClickable(true);
 
@@ -106,5 +136,20 @@ public class ContactsDemo_Fragment extends Fragment {
                 }
             });
         }
+    }
+
+    //ask for permissions when we start.
+    private boolean allPermissionsGranted() {
+        for (String permission : REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(requireActivity(), permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //simple helper function to log information to two places.
+    public void logthis(String msg) {
+        Log.d(TAG, msg);
     }
 }

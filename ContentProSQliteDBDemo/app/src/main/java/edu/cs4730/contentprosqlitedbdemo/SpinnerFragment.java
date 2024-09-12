@@ -40,9 +40,8 @@ public class SpinnerFragment extends Fragment {
         // Inflate the layout for this fragment\
         binding = FragmentSpinnerBinding.inflate(inflater, container, false);
 
-
-        //get the people URI
-        Uri CONTENT_URI = Uri.parse("content://edu.cs4730.scoreprovider/score");
+        //get the people URI, defined in myDBContentProvider, so don't do it here again.
+        //Uri CONTENT_URI = Uri.parse("content://edu.cs4730.scoreprovider/score");
         //setup the information we want for the contentprovider.
         String[] projection = new String[]{mySQLiteHelper.KEY_ROWID, mySQLiteHelper.KEY_NAME, mySQLiteHelper.KEY_SCORE};
 
@@ -51,7 +50,7 @@ public class SpinnerFragment extends Fragment {
 
         //finally make the query
         // cursor = managedQuery(CONTENT_URI, projection, null, null, null);  //deprecated method, use one below.
-        cursor = requireActivity().getContentResolver().query(CONTENT_URI, projection, null, null, SortOrder);
+        cursor = requireActivity().getContentResolver().query(myDBContentProvider.CONTENT_URI, projection, null, null, SortOrder);
 
         dataAdapter = new SimpleCursorAdapter(requireContext(),
             android.R.layout.simple_spinner_item,
