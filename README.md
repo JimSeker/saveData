@@ -65,11 +65,17 @@ Note Room Examples are in the [Architecture repo](https://github.com/JimSeker/Ar
 
 **Content Provider Examples:** 
 
-`ContentProDemo` shows how to create a simple context provider and how to access it.  Also has an example of accessing the contacts provider.
+`ContentProDemo` (java) shows how to create a simple context provider and how to access it.  Also has an example of accessing the contacts provider.
 
-`ContentProSQliteDBDemo` shows how to create a content provider using a SQLite database.   displays in a listview, recyclerview and a spinner.
+`ContentProDemo_kt` (kotlin) shows how to create a simple context provider and how to access it.  Also has an example of accessing the contacts provider.
 
-`ContentProviderRemoteDemo` connects to a "remote" content provider.  either the ContentProSQliteDBDemo or ContentProviderRoomDemo in [Architecture repo](https://github.com/JimSeker/Architecture).  It then will display the data in recyclerview and can add data via a FAB.
+`ContentProSQliteDBDemo` (java)  shows how to create a content provider using a SQLite database.   displays in a listview, recyclerview and a spinner.
+
+`ContentProSQliteDBDemo_kt` (kotlin) shows how to create a content provider using a SQLite database.   displays in a listview, recyclerview and a spinner.
+
+`ContentProviderRemoteDemo` (java) connects to a "remote" content provider.  either the ContentProSQliteDBDemo or ContentProviderRoomDemo in [Architecture repo](https://github.com/JimSeker/Architecture).  It then will display the data in recyclerview and can add data via a FAB.
+
+`ContentProviderRemoteDemo_kt` (kotlin) connects to a "remote" content provider.  either the ContentProSQliteDBDemo or ContentProviderRoomDemo in [Architecture repo](https://github.com/JimSeker/Architecture).  It then will display the data in recyclerview and can add data via a FAB.
 
 ---
 
