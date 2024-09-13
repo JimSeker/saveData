@@ -66,8 +66,8 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView tv = v.findViewById(R.id.name);  //view in this case is the itemView, which had other pieces in it.
-                Toast.makeText(mContext, tv.getText(), Toast.LENGTH_SHORT).show();
+                //TextView tv = v.findViewById(R.id.name);  //view in this case is the itemView, which had other pieces in it.
+                Toast.makeText(mContext, viewHolder.viewBinding.name.getText(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -79,6 +79,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
     }
 
     //change the cursor as needed and have the system redraw the data.
+    @SuppressLint("NotifyDataSetChanged")
     public void setCursor(Cursor c) {
         mCursor = c;
         notifyDataSetChanged();

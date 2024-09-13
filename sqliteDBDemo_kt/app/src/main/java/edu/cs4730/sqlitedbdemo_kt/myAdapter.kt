@@ -40,10 +40,9 @@ class myAdapter     //constructor
         viewHolder.viewBinding.score.text =
             mCursor!!.getInt(mCursor!!.getColumnIndex(mySQLiteHelper.KEY_SCORE)).toString()
         //itemView is the whole cardview, so it easy to a click listener.
-        viewHolder.itemView.setOnClickListener { v ->
-            val tv =
-                v.findViewById<TextView>(R.id.name) //view in this case is the itemView, which had other pieces in it.
-            Toast.makeText(mContext, tv.text, Toast.LENGTH_SHORT).show()
+        viewHolder.itemView.setOnClickListener {
+            Toast.makeText(mContext, viewHolder.viewBinding.name.getText(), Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -53,6 +52,7 @@ class myAdapter     //constructor
     }
 
     //change the cursor as needed and have the system redraw the data.
+    @SuppressLint("NotifyDataSetChanged")
     fun setCursor(c: Cursor?) {
         mCursor = c
         notifyDataSetChanged()
