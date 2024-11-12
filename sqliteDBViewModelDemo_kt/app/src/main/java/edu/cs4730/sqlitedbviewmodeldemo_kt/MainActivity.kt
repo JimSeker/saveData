@@ -4,12 +4,12 @@ import android.database.Cursor
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import edu.cs4730.sqlitedbviewmodeldemo_kt.databinding.ActivityMainBinding
 import edu.cs4730.sqlitedbviewmodeldemo_kt.db.CursorViewModel
 
@@ -22,6 +22,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v: View, insets: WindowInsetsCompat ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
         mViewModel = ViewModelProvider(this).get(CursorViewModel::class.java)
 
         binding.list.layoutManager = LinearLayoutManager(this)
@@ -29,8 +34,7 @@ class MainActivity : AppCompatActivity() {
         mAdapter = myAdapter(null, applicationContext)
         //add the adapter to the recyclerview
         binding.list.adapter = mAdapter
-        mViewModel.data.observe(this,
-            Observer<Cursor?> { data -> mAdapter.setCursor(data) })
+        mViewModel.data.observe(this, Observer<Cursor?> { data -> mAdapter.setCursor(data) })
 
         binding.floatingActionButton.setOnClickListener(View.OnClickListener {
             mViewModel.add("Jim", 3012)

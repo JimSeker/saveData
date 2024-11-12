@@ -1,7 +1,10 @@
 package edu.cs4730.supportprefencedemo_kt
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentManager
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -27,6 +30,12 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.container) { v: View, insets: WindowInsetsCompat ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
+
         fragmentManager = supportFragmentManager
         //setup the mainFragment to show.
         fragmentManager.beginTransaction().add(binding.container.id, MainFragment()).commit()
@@ -40,10 +49,8 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
         //now change to the SecondFragment, pressing the back button should go to main fragment.
         val transaction = fragmentManager.beginTransaction()
         //Change to the correct fragment for preferences
-        if (which == 1)
-            transaction.replace(binding.container.id, PreferenceupdateFragment())
-        else
-            transaction.replace(binding.container.id, myPreferenceFragment())
+        if (which == 1) transaction.replace(binding.container.id, PreferenceupdateFragment())
+        else transaction.replace(binding.container.id, myPreferenceFragment())
         // and add the transaction to the back stack so the user can navigate back
         transaction.addToBackStack(null)
         // Commit the transaction
@@ -55,8 +62,7 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
      * It used when the user taps on preference that calls a preference fragment.
      */
     override fun onPreferenceStartFragment(
-        caller: PreferenceFragmentCompat,
-        pref: Preference
+        caller: PreferenceFragmentCompat, pref: Preference
     ): Boolean {
         // Instantiate the new Fragment
         val args = pref.extras
@@ -64,13 +70,12 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
         fragment.arguments = args
 
         //Now replace the existing Fragment with the new Fragment, the listener is doing?? idk.
-        fragmentManager.beginTransaction().replace(binding.container.id, fragment).addToBackStack(null)
-            .commit()
+        fragmentManager.beginTransaction().replace(binding.container.id, fragment)
+            .addToBackStack(null).commit()
         fragmentManager.setFragmentResultListener(
             "reequestKey", this
         ) { requestKey, result ->
-            if (requestKey == "requestKey")
-                fragmentManager.setFragmentResult(requestKey, result)
+            if (requestKey == "requestKey") fragmentManager.setFragmentResult(requestKey, result)
         }
         return true
     }
