@@ -20,7 +20,6 @@ import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
-import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
@@ -51,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     String fileName;
 
     ActivityMainBinding binding;
-
 
     class Audio {
         private final Uri uri;
@@ -86,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         //https://developer.android.com/about/versions/13/behavior-changes-13
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             REQUIRED_PERMISSIONS = new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_MEDIA_AUDIO, Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED};
-        } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
             REQUIRED_PERMISSIONS = new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_MEDIA_AUDIO};
         } else {  //if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             REQUIRED_PERMISSIONS = new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -160,15 +158,13 @@ public class MainActivity extends AppCompatActivity {
         values.put(MediaStore.Audio.Media.DISPLAY_NAME, fileName);
         values.put(MediaStore.Audio.Media.DATE_ADDED, (int) (System.currentTimeMillis() / 1000));
         values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/mp3");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {  //For API 29+ (q), for 26 to 28, it just goes into the music directory.
-            values.put(MediaStore.Audio.Media.RELATIVE_PATH, "Music/Recordings/");
-        }
+        values.put(MediaStore.Audio.Media.RELATIVE_PATH, "Music/Recordings/");  //api 29 and up only.
 
         audiouri = getContentResolver().insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values);
         file = getContentResolver().openFileDescriptor(audiouri, "w");
 
         if (file != null) {
-            audioRecorder = new MediaRecorder();
+            audioRecorder = new MediaRecorder(this);
             audioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             audioRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             audioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
@@ -223,38 +219,23 @@ public class MainActivity extends AppCompatActivity {
         String[] selectionArgs;
         List<Audio> audioList = new ArrayList<>();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            collection = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL); //Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
-            //setup the information for the question, project and sortOrder.  we could sort by date.
-            projection = new String[]{MediaStore.Audio.Media._ID, //   Video.Media._ID,
-                    MediaStore.Audio.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
-                    MediaStore.Audio.Media.DURATION, MediaStore.Audio.Media.RELATIVE_PATH,  //must be API 29 in order to use.
-                    MediaStore.Audio.Media.SIZE  //Video.Media.SIZE
-            };
-            String audiodir = "Music/Recordings/%";
-            selection = MediaStore.Audio.Media.RELATIVE_PATH + " like ?";
-            selectionArgs = new String[]{audiodir};
+        collection = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL); //Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
+        //setup the information for the question, project and sortOrder.  we could sort by date.
+        projection = new String[]{MediaStore.Audio.Media._ID, //   Video.Media._ID,
+            MediaStore.Audio.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
+            MediaStore.Audio.Media.DURATION, MediaStore.Audio.Media.RELATIVE_PATH,  //must be API 29 in order to use.
+            MediaStore.Audio.Media.SIZE  //Video.Media.SIZE
+        };
+        String audiodir = "Music/Recordings/%";
+        selection = MediaStore.Audio.Media.RELATIVE_PATH + " like ?";
+        selectionArgs = new String[]{audiodir};
 
-        } else {
-            collection = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI; //Video.Media.EXTERNAL_CONTENT_URI;
-            //setup the information for the question, project and sortOrder.  we could sort by date.
-            //we are just using the /music directory for 26 to 28.
-            projection = new String[]{MediaStore.Audio.Media._ID, //   Video.Media._ID,
-                    MediaStore.Audio.Media.DISPLAY_NAME, // Video.Media.DISPLAY_NAME,
-                    MediaStore.Audio.Media.DURATION,
-                    //MediaStore.Audio.Media.RELATIVE_PATH,  //must be API 29 in order to use.
-                    MediaStore.Audio.Media.SIZE  //Video.Media.SIZE
-            };
-            //since can't use path, just null these.
-            selection = null;  //so all of them.
-            selectionArgs = null;
-        }
         String sortOrder = MediaStore.Images.Media.DISPLAY_NAME; // MediaStore.Images.Media.DATE_ADDED
 
         //now question the contentprovider for a list of pictures in DCIM and /pictures directory.
         try (Cursor cursor = getApplicationContext().getContentResolver().query(collection, projection, selection,  //selection, all of them.
-                selectionArgs, //selectionArgs,
-                sortOrder)) {
+            selectionArgs, //selectionArgs,
+            sortOrder)) {
             Log.wtf("query", "Starting");
             // Cache column indices.
             int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
