@@ -61,7 +61,7 @@ class MainFragment : Fragment() {
             activity as OnFragmentInteractionListener?
         } catch (e: ClassCastException) {
             throw ClassCastException(
-                activity.toString() + " must implement OnFragmentInteractionListener"
+                "$activity must implement OnFragmentInteractionListener"
             )
         }
     }

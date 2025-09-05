@@ -44,11 +44,11 @@ public class PreferenceupdateFragment extends PreferenceFragmentCompat implement
         mEditTextPreference.setSummary("Text is " + mEditTextPreference.getSharedPreferences().getString("edittext_preference", "Default"));
         mListPreference.setSummary("Current value is " + mListPreference.getSharedPreferences().getString("list_preference", "Default"));
         // multiselect returns a array set, not a string, so create one.
-        String list = "";
+        StringBuilder list = new StringBuilder();
         Set<String> selections = mMultiSelectListPreference.getSharedPreferences().getStringSet("multiselect_key", null);
         for (String s : selections) {
             Log.wtf(TAG, "value is " + s);
-            list += s + " ";
+            list.append(s).append(" ");
         }
         mMultiSelectListPreference.setSummary("selection  is " + list);
 
@@ -74,11 +74,11 @@ public class PreferenceupdateFragment extends PreferenceFragmentCompat implement
         } else if (key.equals("list_preference")) {
             mListPreference.setSummary("Current value is " + sharedPreferences.getString(key, "Default"));
         } else if (key.equals("multiselect_key")) {
-            String list = "";
+            StringBuilder list = new StringBuilder();
             Set<String> selections = mMultiSelectListPreference.getSharedPreferences().getStringSet("multiselect_key", null);
             for (String s : selections) {
                 //Log.wtf(TAG, "value is " + s);
-                list += s + " ";
+                list.append(s).append(" ");
             }
             mMultiSelectListPreference.setSummary("selection  is " + list);
         } else if (key.equals("dropdown")) {

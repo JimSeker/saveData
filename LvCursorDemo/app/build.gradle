@@ -1,37 +1,37 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 35
-    
+    compileSdk = 36
+
 
     defaultConfig {
         applicationId "edu.cs4730.lvcursordemo"
-        minSdkVersion 29
-        targetSdk 35
-        versionCode 1
-        versionName "1.0"
+        minSdk = 31
+        targetSdk = 36
+        versionCode = 1
+        versionName = "1.0"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
     buildFeatures {
         viewBinding = true
     }
-    namespace 'edu.cs4730.lvcursordemo'
+    namespace = 'edu.cs4730.lvcursordemo'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
-    implementation 'androidx.sqlite:sqlite:2.4.0'
-    implementation 'androidx.sqlite:sqlite-framework:2.4.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.sqlite:sqlite:2.5.2'
+    implementation 'androidx.sqlite:sqlite-framework:2.5.2'
     implementation "androidx.cursoradapter:cursoradapter:1.0.0"
 
     //bottomnavigation view
-    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'com.google.android.material:material:1.13.0'
 }
