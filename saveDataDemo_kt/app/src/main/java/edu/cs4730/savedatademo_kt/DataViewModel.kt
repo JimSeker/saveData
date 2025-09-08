@@ -6,18 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.LiveData
 
 class DataViewModel(application: Application) : AndroidViewModel(application) {
-    private val d4: MutableLiveData<Int>
+    var d4: MutableLiveData<Int> = MutableLiveData()
     val data: LiveData<Int>
         get() = d4
     val value: Int
-        get() = d4.value!!.toInt()
+        get() = d4.value!!
 
     fun increment() {
         d4.value = d4.value!! + 1
     }
 
     init {
-        d4 = MutableLiveData()
         d4.value = 0
     }
 }

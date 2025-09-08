@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import edu.cs4730.savedatademo_kt.databinding.ActivityMainBinding
+import androidx.core.content.edit
 
 /**
  * This example shows the difference with a viewmodel, sharedpeferences and instance bundle.
@@ -70,11 +71,10 @@ class MainActivity : AppCompatActivity() {
         logthis("OnPause called")
         // Store values between instances here
         val preferences = getSharedPreferences("example", MODE_PRIVATE)
-        val editor = preferences.edit()
-
-        //store b3 in preferences
-        editor.putInt("b3", b3)
-        editor.apply()
+        preferences.edit {
+            //store b3 in preferences
+            putInt("b3", b3)
+        }
         logthis("Stored preferences")
     }
 

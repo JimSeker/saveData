@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         // Store values between instances here
         SharedPreferences preferences = getSharedPreferences("example", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-
         //store b3 in preferences
         editor.putInt("b3", b3);
         editor.apply();
