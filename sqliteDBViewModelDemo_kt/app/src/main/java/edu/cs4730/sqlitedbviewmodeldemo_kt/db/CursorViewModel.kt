@@ -2,7 +2,6 @@ package edu.cs4730.sqlitedbviewmodeldemo_kt.db
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import edu.cs4730.sqlitedbdemo_kt.db.ScoreDatabase
 import androidx.lifecycle.MutableLiveData
 import android.content.ContentValues
 import android.database.Cursor

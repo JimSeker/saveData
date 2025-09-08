@@ -1,4 +1,4 @@
-package edu.cs4730.sqlitedbdemo_kt.db
+package edu.cs4730.sqlitedbviewmodeldemo_kt.db
 
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -7,7 +7,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.SQLException
-import edu.cs4730.sqlitedbdemo_kt.db.mySQLiteHelper
 import android.database.sqlite.SQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
@@ -105,7 +104,8 @@ class ScoreDatabase(ctx: Context?) {
         //public Cursor query (String sql, Object[] bindArgs)
         //sql 	the SQL query. The SQL string must not be ; terminated
         //BindArgs 	You may include ?s in where clause in the query, which will be replaced by the values from selectionArgs. The values will be bound as Strings.
-        val mCursor = db.query("select Name, Score from HighScore where Name=\'$name\'",
+        val mCursor = db.query(
+            "select Name, Score from HighScore where Name=\'$name\'",
             emptyArray()
         )
         mCursor?.moveToFirst()

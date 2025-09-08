@@ -1,4 +1,4 @@
-package edu.cs4730.sqlitedbdemo_kt.db
+package edu.cs4730.sqlitedbviewmodeldemo_kt.db
 
 import android.util.Log
 import androidx.sqlite.db.SupportSQLiteOpenHelper

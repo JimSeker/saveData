@@ -7,10 +7,9 @@ import android.view.LayoutInflater
 import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
-import android.view.View
-import edu.cs4730.sqlitedbdemo_kt.db.mySQLiteHelper
 import android.widget.Toast
 import edu.cs4730.sqlitedbviewmodeldemo_kt.databinding.RecyclerRowBinding
+import edu.cs4730.sqlitedbviewmodeldemo_kt.db.mySQLiteHelper
 
 /**
  * this adapter is very similar to the adapters used for listview, except a ViewHolder is required
@@ -23,7 +22,7 @@ class myAdapter     //constructor
     RecyclerView.Adapter<myAdapter.ViewHolder>() {
     // the viewbinding provides the references now.
     inner class ViewHolder(var viewBinding: RecyclerRowBinding) :
-        RecyclerView.ViewHolder(viewBinding.root) {}
+        RecyclerView.ViewHolder(viewBinding.root)
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
@@ -54,6 +53,7 @@ class myAdapter     //constructor
     }
 
     //change the cursor as needed and have the system redraw the data.
+    @SuppressLint("NotifyDataSetChanged")  //some or all of the data can be changed.
     fun setCursor(c: Cursor?) {
         mCursor = c
         notifyDataSetChanged()
