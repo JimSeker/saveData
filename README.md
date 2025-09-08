@@ -40,7 +40,14 @@ Save data Examples
 
 `fileSystemMediaStoreRecAudioDemo` This example uses the mediastore to record and play files on the music directory.  actually in a subdirectory, music/recording.  There is a picker for filenames and to choose which files to play.  Note, you will need to record at least one file in order to play something.
 
-`ScreenShotDeetectorDemo`  This is a first attempt out detecting screenshots using a content observer.  It works pretty well, tested on a pixel 4a for screenshots with the buttons.  fails to detect using the launcher screenshot method.
+
+---
+
+**ScreenShot examples:**
+
+`ScreenShotDeetectorDemo`  This is a first attempt out detecting screenshots using a content observer.  It works pretty well, tested on a pixel 4a for screenshots with the buttons.  fails to detect using the launcher screenshot method.  It can also be defeated by simply not giving it privleges to the fileystem.  
+
+`ScreenShotDetectAPIDemo` This uses the new APIs starting in android 14 to detect that screen shot has been taken.  It also demo's how to turn off screenshots by telling the OS to not allow it.  the screenshot is black.    This example needs more, since you can no programmatically take a screen too, but I haven't gotten it to work yet.z
 
 
 ---
