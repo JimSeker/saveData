@@ -27,11 +27,11 @@ import io.reactivex.rxjava3.disposables.Disposable;
 /**
  * This is an example of the newer and more complex DataStore methods to replace the sharepreferences
  * Honestly, until they make you, stay with sharedpreferences, simple and easier to use.  this is neither
- *
+ * <p>
  * The kotlin and java version do the same thing, but do not match.  The kotlin version uses things that
  * not available to java, so instead we use the rxjava3 to get the flowable stuff to work correctly,
  * seriously changes the way the code looks.  but still provide the same functionality.
- *
+ * <p>
  * the kotlin version is simpler to understand
  */
 

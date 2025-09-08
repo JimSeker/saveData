@@ -76,6 +76,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
     }
 
     //change the cursor as needed and have the system redraw the data.
+    @SuppressLint("NotifyDataSetChanged")  //any or all of the data course have changed.
     public void setCursor(Cursor c) {
         mCursor = c;
         notifyDataSetChanged();

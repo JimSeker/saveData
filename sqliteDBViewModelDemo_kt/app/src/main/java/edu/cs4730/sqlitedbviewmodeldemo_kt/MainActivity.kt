@@ -36,9 +36,9 @@ class MainActivity : AppCompatActivity() {
         binding.list.adapter = mAdapter
         mViewModel.data.observe(this, Observer<Cursor?> { data -> mAdapter.setCursor(data) })
 
-        binding.floatingActionButton.setOnClickListener(View.OnClickListener {
+        binding.floatingActionButton.setOnClickListener {
             mViewModel.add("Jim", 3012)
             mViewModel.add("Danny", 312)
-        })
+        }
     }
 }

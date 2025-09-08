@@ -7,7 +7,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.SQLException
-import edu.cs4730.sqlitedbdemo_kt.db.mySQLiteHelper
 import android.database.sqlite.SQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory

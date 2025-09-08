@@ -8,7 +8,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import edu.cs4730.sqlitedbviewmodeldemo.databinding.ActivityMainBinding;
 import edu.cs4730.sqlitedbviewmodeldemo.db.CursorViewModel;
@@ -16,8 +15,6 @@ import edu.cs4730.sqlitedbviewmodeldemo.db.CursorViewModel;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
