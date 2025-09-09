@@ -8,6 +8,7 @@ import android.net.Uri
 import android.util.Log
 import edu.cs4730.contentprodemo_kt.data.Cube
 import edu.cs4730.contentprodemo_kt.data.Square
+import androidx.core.net.toUri
 
 /**
  * This example is to provide the very basics of a content provider.  It only returns
@@ -111,8 +112,8 @@ class dummyCP : ContentProvider() {
         const val PROVIDER_NAME: String = "edu.cs4730.provider_kt"
 
         //these two are not used, but normally handy to have available in a normal provider.
-        val CONTENT_URI1: Uri = Uri.parse("content://" + PROVIDER_NAME + "/square")
-        val CONTENT_URI2: Uri = Uri.parse("content://" + PROVIDER_NAME + "/cube")
+        val CONTENT_URI1: Uri = ("content://" + PROVIDER_NAME + "/square").toUri()
+        val CONTENT_URI2: Uri = ("content://" + PROVIDER_NAME + "/cube").toUri()
 
         private const val SQUARE = 1
         private const val SQUARE_ID = 2

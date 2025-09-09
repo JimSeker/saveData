@@ -1,8 +1,6 @@
 package edu.cs4730.contentprosqlitedbdemo_kt
 
-import android.R
 import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -50,16 +48,22 @@ class SpinnerFragment : Fragment() {
         //finally make the query
         // cursor = managedQuery(CONTENT_URI, projection, null, null, null);  //deprecated method, use one below.
         cursor =
-            requireActivity().contentResolver.query(myDBContentProvider.CONTENT_URI, projection, null, null, SortOrder)
+            requireActivity().contentResolver.query(
+                myDBContentProvider.CONTENT_URI,
+                projection,
+                null,
+                null,
+                SortOrder
+            )
 
         dataAdapter = SimpleCursorAdapter(
             requireContext(),
-            R.layout.simple_spinner_item,
+            android.R.layout.simple_spinner_item,
             cursor,  //data  _id and column name at min.
             arrayOf(mySQLiteHelper.KEY_NAME),  //column name to display
-            intArrayOf(R.id.text1), 0
+            intArrayOf(android.R.id.text1), 0
         )
-        dataAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinner1.adapter = dataAdapter
 
         binding.spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -71,7 +75,8 @@ class SpinnerFragment : Fragment() {
             ) {
                 if (view != null) {  //the viewpager is causing the fragment to remove the view, but not removing the listener.  which causes a force close, because the view is null
                     //no viewbinding from the view here, so findViewById is required from the adapter above.
-                    val name = (view.findViewById<View>(R.id.text1) as TextView).text.toString()
+                    val name =
+                        (view.findViewById<View>(android.R.id.text1) as TextView).text.toString()
                     Toast.makeText(
                         requireContext(),
                         "Selected ID=" + id + "name is " + name,

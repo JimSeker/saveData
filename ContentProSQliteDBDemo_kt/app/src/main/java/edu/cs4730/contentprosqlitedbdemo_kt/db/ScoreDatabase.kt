@@ -69,27 +69,27 @@ class ScoreDatabase(ctx: Context) {
         return db.insert(TableName, SQLiteDatabase.CONFLICT_FAIL, values)
     }
 
-    val allNames: Cursor
-        /**
-         * The following a different ways to query the database.  They all return a Cursor.
-         */
-        get() {
-            //SELECT KEY_NAME, KEY_SCORE FROM DATABASE_TABLE SORTBY KEY_NAME;
-            val mCursor = qbQuery(
-                mySQLiteHelper.TABLE_NAME,  //table name
-                arrayOf(
-                    mySQLiteHelper.KEY_ROWID,
-                    mySQLiteHelper.KEY_NAME,
-                    mySQLiteHelper.KEY_SCORE
-                ),  //projection, ie columns.
-                null,  //selection,  we want everything.
-                null,  // String[] selectionArgs,  again, we want everything.
-                mySQLiteHelper.KEY_NAME // String sortOrder  by name as the sort.
-            )
-            if (mCursor != null) //make sure cursor is not empty!
-                mCursor.moveToFirst()
-            return mCursor
-        }
+
+    /**
+     * The following a different ways to query the database.  They all return a Cursor.
+     */
+    fun getAllNames(): Cursor {
+        //SELECT KEY_NAME, KEY_SCORE FROM DATABASE_TABLE SORTBY KEY_NAME;
+        val mCursor = qbQuery(
+            mySQLiteHelper.TABLE_NAME,  //table name
+            arrayOf(
+                mySQLiteHelper.KEY_ROWID,
+                mySQLiteHelper.KEY_NAME,
+                mySQLiteHelper.KEY_SCORE
+            ),  //projection, ie columns.
+            null,  //selection,  we want everything.
+            null,  // String[] selectionArgs,  again, we want everything.
+            mySQLiteHelper.KEY_NAME // String sortOrder  by name as the sort.
+        )
+        if (mCursor != null) //make sure cursor is not empty!
+            mCursor.moveToFirst()
+        return mCursor
+    }
 
     //Retrieve one entry  METHOD we are supposed to use.
     @Throws(SQLException::class)

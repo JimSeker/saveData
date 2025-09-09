@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.cs4730.contentproviderremotedemo_kt.databinding.ActivityMainBinding
+import androidx.core.net.toUri
 
 public class MainActivity : AppCompatActivity() {
 
@@ -25,9 +26,9 @@ public class MainActivity : AppCompatActivity() {
 
         // for the ContentProSQliteDBDemo use this one.
         @JvmStatic
-        public var CONTENT_URI: Uri = Uri.parse("content://edu.cs4730.scoreprovider_kt/score")
+        public var CONTENT_URI: Uri = "content://edu.cs4730.scoreprovider_kt/score".toUri()
         // for the ContentProviderroomDemo  use this one.
-        // @JvmStatic var CONTENT_URI: Uri = Uri.parse("content://edu.cs4730.scoreroomprovider/score");
+        //@JvmStatic var CONTENT_URI: Uri = "content://edu.cs4730.scoreroomprovider/score".toUri();
     }
 
 
@@ -57,11 +58,11 @@ public class MainActivity : AppCompatActivity() {
 
         //This button is used to add more data, so the loader will then reload "on it's own".
 
-        binding.floatingActionButton.setOnClickListener(View.OnClickListener {
+        binding.floatingActionButton.setOnClickListener {
             val initialValues = ContentValues()
             initialValues.put(MainActivity.KEY_NAME, "Jim")
             initialValues.put(MainActivity.KEY_SCORE, "3012")
             val uri = contentResolver.insert(CONTENT_URI, initialValues)
-        })
+        }
     }
 }

@@ -1,14 +1,12 @@
 package edu.cs4730.contentprosqlitedbdemo;
 
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.fragment.app.Fragment;
 
-import edu.cs4730.contentprosqlitedbdemo.databinding.FragmentRecyclerViewBinding;
 import edu.cs4730.contentprosqlitedbdemo.databinding.FragmentSpinnerBinding;
 import edu.cs4730.contentprosqlitedbdemo.db.mySQLiteHelper;
 
@@ -17,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 

@@ -80,9 +80,9 @@ Note Room Examples are in the [Architecture repo](https://github.com/JimSeker/Ar
 
 `ContentProSQliteDBDemo_kt` (kotlin) shows how to create a content provider using a SQLite database.   displays in a listview, recyclerview and a spinner.
 
-`ContentProviderRemoteDemo` (java) connects to a "remote" content provider.  either the ContentProSQliteDBDemo or ContentProviderRoomDemo in [Architecture repo](https://github.com/JimSeker/Architecture).  It then will display the data in recyclerview and can add data via a FAB.
+`ContentProviderRemoteDemo` (java) connects to a "remote" content provider.  either the ContentProSQliteDBDemo or ContentProviderRoomDemo in [Architecture repo](https://github.com/JimSeker/Architecture) is required to be installed already.  It then will display the data in recyclerview and can add data via a FAB.
 
-`ContentProviderRemoteDemo_kt` (kotlin) connects to a "remote" content provider.  either the ContentProSQliteDBDemo or ContentProviderRoomDemo in [Architecture repo](https://github.com/JimSeker/Architecture).  It then will display the data in recyclerview and can add data via a FAB.
+`ContentProviderRemoteDemo_kt` (kotlin) connects to a "remote" content provider.  either the ContentProSQliteDBDemo or ContentProviderRoomDemo in [Architecture repo](https://github.com/JimSeker/Architecture) is required to be installed already.  It then will display the data in recyclerview and can add data via a FAB.
 
 ---
 
