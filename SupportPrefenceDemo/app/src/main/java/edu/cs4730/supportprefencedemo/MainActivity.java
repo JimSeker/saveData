@@ -17,12 +17,13 @@ import edu.cs4730.supportprefencedemo.databinding.ActivityMainBinding;
 
 
 /**
- * this a redux of the preferenceDemo, but using the androidx.preferencefragmentCompat (prefupdateFrag and prefNewFrag)
- * and v14 prefrencefragment (myPreferenceActivity and prefFrag  since not a support fragment.
- * No there is no need version compatibility, except a couple of v14 specific preferences cant be used before API 14.
- * for all the new preferences xml.
+ * This is a simple example of using the support library PreferenceFragmentCompat.
+ * The MainFragment has a button to launch the SettingsFragment which shows the
+ * preferences, which are saved automatically to SharedPreferences.  This showing older methods of
+ * display summary information.  Supportpreference2demo is a newer methods.
  * <p>
- * maybe useful as well http://developer.android.com/guide/topics/ui/settings.html
+ * It can't use the Arch Navigation component because it doesn't support
+ * PreferenceFragmentCompat (as of this writing anyway 9/10/2025 ).  So the code is little gross in main.
  * <p>
  * Big NOT here :
  * Must specify preferenceTheme in theme, it's an item.  see the style.xml file.

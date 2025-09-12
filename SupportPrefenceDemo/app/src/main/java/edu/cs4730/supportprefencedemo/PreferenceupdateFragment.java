@@ -13,7 +13,8 @@ import androidx.preference.MultiSelectListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 
 /**
- * The support version of the preference fragment.
+ * The support version of the preference fragment.   Note this is likely using older methods to
+ * show the summary information.  I would guess at some point it will be deprecated.
  */
 public class PreferenceupdateFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
     private EditTextPreference mEditTextPreference;

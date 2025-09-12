@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        app:title="Basic preferences">
+
+        <CheckBoxPreference
+            app:defaultValue="false"
+            app:key="sensorPref"
+            app:summary="Move with the tilt"
+            app:title="Sensor"/>
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="swipePref"
+            app:summary="Swipe to move"
+            app:title="Swipe"/>
+
+        <SeekBarPreference
+            app:defaultValue="20"
+            app:key="seekbar"
+            app:summary="slide to see."
+            app:title="Simple seekbar example"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="Dialog Preferences">
+
+        <EditTextPreference
+            app:dialogTitle="Enter your Name"
+            app:key="edittext_preference"
+            app:useSimpleSummaryProvider="true"
+            app:title="EditText Preference"/>
+
+        <ListPreference
+            app:dialogTitle="List Preference Example"
+            app:entries="@array/entries_list_preference"
+            app:entryValues="@array/entryvalues_list_preference"
+            app:key="list_preference"
+            app:summary="List Preference Demo"
+            app:title="List Preference"/>
+
+        <DropDownPreference
+            app:entries="@array/entries_list_preference"
+            app:entryValues="@array/entryvalues_list_preference"
+            app:key="dropdown"
+            app:summary="value is shown?"
+            app:title="Drop down example"/>
+
+        <MultiSelectListPreference
+            app:defaultValue="@array/empty_array"
+            app:dialogTitle="Multi Select Dialog"
+            app:entries="@array/weekdays"
+            app:entryValues="@array/weekdays_values"
+            app:key="multiselect_key"
+            app:summary="Does this show?"
+            app:title="Multi Select Title"/>
+    </PreferenceCategory>
+
+    <Preference
+        app:title="Advanced Support Preferences"
+        app:summary="Sample preferences with advanced attributes"
+        app:fragment="edu.cs4730.supportpreference2demo.AdvancedPreferenceFragment"/>
+</androidx.preference.PreferenceScreen>

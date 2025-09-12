@@ -12,7 +12,13 @@ Save data Examples
 
 `SupportPerferenceDemo` (java) uses the androidx preferences fragments to save user preference data.  This is a translation of the PerferenceDemo to the newer androidx versions.  
 
-`SupportPerferenceDemo_kt` (kotlin) uses the androidx preferences fragments to save user preference data.  This is a translation of the PerferenceDemo to the newer androidx versions.  
+`SupportPerferenceDemo_kt` (kotlin) uses the androidx preferences fragments to save user preference data.  This is a translation of the PerferenceDemo to the newer androidx versions.
+
+`SupportPerference2Demo` (java) uses the androidx preferences fragments, while it uses the same preferences.xml it uses the newer methods for summaries and avoids a lot 
+of extra coded that is necessary in SupportPerferenceDemo.
+
+`SupportPerference2Demo_kt` (kotlin) uses the androidx preferences fragments, while it uses the same preferences.xml it uses the newer methods for summaries and avoids a lot 
+of extra coded that is necessary in SupportPerferenceDemo.   
 
 ---
 
