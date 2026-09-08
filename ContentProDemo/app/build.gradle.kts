@@ -1,18 +1,16 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id("com.android.application")
 }
 
 android {
-    namespace = "edu.cs4730.contentprodemo_kt"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "edu.cs4730.contentprodemo_kt"
+        applicationId = "edu.cs4730.contentprodemo"
         minSdk = 32
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
-
     }
 
     buildTypes {
@@ -20,25 +18,24 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.txt"
             )
         }
+    }
+    buildFeatures {
+        viewBinding = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    buildFeatures {
-        viewBinding = true
-    }
+    namespace = "edu.cs4730.contentprodemo"
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-
+    implementation(libs.androidx.activity)
+    //bottomnavigation view
+    implementation(libs.material)
 }
