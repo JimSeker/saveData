@@ -3,17 +3,14 @@ plugins {
 }
 
 android {
-    namespace = "edu.cs4730.contentprosqlitedbdemo_kt"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "edu.cs4730.contentprosqlitedbdemo_kt"
+        applicationId = "edu.cs4730.contentprosqlitedbdemo"
         minSdk = 32
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -32,18 +29,17 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace = "edu.cs4730.contentprosqlitedbdemo"
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation (libs.androidx.recyclerview)
-    implementation (libs.androidx.cardview)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.cardview)
+    implementation(libs.androidx.activity)
     //sqlite
-    implementation (libs.androidx.sqlite.ktx)
-    implementation (libs.androidx.sqlite.framework)
+    implementation(libs.androidx.sqlite)
+    implementation(libs.androidx.sqlite.framework)
 }
