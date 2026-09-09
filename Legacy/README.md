@@ -5,6 +5,9 @@ These are no longer updated.
 
 `PerferenceDemo` uses the preference activity/fragment to save data.  This works to figure out 3.X+ and above, and below to use the different preference methods.  annoying actually.
 
+`PerferenceDemo2` uses the preference fragments to save user preference data.  It stops at API 28 and there are no support libraries used for fragment or preferences. Also, this is for API 16+, for older versions, see the legacy directory example.  This example will maintained but not updated.   Use supportPreference demos for anything API 29+.
+This app is rejected on android 17+ as too old, since it needs api 28.
+
 `fileSystemDemo` shows how to read/write to local private and public directory and the "external" media like an sdcard.  The external stops working at api 29, which is why a copy of the old code is here.
 
 `sqliteDemo` creates a supportSQLitedatabase and content provider
