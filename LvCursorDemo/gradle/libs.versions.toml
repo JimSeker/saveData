@@ -1,0 +1,18 @@
+[versions]
+agp = "9.4.0"
+appcompat = "1.8.0"
+constraintlayout = "2.2.2"
+sqlite = "2.7.0"
+cursoradapter = "1.0.0"
+material = "1.14.0"
+
+[libraries]
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-sqlite = { module = "androidx.sqlite:sqlite", version.ref = "sqlite" }
+androidx-sqlite-framework = { module = "androidx.sqlite:sqlite-framework", version.ref = "sqlite" }
+androidx-cursoradapter = { module = "androidx.cursoradapter:cursoradapter", version.ref = "cursoradapter" }
+google-material = { module = "com.google.android.material:material", version.ref = "material" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
