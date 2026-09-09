@@ -1,18 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
-    }
+}
 
 android {
-    namespace = "edu.cs4730.filesystemdemo_kt"
+    namespace = "edu.cs4730.filesystemdemo"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "edu.cs4730.filesystemdemo_kt"
+        applicationId = "edu.cs4730.filesystemdemo"
         minSdk = 32
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
-
     }
 
     buildTypes {
@@ -34,11 +33,8 @@ android {
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
     implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-
 }
