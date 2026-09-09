@@ -3,17 +3,15 @@ plugins {
 }
 
 android {
-    namespace = "edu.cs4730.screenshotdetectapidemo"
+    namespace = "edu.cs4730.screenshotdeetectordemo"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "edu.cs4730.screenshotdetectapidemo"
-        minSdk = 34
+        applicationId = "edu.cs4730.screenshotdeetectordemo"
+        minSdk = 32
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -25,19 +23,20 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     buildFeatures {
         viewBinding = true
     }
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.activity)
 }
