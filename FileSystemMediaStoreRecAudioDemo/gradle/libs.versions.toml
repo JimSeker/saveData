@@ -1,0 +1,15 @@
+[versions]
+agp = "9.4.0"
+androidx-appcompat = "1.8.0"
+material = "1.14.0"
+androidx-constraintlayout = "2.2.2"
+activity = "1.13.0"
+
+[libraries]
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
