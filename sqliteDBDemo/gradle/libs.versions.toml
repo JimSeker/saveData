@@ -1,0 +1,20 @@
+[versions]
+agp = "9.4.0"
+kotlin = "2.2.10"
+constraintlayout = "2.2.2"
+sqlite = "2.7.0"
+recyclerview = "1.4.0"
+cardview = "1.0.0"
+material = "1.14.0"
+
+[libraries]
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-sqlite = { module = "androidx.sqlite:sqlite", version.ref = "sqlite" }
+androidx-sqlite-framework = { module = "androidx.sqlite:sqlite-framework", version.ref = "sqlite" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
+google-material = { module = "com.google.android.material:material", version.ref = "material" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
