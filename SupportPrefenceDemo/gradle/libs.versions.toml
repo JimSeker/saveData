@@ -1,5 +1,5 @@
 [versions]
-agp = "9.4.0"
+agp = "9.4.1"
 androidxAppcompat = "1.8.0"
 androidxPreference = "1.2.1"
 androidxFragment = "1.9.0"
