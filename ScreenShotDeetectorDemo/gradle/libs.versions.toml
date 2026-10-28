@@ -11,4 +11,4 @@ constraintlayout = { module = "androidx.constraintlayout:constraintlayout", vers
 activity = { module = "androidx.activity:activity", version.ref = "activity" }
 
 [plugins]
-android-application = { id = "com.android.application", version = "9.4.1" }
+android-application = { id = "com.android.application", version = "9.5.0" }
